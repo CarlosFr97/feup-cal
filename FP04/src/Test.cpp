@@ -2,187 +2,205 @@
 #include "ide_listener.h"
 #include "cute_runner.h"
 #include "Graph.h"
-#include "Person.h"
+#include <sstream>
 
+using namespace std;
 
-void createNetwork(Graph<Person> & net1)
-{
-Person p1("Ana",19);
-Person p2("Carlos",33);
-Person p3("Filipe", 20);
-Person p4("Ines", 18);
-Person p5("Maria", 24);
-Person p6("Rui",21);
-Person p7("Vasco",28);
-net1.addVertex(p1); net1.addVertex(p2);
-net1.addVertex(p3); net1.addVertex(p4);
-net1.addVertex(p5); net1.addVertex(p6); net1.addVertex(p7);
-net1.addEdge(p1,p2,0);
-net1.addEdge(p1,p3,0);
-net1.addEdge(p1,p4,0);
-net1.addEdge(p2,p5,0);
-net1.addEdge(p5,p6,0);
-net1.addEdge(p5,p1,0);
-net1.addEdge(p3,p6,0);
-net1.addEdge(p3,p7,0);
-net1.addEdge(p6,p2,0);
+void test_a_indegree() {
+	Graph<int> myGraph;
+
+	myGraph.addVertex(1); myGraph.addVertex(2); myGraph.addVertex(3); myGraph.addVertex(4);
+
+	vector< Vertex<int>* > vertices = myGraph.getVertexSet();
+
+	myGraph.addEdge(1, 2, 0);
+	myGraph.addEdge(1, 3, 0);
+	myGraph.addEdge(4, 2, 0);
+	myGraph.addEdge(4, 3, 0);
+	myGraph.addEdge(2, 3, 0);
+
+	stringstream ss;
+	for (unsigned int i = 0; i < vertices.size(); i++){
+		ss << vertices[i]->getInfo() << "(" << vertices[i]->getIndegree() << ") ";
+	}
+	ASSERT_EQUAL("1(0) 2(2) 3(3) 4(0) ", ss.str());
+
+	myGraph.removeEdge(4, 3);
+	myGraph.addEdge(1, 4, 0);
+
+	ss.str("");
+	for (unsigned int i = 0; i < vertices.size(); i++){
+		ss << vertices[i]->getInfo() << "(" << vertices[i]->getIndegree() << ") ";
+	}
+	ASSERT_EQUAL("1(0) 2(2) 3(2) 4(1) ", ss.str());
+
+	myGraph.removeVertex(2);
+	vertices = myGraph.getVertexSet();
+
+	ss.str("");
+	for (unsigned int i = 0; i < vertices.size(); i++){
+		ss << vertices[i]->getInfo() << "(" << vertices[i]->getIndegree() << ") ";
+	}
+	ASSERT_EQUAL("1(0) 3(1) 4(1) ", ss.str());
 }
 
-void test_addVertex() {
-	Graph<Person> net1;
-	Person p1("Ana",19);
-	Person p2("Carlos",33);
-	Person p3("Filipe", 20);
-	Person p4("Inês", 18);
-	net1.addVertex(p1); net1.addVertex(p2);
-	net1.addVertex(p3); net1.addVertex(p4);
-	ASSERT_EQUAL(false, net1.addVertex(p2));
-	ASSERT_EQUAL(4, net1.getNumVertex());
+void test_b_getSources() {
+	Graph<int> myGraph;
+	myGraph.addVertex(1); myGraph.addVertex(2); myGraph.addVertex(3); myGraph.addVertex(4);
+	vector< Vertex<int>* > vertices = myGraph.getVertexSet();
+	myGraph.addEdge(1, 2, 0);
+	myGraph.addEdge(1, 3, 0);
+	myGraph.addEdge(4, 2, 0);
+	myGraph.addEdge(4, 3, 0);
+	myGraph.addEdge(2, 3, 0);
+	myGraph.addEdge(2, 1, 0);
+
+	stringstream ss;
+	vector< Vertex<int>* > sources = myGraph.getSources();
+	ss << "Num of sources: " << sources.size() << " - ";
+
+	for (unsigned int i = 0; i < sources.size(); i++){
+		ss << sources[i]->getInfo() << "(" << sources[i]->getIndegree() << ") ";
+	}
+	ASSERT_EQUAL("Num of sources: 1 - 4(0) ", ss.str());
+
+	myGraph.removeEdge(2, 1);
+	ss.str("");
+	sources = myGraph.getSources();
+	ss << "Num of sources: " << sources.size() << " - ";
+
+	for (unsigned int i = 0; i < sources.size(); i++){
+		ss << sources[i]->getInfo() << "(" << sources[i]->getIndegree() << ") ";
+	}
+	ASSERT_EQUAL("Num of sources: 2 - 1(0) 4(0) ", ss.str());
 }
 
-void test_removeVertex() {
-	/*Graph<Person> net1;
-	Person p1("Ana",19);
-	Person p2("Carlos",33);
-	Person p3("Filipe", 20);
-	Person p4("Inês", 18);
-	net1.addVertex(p1); net1.addVertex(p2);
-	net1.addVertex(p3); net1.addVertex(p4);
-	ASSERT_EQUAL(true, net1.removeVertex(p2));
-	ASSERT_EQUAL(false, net1.removeVertex(p2));
-	ASSERT_EQUAL(3, net1.getNumVertex());*/
+void test_c_isDAG() {
+/*	Graph<int> myGraph;
+
+	myGraph.addVertex(0);myGraph.addVertex(1); myGraph.addVertex(2);
+	myGraph.addVertex(3); myGraph.addVertex(4); myGraph.addVertex(5);
+	myGraph.addEdge(1, 2, 0);
+	myGraph.addEdge(2, 5, 0);
+	myGraph.addEdge(5, 4, 0);
+	myGraph.addEdge(4, 1, 0);
+	myGraph.addEdge(5, 1, 0);
+	myGraph.addEdge(2, 3, 0);
+	myGraph.addEdge(3, 1, 0);
+	myGraph.addEdge(0, 4, 0);
+
+	ASSERT_EQUAL(false, myGraph.isDAG());
+
+	myGraph.removeEdge(4, 1);
+	myGraph.removeEdge(5, 1);
+	myGraph.removeEdge(2, 3);
+
+	ASSERT_EQUAL(true, myGraph.isDAG());
+
+	myGraph.addEdge(1, 4, 0);
+
+	ASSERT_EQUAL(true, myGraph.isDAG());*/
 }
 
-void test_addEdge() {
-	Graph<Person> net1;
-	Person p1("Ana",19);
-	Person p2("Carlos",33);
-	Person p3("Filipe", 20);
-	Person p4("Inês", 18);
-	Person p5("Maria", 24);
-	net1.addVertex(p1); net1.addVertex(p2);
-	net1.addVertex(p3); net1.addVertex(p4);
-	ASSERT_EQUAL(true, net1.addEdge(p1,p2,0));
-	ASSERT_EQUAL(true, net1.addEdge(p1,p3,0));
-	ASSERT_EQUAL(true, net1.addEdge(p1,p4,0));
-	ASSERT_EQUAL(false, net1.addEdge(p2,p5,0));
+void test_d_topologicaOrder() {
+/*	Graph<int> myGraph;
+	myGraph.addVertex(1); myGraph.addVertex(2); myGraph.addVertex(3); myGraph.addVertex(4);
+	myGraph.addVertex(5); myGraph.addVertex(6); myGraph.addVertex(7);
+
+	myGraph.addEdge(1, 2, 0);
+	myGraph.addEdge(1, 4, 0);
+	myGraph.addEdge(1, 3, 0);
+	myGraph.addEdge(2, 5, 0);
+	myGraph.addEdge(2, 4, 0);
+	myGraph.addEdge(3, 6, 0);
+	myGraph.addEdge(4, 3, 0);
+	myGraph.addEdge(4, 6, 0);
+	myGraph.addEdge(4, 7, 0);
+	myGraph.addEdge(5, 4, 0);
+	myGraph.addEdge(5, 7, 0);
+	myGraph.addEdge(7, 6, 0);
+
+	vector<int> topOrder;
+
+	topOrder = myGraph.topologicalOrder();
+	stringstream ss;
+	for( unsigned int i = 0; i < topOrder.size(); i++) ss << topOrder[i] << " ";
+	ASSERT_EQUAL("1 2 5 4 3 7 6 ", ss.str());
+
+	//para testar a chamada do metodo resetIndegrees!
+	vector< Vertex<int>* > vertices = myGraph.getVertexSet();
+	ss.str("");
+	for (unsigned int i = 0; i < vertices.size(); i++){
+		ss << vertices[i]->getInfo() << "(" << vertices[i]->getIndegree() << ") ";
+	}
+	ASSERT_EQUAL("1(0) 2(1) 3(2) 4(3) 5(1) 6(3) 7(2) ", ss.str());
+
+	//para testar a inclusao de um ciclo no grafo!
+	myGraph.addEdge(3, 1, 0);
+
+	topOrder = myGraph.topologicalOrder();
+	ss.str("");
+	for( unsigned int i = 0; i < topOrder.size(); i++) ss << topOrder[i] << " ";
+	ASSERT_EQUAL("", ss.str());*/
 }
 
-void test_removeEdge() {
-	/*Graph<Person> net1;
-	Person p1("Ana",19);
-	Person p2("Carlos",33);
-	Person p3("Filipe", 20);
-	Person p4("Inês", 18);
-	Person p5("Maria", 24);
-	net1.addVertex(p1); net1.addVertex(p2);
-	net1.addVertex(p3); net1.addVertex(p4);
-	ASSERT_EQUAL(true, net1.addEdge(p1,p2,0));
-	ASSERT_EQUAL(true, net1.addEdge(p1,p3,0));
-	ASSERT_EQUAL(true, net1.addEdge(p1,p4,0));
-	ASSERT_EQUAL(true, net1.addEdge(p2,p4,0));
-	ASSERT_EQUAL(true, net1.removeEdge(p1,p3));
-	ASSERT_EQUAL(false, net1.removeEdge(p1,p5));
-	ASSERT_EQUAL(false, net1.removeEdge(p2,p3));*/
-}
+void test_e_shortestPath() {
+	/*Graph<int> myGraph;
+	myGraph.addVertex(1); myGraph.addVertex(2); myGraph.addVertex(3); myGraph.addVertex(4);
+	myGraph.addVertex(5); myGraph.addVertex(6); myGraph.addVertex(7);
 
+	myGraph.addEdge(1, 2, 0);
+	myGraph.addEdge(1, 4, 0);
+	myGraph.addEdge(2, 4, 0);
+	myGraph.addEdge(2, 5, 0);
+	myGraph.addEdge(3, 1, 0);
+	myGraph.addEdge(3, 6, 0);
+	myGraph.addEdge(4, 3, 0);
+	myGraph.addEdge(4, 5, 0);
+	myGraph.addEdge(4, 6, 0);
+	myGraph.addEdge(4, 7, 0);
+	myGraph.addEdge(5, 7, 0);
+	myGraph.addEdge(7, 6, 0);
 
-void test_dfs() {
-	Graph<Person> net1;
-	createNetwork(net1);
-	vector<Person> v1=net1.dfs();
-	ASSERT_EQUAL("Ana", v1[0].getName());
-	ASSERT_EQUAL("Carlos", v1[1].getName());
-	ASSERT_EQUAL("Maria", v1[2].getName());
-	ASSERT_EQUAL("Rui", v1[3].getName());
-	ASSERT_EQUAL("Filipe", v1[4].getName());
-	ASSERT_EQUAL("Vasco", v1[5].getName());
-	ASSERT_EQUAL("Ines", v1[6].getName());
-}
+	//para testar o metodo unweightedShortestPath
+	vector<int> path = myGraph.getPath(3, 6);
 
-void test_bfs() {
-	Graph<Person> net1;
-	createNetwork(net1);
-	vector<Person> v1=net1.bfs(net1.getVertexSet()[0]);
-	ASSERT_EQUAL("Ana", v1[0].getName());
-	ASSERT_EQUAL("Carlos", v1[1].getName());
-	ASSERT_EQUAL("Filipe", v1[2].getName());
-	ASSERT_EQUAL("Ines", v1[3].getName());
-	ASSERT_EQUAL("Maria", v1[4].getName());
-	ASSERT_EQUAL("Rui", v1[5].getName());
-	ASSERT_EQUAL("Vasco", v1[6].getName());
-}
+	vector<Vertex<int>* > vs = myGraph.getVertexSet();
 
-void test_removeVertex_Again() {
-	/*Graph<Person> net1;
-	createNetwork(net1);
-	Person p2("Carlos",33);
-	ASSERT_EQUAL(true, net1.removeVertex(p2));
-	vector<Person> v1=net1.dfs();
-	ASSERT_EQUAL("Ana", v1[0].getName());
-	ASSERT_EQUAL("Filipe", v1[1].getName());
-	ASSERT_EQUAL("Rui", v1[2].getName());
-	ASSERT_EQUAL("Vasco", v1[3].getName());
-	ASSERT_EQUAL("Ines", v1[4].getName());
-	ASSERT_EQUAL("Maria", v1[5].getName());*/
-}
+	stringstream ss;
+	for(unsigned int i = 0; i < vs.size(); i++) {
+		ss << vs[i]->getInfo() << "<-";
+		if ( vs[i]->path != NULL )  ss << vs[i]->path->getInfo();
+		ss << "|";
+	}
+	ASSERT_EQUAL("1<-3|2<-1|3<-|4<-1|5<-2|6<-3|7<-4|", ss.str());
 
-void test_removeEdge_Again() {
-	/*Graph<Person> net1;
-	createNetwork(net1);
-	Person p5("Maria", 24);
-	Person p6("Rui",21);
-	ASSERT_EQUAL(true, net1.removeEdge(p5,p6));
-	vector<Person> v1=net1.dfs();
-	ASSERT_EQUAL("Ana", v1[0].getName());
-	ASSERT_EQUAL("Carlos", v1[1].getName());
-	ASSERT_EQUAL("Maria", v1[2].getName());
-	ASSERT_EQUAL("Filipe", v1[3].getName());
-	ASSERT_EQUAL("Rui", v1[4].getName());
-	ASSERT_EQUAL("Vasco", v1[5].getName());
-	ASSERT_EQUAL("Ines", v1[6].getName());*/
-}
+	path = myGraph.getPath(3, 7);
+	ss.str("");
+	for(unsigned int i = 0; i < path.size(); i++) {
+		ss << path[i] << " ";
+	}
+	ASSERT_EQUAL("3 1 4 7 ", ss.str());
 
-void test_maxNewChildren() {
-	/*Graph<Person> net1;
-	Person p1("Ana",19);
-	Person p2("Carlos",33);
-	Person p3("Filipe", 20);
-	Person p4("Inês", 18);
-	Person p5("Maria", 24);
-	Person p6("Rui",21);
-	Person p7("Vasco",28);
-	net1.addVertex(p1); net1.addVertex(p2);
-	net1.addVertex(p3); net1.addVertex(p4);
-	net1.addVertex(p5); net1.addVertex(p6); net1.addVertex(p7);
-	net1.addEdge(p1,p2,0);
-	net1.addEdge(p1,p3,0);
-	net1.addEdge(p2,p5,0);
-	net1.addEdge(p3,p4,0);
-	net1.addEdge(p5,p6,0);
-	net1.addEdge(p5,p1,0);
-	net1.addEdge(p3,p6,0);
-	net1.addEdge(p3,p7,0);
-	net1.addEdge(p3,p2,0);
-	Person pt;
-	ASSERT_EQUAL(3, net1.maxNewChildren(net1.getVertexSet()[0],pt));
-	ASSERT_EQUAL("Filipe", pt.getName());*/
+	path = myGraph.getPath(5, 6);
+	ss.str("");
+	for(unsigned int i = 0; i < path.size(); i++) {
+		ss << path[i] << " ";
+	}
+	ASSERT_EQUAL("5 7 6 ", ss.str());
+*/
 }
 
 
 void runSuite(){
 	cute::suite s;
-	s.push_back(CUTE(test_addVertex));
-	s.push_back(CUTE(test_removeVertex));
-	s.push_back(CUTE(test_addEdge));
-	s.push_back(CUTE(test_removeEdge));
-	s.push_back(CUTE(test_dfs));
-	s.push_back(CUTE(test_bfs));
-	s.push_back(CUTE(test_removeVertex_Again));
-	s.push_back(CUTE(test_removeEdge_Again));
-	s.push_back(CUTE(test_maxNewChildren));
-	cute::ide_listener <> lis;
-	cute::makeRunner(lis)(s, "CAL 2012/2013 - Aula Pratica 4");
+	s.push_back(CUTE(test_a_indegree));
+	s.push_back(CUTE(test_b_getSources));
+	s.push_back(CUTE(test_c_isDAG));
+	s.push_back(CUTE(test_d_topologicaOrder));
+	s.push_back(CUTE(test_e_shortestPath));
+	cute::ide_listener <>lis;
+	cute::makeRunner(lis)(s, "CAL 2012/2013 - Aula Pratica 5");
 }
 
 int main(){
