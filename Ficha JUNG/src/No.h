@@ -9,8 +9,12 @@
 #define SRC_NO_H_
 
 class No {
+private:
+    int id;
+    long latitude;
+    long longitude;
 public:
-	No();
+	No(int id, long latitude, long longitude);
 	virtual ~No();
 };
 

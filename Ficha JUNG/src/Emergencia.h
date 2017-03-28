@@ -13,6 +13,7 @@
 #include "No.h"
 #include "Bombeiros.h"
 #include "Policia.h"
+#include "graphviewer.h"
 
 
 class Emergencia {
