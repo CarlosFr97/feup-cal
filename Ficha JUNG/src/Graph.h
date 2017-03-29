@@ -93,6 +93,7 @@ template <class T>
 class Edge {
 	Vertex<T> * dest;
 	double weight;
+	long IDRua;
 public:
 	Edge(Vertex<T> *d, double w);
 	friend class Graph<T>;

@@ -11,8 +11,8 @@
 class No {
 private:
     int id;
-    long latitude;
-    long longitude;
+    int x;
+    int y;
 public:
 	No(int id, long latitude, long longitude);
 	virtual ~No();

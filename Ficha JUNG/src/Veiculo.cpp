@@ -7,8 +7,8 @@
 
 #include "Veiculo.h"
 
-Veiculo::Veiculo() {
-	// TODO Auto-generated constructor stub
+Veiculo::Veiculo(No local) {
+
 
 }
 

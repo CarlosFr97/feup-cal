@@ -7,18 +7,21 @@
 
 
 
-#include <string>
+
 #ifndef SRC_VEICULO_H_
 #define SRC_VEICULO_H_
 
+#include <string>
+
+using namespace std;
 
 class Veiculo {
 private:
-	string tipo;
-
+	bool disponivel;
+	No local;
 
 public:
-	Veiculo();
+	Veiculo(No local);
 	virtual ~Veiculo();
 
 

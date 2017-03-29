@@ -11,16 +11,17 @@
 
 #include <vector>
 #include "No.h"
-#include "Bombeiros.h"
-#include "Policia.h"
 #include "graphviewer.h"
 
 
 class Emergencia {
 private:
-	vector<Bombeiros> bombeiros;
-	vector<Policia> policia;
+	vector<Veiculo> INEM;
+	vector<Veiculo> bombeiros;
+	vector<Veiculo> policia;
 	vector<No> hospitais;
+	Graph<No> myGraph;
+
 public:
 	Emergencia();
 	void readFiles();
