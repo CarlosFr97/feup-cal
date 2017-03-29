@@ -12,6 +12,7 @@
 #define SRC_VEICULO_H_
 
 #include <string>
+#include "No.h"
 
 using namespace std;
 

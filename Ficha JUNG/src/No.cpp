@@ -20,3 +20,8 @@ int No::getID(){
 	return id;
 }
 
+bool No::operator==(No no1) const
+{
+	return this->id == no1.getID();
+}
+

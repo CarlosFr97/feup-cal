@@ -25,6 +25,8 @@ public:
 	friend class Graph<T>;
 	int getIndegree() const;
 	T getInfo() const;
+	void setVisited(bool value);
+	bool getVisited();
 };
 
 
@@ -41,6 +43,17 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 		else it++;
 	}
 	return false;
+}
+
+template <class T>
+void Vertex<T>::setVisited(bool value){
+
+	visited = value;
+}
+
+template <class T>
+bool Vertex<T>::getVisited(){
+	return visited;
 }
 
 template <class T>

@@ -156,12 +156,13 @@ void exercicio2()
 
 void exercicio3()
 {
-	GraphViewer *gv = new GraphViewer(1000, 1000, true);
+	GraphViewer *gv = new GraphViewer(600, 600, true);
 
 	gv->createWindow(600, 600);
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
+	gv->defineEdgeCurved(false);
 
 	ifstream inFile;
 
@@ -185,12 +186,10 @@ void exercicio3()
 	    std::string         data;
 
 	    linestream >> idNo;
-	    std::getline(linestream, data, ';'); //get degrees value
-	    std::getline(linestream, data, ';');
 
 	    std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 	    linestream >> X;
-	    std::getline(linestream, data, '\n');  // read up-to the first ; (discard ;).
+	    std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 	    linestream >> Y;
 	    gv->addNode(idNo,X,Y);
 

@@ -20,7 +20,7 @@ No Emergencia::findNo(int id){
 	vector< Vertex<No>* > vertices = myGraph.getVertexSet();
 	for (unsigned int i = 0; i < vertices.size(); i++){
 		if(vertices.at(i)->getInfo().getID()==id)
-			return vertices.at(i);
+			return vertices.at(i)->getInfo();
 
 	}
 
@@ -231,6 +231,37 @@ void Emergencia::readFiles(){
 	}
 
 	inFile.close();
+
+}
+
+void Emergencia::displayGraph()
+{
+	GraphViewer *gv = new GraphViewer(600, 600, false);
+
+	gv->createWindow(600, 600);
+
+		gv->defineEdgeColor("blue");
+		gv->defineVertexColor("yellow");
+		gv->defineEdgeCurved(false);
+	vector< Vertex<No>* > vertexSet = myGraph.getVertexSet();
+	typename vector<Vertex<No>*>::const_iterator it= vertexSet.begin();
+	typename vector<Vertex<No>*>::const_iterator ite=vertexSet.end();
+
+		for(; it != ite; it++)
+		{
+			(*it)->setVisited(false);
+		}
+
+	typename vector<Vertex<No>*>::const_iterator it= vertexSet.begin();
+	typename vector<Vertex<No>*>::const_iterator ite=vertexSet.end();
+
+
+	for(; it != ite; it++)
+	{
+		//vector<Edge> aux = (*it)->adj;
+
+	}
+
 
 }
 

@@ -101,7 +101,7 @@ public:
 };
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w){}
+Edge<T>::Edge(int ID,Vertex<T> *d, double w): ID(ID), dest(d), weight(w){}
 
 
 

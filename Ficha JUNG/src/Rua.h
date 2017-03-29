@@ -9,6 +9,7 @@
 #define SRC_RUA_H_
 
 #include <string>
+#include <vector>
 
 using namespace std;
 

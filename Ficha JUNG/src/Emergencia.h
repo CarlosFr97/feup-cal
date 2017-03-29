@@ -10,11 +10,15 @@
 #define SRC_EMERGENCIA_H_
 
 #include <vector>
-#include <Veiculo.h>
+#include "Veiculo.h"
 #include "No.h"
 #include <sstream>
 #include <iostream>
 #include "graphviewer.h"
+#include "Graph.h"
+#include "Rua.h"
+#include <fstream>
+
 
 
 class Emergencia {
@@ -32,6 +36,7 @@ public:
 	void readNos();
 	void readArestas();
 	void readRuas();
+	void displayGraph();
 	virtual ~Emergencia();
 	No findNo(int id);
 };

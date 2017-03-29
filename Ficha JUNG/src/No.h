@@ -14,9 +14,11 @@ private:
     int x;
     int y;
 public:
+    No(){};
 	No(int id, long latitude, long longitude);
 	virtual ~No();
 	int getID();
+	bool operator==(No no1) const ;
 };
 
 #endif /* SRC_NO_H_ */
