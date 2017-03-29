@@ -1,0 +1,34 @@
+1; Dr. Angelo Miranda
+2; Avenida da Liberdade
+3; Rua Egas Moniz
+4; Rua Padre António Vieira
+5; Calçada Machado
+6; Travessa Cabreira
+7; D. Afonso Henriques
+8; Avenida do Cemitério
+9; Avenida Reinaldo Norunha 
+10; Rua Mercado
+11; Avenida dos Descobrimentos
+12; Rua Dr Gil da Costa
+13; Avenida das Escolas
+14; Travessa Silvares
+15; Rua Albano Ferreira
+16; Travessa da Pelada
+17; Rua Dr Simões Júnior
+18; Rua do Parlamento
+19; Rua 1º de Dezembro
+20; Rua Arnaldo Lhamas
+21; Rua Pedro Nunes
+22; Rua Dr Figueredo
+23; Caminho da Quinta
+24; Rua do Mosteiro
+25; Rua dos Namorados
+26; Rua Dr Ribeiro Sampaio
+27; Travessa das Flores
+28; Rua Santiago
+29; Rua Joaquim Almeida
+30; Caminho do Lombo
+31; Rua 25 de Abril
+32; Rua do Geres
+33; Rua de Barcelos
+34; Caminho dos Aguiares 
