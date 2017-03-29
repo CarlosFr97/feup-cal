@@ -93,9 +93,9 @@ template <class T>
 class Edge {
 	Vertex<T> * dest;
 	double weight;
-	long IDRua;
+	int ID;
 public:
-	Edge(Vertex<T> *d, double w);
+	Edge(int ID, Vertex<T> *d, double w);
 	friend class Graph<T>;
 	friend class Vertex<T>;
 };

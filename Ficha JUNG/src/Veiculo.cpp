@@ -7,8 +7,8 @@
 
 #include "Veiculo.h"
 
-Veiculo::Veiculo(No local) {
-
+Veiculo::Veiculo(No local) : disponivel(true){
+	this->local=local;
 
 }
 

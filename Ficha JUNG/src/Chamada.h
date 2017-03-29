@@ -9,7 +9,9 @@
 #define SRC_CHAMADA_H_
 
 #include <string>
+#include <iostream>
 
+using namespace std;
 
 class Chamada {
 private:

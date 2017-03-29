@@ -20,7 +20,7 @@ private:
 	vector<int> IDnos;
 	bool twoways;
 public:
-	Rua(long ID, string nome);
+	Rua(int ID, string nome, bool twoWays);
 	virtual ~Rua();
 	void setNo(int IDno);
 };

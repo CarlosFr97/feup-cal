@@ -16,6 +16,7 @@ private:
 public:
 	No(int id, long latitude, long longitude);
 	virtual ~No();
+	int getID();
 };
 
 #endif /* SRC_NO_H_ */

@@ -7,12 +7,16 @@
 
 #include "No.h"
 
-No::No() {
+No::No(int id, long latitude, long longitude) {
 	// TODO Auto-generated constructor stub
 
 }
 
 No::~No() {
 	// TODO Auto-generated destructor stub
+}
+
+int No::getID(){
+	return id;
 }
 
