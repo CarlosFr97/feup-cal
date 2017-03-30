@@ -220,7 +220,7 @@ void Emergencia::readFiles(){
 
 		linestream >> idRua>>token;
 		getline(linestream, nomeRua, ';');
-		linestream>>twoWays>>token;
+		getline(linestream, twoWays, ';');
 		Rua r(idRua, nomeRua, (twoWays.compare("True") ? true : false));
 		while(token!='\n'){
 			linestream>>IDaresta>>token;
