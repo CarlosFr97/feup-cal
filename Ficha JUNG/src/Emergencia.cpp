@@ -255,12 +255,27 @@ void Emergencia::displayGraph()
 	it= vertexSet.begin();
 	ite=vertexSet.end();
 
+	typename vector< Edge<No> >::iterator itEdges;
+	typename vector< Edge<No> >::iterator iteEdges;
 
 	for(; it != ite; it++)
 	{
-		vector< Edge<No> > aux = (*it)->getAdj();
+		No addno = (*it)->getInfo();
+		if(!(*it)->getVisited())
+		{
+			gv->addNode(addno.getID(), addno.getX(), addno.getY());
+		}
+		vector< Edge<No> > edgesvec = (*it)->getAdj();
+		itEdges = edgesvec.begin();
+		iteEdges =edgesvec.end();
+
+		for(; itEdges != iteEdges; it++)
+		{
+			gv->addEdge((itEdges)->getID(), addno.getID(), (itEdges)->getDest()->getInfo().getID(), EdgeType::UNDIRECTED);
+		}
 
 	}
+	gv->rearrange();
 
 
 }

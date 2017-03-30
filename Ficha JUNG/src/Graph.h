@@ -38,6 +38,7 @@ public:
 	Vertex(T in);
 	friend class Graph<T>;
 	void setVisited(bool value);
+	bool getVisited();
 	T getInfo() const;
 	int getIndegree() const;
 	vector< Edge<T> > getAdj();
@@ -49,6 +50,12 @@ template <class T>
 void Vertex<T>::setVisited(bool value)
 {
 	visited = value;
+}
+
+template<class T>
+bool Vertex<T>::getVisited()
+{
+	return visited;
 }
 
 template <class T>
@@ -107,6 +114,8 @@ class Edge {
 	int ID;
 public:
 	Edge(int ID, Vertex<T> *d, double w);
+	int getID();
+	Vertex<T>* getDest();
 	friend class Graph<T>;
 	friend class Vertex<T>;
 };
@@ -114,6 +123,18 @@ public:
 template <class T>
 Edge<T>::Edge(int ID,Vertex<T> *d, double w): ID(ID), dest(d), weight(w){}
 
+
+template<class T>
+int Edge<T>::getID()
+{
+	return ID;
+}
+
+template<class T>
+Vertex<T> * Edge<T>::getDest()
+{
+	return dest;
+}
 
 
 /*

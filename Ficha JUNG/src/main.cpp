@@ -5,6 +5,15 @@
  *      Author: up201503344
  */
 
+#include "Emergencia.h"
+
+int main()
+{
+	Emergencia emergencia;
+	emergencia.readFiles();
+	emergencia.displayGraph();
+}
+
 
 
 

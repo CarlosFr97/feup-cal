@@ -11,13 +11,15 @@
 class No {
 private:
     int id;
-    int x;
-    int y;
+    long x;
+    long y;
 public:
     No(){};
-	No(int id, long latitude, long longitude);
+	No(int id, long x, long y);
 	virtual ~No();
 	int getID();
+	int getX();
+	int getY();
 	bool operator==(No no1) const ;
 };
 
