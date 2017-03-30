@@ -180,39 +180,38 @@ void Emergencia::readFiles() {
 
 	inFile.close();
 
-	/*	string nomeRua,twoWays;
-	 int IDaresta;
+	/*string nomeRua,twoWays;
+	int IDaresta;
 
-	 //Ler o ficheiro ruas.txt
-	 inFile.open("ruas.txt");
+	//Ler o ficheiro ruas.txt
+	inFile.open("ruas.txt");
 
-	 if (!inFile) {
-	 cerr << "Unable to open file datafile.txt";
-	 exit(1);   // call system to stop
-	 }
-
-
-	 while(getline(inFile, line))
-	 {
-
-	 std::stringstream linestream(line);
-
-	 linestream >> idRua>>token;
-	 getline(linestream, nomeRua, ';');
-	 linestream>>twoWays>>token;
-	 bool twowaysbool = twoWays.compare("True") ? true : false;
-	 Rua rua(idRua, nomeRua, twowaysbool);
-	 while(token!='\n'){
-	 linestream>>IDaresta>>token;
-	 rua.setAresta(IDaresta);
-	 }
-
-	 ruas.push_back(rua);
+	if (!inFile) {
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
+	}
 
 
-	 }
+	while(getline(inFile, line))
+	{
 
-	 inFile.close();*/
+		std::stringstream linestream(line);
+
+		linestream >> idRua>>token;
+		getline(linestream, nomeRua, ';');
+		getline(linestream, twoWays, ';');
+		Rua r(idRua, nomeRua, (twoWays.compare("True") ? true : false));
+		while(token!='\n'){
+			linestream>>IDaresta>>token;
+			r.setAresta(IDaresta);
+		}
+
+		ruas.push_back(r);
+
+
+	}
+
+	inFile.close();*/
 
 }
 
