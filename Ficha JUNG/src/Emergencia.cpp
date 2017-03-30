@@ -244,21 +244,21 @@ void Emergencia::displayGraph()
 		gv->defineVertexColor("yellow");
 		gv->defineEdgeCurved(false);
 	vector< Vertex<No>* > vertexSet = myGraph.getVertexSet();
-	typename vector<Vertex<No>*>::const_iterator it= vertexSet.begin();
-	typename vector<Vertex<No>*>::const_iterator ite=vertexSet.end();
+	typename vector< Vertex<No>* >::const_iterator it= vertexSet.begin();
+	typename vector< Vertex<No>* >::const_iterator ite=vertexSet.end();
 
 		for(; it != ite; it++)
 		{
 			(*it)->setVisited(false);
 		}
 
-	typename vector<Vertex<No>*>::const_iterator it= vertexSet.begin();
-	typename vector<Vertex<No>*>::const_iterator ite=vertexSet.end();
+	it= vertexSet.begin();
+	ite=vertexSet.end();
 
 
 	for(; it != ite; it++)
 	{
-		//vector<Edge> aux = (*it)->adj;
+		vector< Edge<No> > aux = (*it)->getAdj();
 
 	}
 

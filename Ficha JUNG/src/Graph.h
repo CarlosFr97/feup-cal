@@ -37,14 +37,25 @@ class Vertex {
 public:
 	Vertex(T in);
 	friend class Graph<T>;
-
+	void setVisited(bool value);
 	T getInfo() const;
 	int getIndegree() const;
-
+	vector< Edge<T> > getAdj();
 	Vertex* path;
 
 };
 
+template <class T>
+void Vertex<T>::setVisited(bool value)
+{
+	visited = value;
+}
+
+template <class T>
+vector< Edge<T> >Vertex<T>::getAdj()
+{
+	return adj;
+}
 
 template <class T>
 bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {

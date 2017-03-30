@@ -18,8 +18,11 @@ class Rua {
 private:
 	string nome;
 	int ID;
+	//devia ser vector<int> IDarestas e nao dos nos
+
 	vector<int> IDnos;
 	bool twoways;
+
 public:
 	Rua(int ID, string nome, bool twoWays);
 	virtual ~Rua();
