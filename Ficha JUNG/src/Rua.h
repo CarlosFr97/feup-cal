@@ -20,13 +20,13 @@ private:
 	int ID;
 	//devia ser vector<int> IDarestas e nao dos nos
 
-	vector<int> IDnos;
+	vector<int> IDarestas;
 	bool twoways;
 
 public:
 	Rua(int ID, string nome, bool twoWays);
 	virtual ~Rua();
-	void setNo(int IDno);
+	void setAresta(int IDaresta);
 };
 
 #endif /* SRC_RUA_H_ */

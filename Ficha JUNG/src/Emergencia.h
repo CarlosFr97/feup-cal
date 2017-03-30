@@ -17,6 +17,7 @@
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Rua.h"
+#include <math.h>
 #include <fstream>
 
 
@@ -38,7 +39,7 @@ public:
 	void readRuas();
 	void displayGraph();
 	virtual ~Emergencia();
-	No findNo(int id);
+	Vertex<No>* findNo(int id);
 };
 
 #endif /* SRC_EMERGENCIA_H_ */

@@ -21,7 +21,14 @@ int No::getID(){
 }
 
 bool No::operator==(No no1) const
-{
+		{
 	return this->id == no1.getID();
-}
+		}
+int No::getX(){
+	return x;
 
+}
+int No::getY(){
+	return y;
+
+}

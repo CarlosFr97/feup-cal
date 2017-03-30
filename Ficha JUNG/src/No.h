@@ -18,7 +18,9 @@ public:
 	No(int id, long latitude, long longitude);
 	virtual ~No();
 	int getID();
-	bool operator==(No no1) const ;
+	bool operator==(No no1) const;
+	int getX();
+	int getY();
 };
 
 #endif /* SRC_NO_H_ */
