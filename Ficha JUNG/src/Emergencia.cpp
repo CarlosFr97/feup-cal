@@ -1,12 +1,5 @@
-/*
- * Emergencia.cpp
- *
- *  Created on: 28/03/2017
- *      Author: Carlos Freitas
- */
-
 #include "Emergencia.h"
-
+#include "Rua.h"
 
 Emergencia::Emergencia() {
 
@@ -16,25 +9,25 @@ Emergencia::~Emergencia() {
 
 }
 
-Vertex<No>* Emergencia::findNo(int id){
+Vertex<No>* Emergencia::findNo(int id) {
 
-	vector< Vertex<No>* > vertices = myGraph.getVertexSet();
-	for (unsigned int i = 0; i < vertices.size(); i++){
-		if(vertices.at(i)->getInfo().getID()==id)
+	vector<Vertex<No>*> vertices = myGraph.getVertexSet();
+	for (unsigned int i = 0; i < vertices.size(); i++) {
+		if (vertices.at(i)->getInfo().getID() == id)
 			return vertices.at(i);
 
 	}
 
 }
 
-void Emergencia::readFiles(){
+void Emergencia::readFiles() {
 
 	ifstream inFile;
 	std::string line;
 
-	long long int idNo=0;
-	float X=0;
-	float Y=0;
+	long long int idNo = 0;
+	float X = 0;
+	float Y = 0;
 	char token;
 
 	//Ler o ficheiro nosNormals.txt
@@ -45,18 +38,13 @@ void Emergencia::readFiles(){
 		exit(1);   // call system to stop
 	}
 
-
-	while(getline(inFile, line))
-	{
+	while (getline(inFile, line)) {
 
 		std::stringstream linestream(line);
 
-		linestream >> idNo>>token>>X>>token>>Y;
-
+		linestream >> idNo >> token >> X >> token >> Y;
 		No n(idNo, X, Y);
-
 		myGraph.addVertex(n);
-
 
 	}
 
@@ -70,19 +58,16 @@ void Emergencia::readFiles(){
 		exit(1);   // call system to stop
 	}
 
-
-	while(getline(inFile, line))
-	{
+	while (getline(inFile, line)) {
 
 		std::stringstream linestream(line);
 
-		linestream >> idNo>>token>>X>>token>>Y;
+		linestream >> idNo >> token >> X >> token >> Y;
 
 		No n(idNo, X, Y);
 
 		myGraph.addVertex(n);
 		hospitais.push_back(n);
-
 
 	}
 
@@ -96,20 +81,17 @@ void Emergencia::readFiles(){
 		exit(1);   // call system to stop
 	}
 
-
-	while(getline(inFile, line))
-	{
+	while (getline(inFile, line)) {
 
 		std::stringstream linestream(line);
 
-		linestream >> idNo>>token>>X>>token>>Y;
+		linestream >> idNo >> token >> X >> token >> Y;
 
 		No n(idNo, X, Y);
 
 		myGraph.addVertex(n);
 		Veiculo v(n);
 		INEM.push_back(n);
-
 
 	}
 
@@ -123,20 +105,17 @@ void Emergencia::readFiles(){
 		exit(1);   // call system to stop
 	}
 
-
-	while(getline(inFile, line))
-	{
+	while (getline(inFile, line)) {
 
 		std::stringstream linestream(line);
 
-		linestream >> idNo>>token>>X>>token>>Y;
+		linestream >> idNo >> token >> X >> token >> Y;
 
 		No n(idNo, X, Y);
 
 		myGraph.addVertex(n);
 		Veiculo v(n);
 		bombeiros.push_back(n);
-
 
 	}
 
@@ -150,13 +129,11 @@ void Emergencia::readFiles(){
 		exit(1);   // call system to stop
 	}
 
-
-	while(getline(inFile, line))
-	{
+	while (getline(inFile, line)) {
 
 		std::stringstream linestream(line);
 
-		linestream >> idNo>>token>>X>>token>>Y;
+		linestream >> idNo >> token >> X >> token >> Y;
 
 		No n(idNo, X, Y);
 
@@ -164,14 +141,13 @@ void Emergencia::readFiles(){
 		Veiculo v(n);
 		policia.push_back(n);
 
-
 	}
 
 	inFile.close();
 
-	int idRua=0;
-	int idAresta=0;
-	int idNo1=0, idNo2=0;
+	int idRua = 0;
+	int idAresta = 0;
+	int idNo1 = 0, idNo2 = 0;
 
 	//Ler o ficheiro arestas.txt
 	inFile.open("arestas.txt");
@@ -181,104 +157,114 @@ void Emergencia::readFiles(){
 		exit(1);   // call system to stop
 	}
 
-
-	while(getline(inFile, line))
-	{
+	while (getline(inFile, line)) {
 
 		std::stringstream linestream(line);
 
-		linestream >> idAresta>>token>>idNo1>>token>>idNo2;
+		linestream >> idAresta >> token >> idNo1 >> token >> idNo2;
 
-		Vertex<No>* v1=findNo(idNo1);
-		Vertex<No>* v2=findNo(idNo2);
+		Vertex<No>* v1 = findNo(idNo1);
+		Vertex<No>* v2 = findNo(idNo2);
+		No no1 = v1->getInfo();
+		No no2 = v2->getInfo();
 
-		Edge<No> e(idAresta, v2, sqrt(pow((v1->getInfo().getX()-v2->getInfo().getX()),2)+pow((v1->getInfo().getY()-v2->getInfo().getY()),2)));
+		int weight = sqrt(
+				pow((no2.getX() - no1.getX()), 2)
+						+ pow((no2.getY() - no1.getY()), 2));
 
-		myGraph.addEdge(v1->getInfo(), v2->getInfo(), 2);
-
+		cout << "Id Aresta: " << idAresta << "   no1: " << no1.getID()
+				<< "   no2: " << no2.getID() << endl;
+		myGraph.addEdge(idAresta, no1, no2, weight);
 
 	}
 
 	inFile.close();
 
-	string nomeRua,twoWays;
-	int IDaresta;
+	/*	string nomeRua,twoWays;
+	 int IDaresta;
 
-	//Ler o ficheiro ruas.txt
-	inFile.open("ruas.txt");
+	 //Ler o ficheiro ruas.txt
+	 inFile.open("ruas.txt");
 
-	if (!inFile) {
-		cerr << "Unable to open file datafile.txt";
-		exit(1);   // call system to stop
-	}
-
-
-	while(getline(inFile, line))
-	{
-
-		std::stringstream linestream(line);
-
-		linestream >> idRua>>token;
-		getline(linestream, nomeRua, ';');
-		linestream>>twoWays>>token;
-		Rua r(idRua, nomeRua, (twoWays.compare("True") ? true : false));
-		while(token!='\n'){
-			linestream>>IDaresta>>token;
-			r.setAresta(IDaresta);
-		}
-
-		ruas.push_back(r);
+	 if (!inFile) {
+	 cerr << "Unable to open file datafile.txt";
+	 exit(1);   // call system to stop
+	 }
 
 
-	}
+	 while(getline(inFile, line))
+	 {
 
-	inFile.close();
+	 std::stringstream linestream(line);
+
+	 linestream >> idRua>>token;
+	 getline(linestream, nomeRua, ';');
+	 linestream>>twoWays>>token;
+	 bool twowaysbool = twoWays.compare("True") ? true : false;
+	 Rua rua(idRua, nomeRua, twowaysbool);
+	 while(token!='\n'){
+	 linestream>>IDaresta>>token;
+	 rua.setAresta(IDaresta);
+	 }
+
+	 ruas.push_back(rua);
+
+
+	 }
+
+	 inFile.close();*/
 
 }
 
-
-void Emergencia::displayGraph()
-{
+void Emergencia::displayGraph() {
 	GraphViewer *gv = new GraphViewer(600, 600, false);
+	//TODO delete
+	cout << "display" << endl;
 
 	gv->createWindow(600, 600);
 
-		gv->defineEdgeColor("blue");
-		gv->defineVertexColor("yellow");
-		gv->defineEdgeCurved(false);
-	vector< Vertex<No>* > vertexSet = myGraph.getVertexSet();
-	typename vector< Vertex<No>* >::const_iterator it= vertexSet.begin();
-	typename vector< Vertex<No>* >::const_iterator ite=vertexSet.end();
+	gv->defineEdgeColor("blue");
+	gv->defineVertexColor("yellow");
+	gv->defineEdgeCurved(true);
 
-		for(; it != ite; it++)
-		{
-			(*it)->setVisited(false);
-		}
+	vector<Vertex<No>*> vertexSet = myGraph.getVertexSet();
 
-	it= vertexSet.begin();
-	ite=vertexSet.end();
+	typename vector<Vertex<No>*>::const_iterator it = vertexSet.begin();
+	typename vector<Vertex<No>*>::const_iterator ite = vertexSet.end();
 
-	typename vector< Edge<No> >::iterator itEdges;
-	typename vector< Edge<No> >::iterator iteEdges;
+	for (; it != ite; it++) {
+		(*it)->setVisited(false);
 
-	for(; it != ite; it++)
-	{
+	}
+
+	it = vertexSet.begin();
+	ite = vertexSet.end();
+
+	for (; it != ite; it++) {
+
 		No addno = (*it)->getInfo();
-		if(!(*it)->getVisited())
-		{
-			gv->addNode(addno.getID(), addno.getX(), addno.getY());
-		}
-		vector< Edge<No> > edgesvec = (*it)->getAdj();
-		itEdges = edgesvec.begin();
-		iteEdges =edgesvec.end();
 
-		for(; itEdges != iteEdges; it++)
-		{
-			gv->addEdge((itEdges)->getID(), addno.getID(), (itEdges)->getDest()->getInfo().getID(), EdgeType::UNDIRECTED);
+		gv->addNode(addno.getID(), addno.getX(), -addno.getY());
+	}
+
+	it = vertexSet.begin();
+	ite = vertexSet.end();
+	typename vector<Edge<No> >::iterator itEdges;
+	typename vector<Edge<No> >::iterator iteEdges;
+
+	for (; it != ite; it++) {
+
+		vector<Edge<No> > edgesvec = (*it)->getAdj();
+		itEdges = edgesvec.begin();
+		iteEdges = edgesvec.end();
+		for (; itEdges != iteEdges; itEdges++) {
+			gv->addEdge((itEdges)->getID(), (*it)->getInfo().getID(),
+					(itEdges)->getDest()->getInfo().getID(),
+					EdgeType::UNDIRECTED);
 		}
 
 	}
 	gv->rearrange();
 
-
 }
+

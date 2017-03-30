@@ -24,6 +24,7 @@ private:
 	bool twoways;
 
 public:
+
 	Rua(int ID, string nome, bool twoWays);
 	virtual ~Rua();
 	void setAresta(int IDaresta);

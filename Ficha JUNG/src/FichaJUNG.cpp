@@ -156,13 +156,12 @@ void exercicio2()
 
 void exercicio3()
 {
-	GraphViewer *gv = new GraphViewer(600, 600, true);
+	GraphViewer *gv = new GraphViewer(600, 600, false);
 
 	gv->createWindow(600, 600);
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
-	gv->defineEdgeCurved(false);
 
 	ifstream inFile;
 
@@ -233,8 +232,8 @@ void exercicio3()
 
 /*int main() {
 	//exercicio1();
-	//exercicio2();
-	exercicio3();
+	exercicio2();
+	//exercicio3();
 	getchar();
 	return 0;
 }*/

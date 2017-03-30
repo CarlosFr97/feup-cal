@@ -12,6 +12,8 @@ int main()
 	Emergencia emergencia;
 	emergencia.readFiles();
 	emergencia.displayGraph();
+	getchar();
+	return 0;
 }
 
 

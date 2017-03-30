@@ -7,8 +7,13 @@
 
 #include "No.h"
 
-No::No(int id, long latitude, long longitude) {
-	// TODO Auto-generated constructor stub
+
+using namespace std;
+
+No::No(int id, int x, int y) {
+	this->id = id;
+	this->x = x;
+	this->y =y;
 
 }
 
@@ -16,19 +21,24 @@ No::~No() {
 	// TODO Auto-generated destructor stub
 }
 
-int No::getID(){
+int No::getID() const{
 	return id;
 }
 
-bool No::operator==(No no1) const
-		{
-	return this->id == no1.getID();
-		}
-int No::getX(){
+bool No::operator==(const No &no1) const
+{
+	if( this->id == no1.getID())
+	{
+
+		return true;
+	}
+	return false;
+}
+int No::getX() const{
 	return x;
 
 }
-int No::getY(){
+int No::getY() const{
 	return y;
 
 }

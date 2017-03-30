@@ -8,6 +8,8 @@
 #ifndef SRC_NO_H_
 #define SRC_NO_H_
 
+#include <iostream>
+
 class No {
 private:
     int id;
@@ -15,12 +17,12 @@ private:
     int y;
 public:
     No(){};
-	No(int id, long latitude, long longitude);
+	No(int id, int x, int y);
 	virtual ~No();
-	int getID();
-	bool operator==(No no1) const;
-	int getX();
-	int getY();
+	int getID() const;
+	bool operator==(const No &no1) const;
+	int getX() const;
+	int getY() const;
 };
 
 #endif /* SRC_NO_H_ */
