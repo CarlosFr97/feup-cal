@@ -8,12 +8,14 @@
 #include "Rua.h"
 
 Rua::Rua(int ID, string nome, bool twoWays) {
-	// TODO Auto-generated constructor stub
+	this->ID=ID;
+	this->nome=nome;
+	this->twoways=twoWays;
 
 }
 
-void Rua::setNo(int IDno){
-	IDnos.push_back(IDno);
+void Rua::setAresta(int IDaresta){
+	IDarestas.push_back(IDaresta);
 }
 
 Rua::~Rua() {
