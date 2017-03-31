@@ -41,7 +41,11 @@ public:
 	void displayGraph();
 	virtual ~Emergencia();
 	Vertex<No>* findNo(int id);
-	//static int ID_ARESTA_GERAL;
+	bool findINEM(No pos) const;
+	bool findBomb(No pos) const;
+	bool findPolicia(No pos) const ;
+	void colorNodes(GraphViewer *gv) const;
+
 };
 
 #endif /* SRC_EMERGENCIA_H_ */
