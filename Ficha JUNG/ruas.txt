@@ -18,7 +18,7 @@
 18; Rua do Parlamento;True;19,37,20,21;
 19; Rua 1º de Dezembro;True;1,11,20;
 20; Rua Pedro Nunes;False;3,13,14;
-21; Rua Dr Figueredo;False;12,2;
+21; Rua Dr Figueredo;False;2,12;
 22; Caminho da Quinta;False;35,29;
 23; Rua do Mosteiro;False;30,35;
 24; Rua dos Namorados;False;12,11;

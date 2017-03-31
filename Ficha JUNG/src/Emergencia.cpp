@@ -249,7 +249,7 @@ void Emergencia::displayGraph() {
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
-	gv->defineEdgeCurved(true);
+	gv->defineEdgeCurved(false);
 
 	vector<Vertex<No>*> vertexSet = myGraph.getVertexSet();
 
@@ -284,7 +284,7 @@ void Emergencia::displayGraph() {
 		for (; itEdges != iteEdges; itEdges++) {
 			gv->addEdge((itEdges)->getID(), (*it)->getInfo().getID(),
 					(itEdges)->getDest()->getInfo().getID(),
-					EdgeType::UNDIRECTED);
+					EdgeType::DIRECTED);
 		}
 
 	}
