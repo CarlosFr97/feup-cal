@@ -30,6 +30,7 @@ private:
 	vector<Rua> ruas;
 	vector<No> hospitais;
 	Graph<No> myGraph;
+	int ID_ARESTA_GERAL;
 
 public:
 	Emergencia();
@@ -40,6 +41,7 @@ public:
 	void displayGraph();
 	virtual ~Emergencia();
 	Vertex<No>* findNo(int id);
+	//static int ID_ARESTA_GERAL;
 };
 
 #endif /* SRC_EMERGENCIA_H_ */

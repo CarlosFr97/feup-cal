@@ -14,11 +14,14 @@ Rua::Rua(int ID, string nome, bool twoWays) {
 
 }
 
-void Rua::setAresta(int IDaresta){
-	IDarestas.push_back(IDaresta);
+void Rua::setNoID(int IDno){
+	IDnos.push_back(IDno);
 }
 
 Rua::~Rua() {
 	// TODO Auto-generated destructor stub
 }
 
+vector<int> Rua::getNosID(){
+	return IDnos;
+}

@@ -1,8 +1,10 @@
 #include "Emergencia.h"
 #include "Rua.h"
 
-Emergencia::Emergencia() {
 
+
+Emergencia::Emergencia() {
+	ID_ARESTA_GERAL=1;
 }
 
 Emergencia::~Emergencia() {
@@ -17,6 +19,8 @@ Vertex<No>* Emergencia::findNo(int id) {
 			return vertices.at(i);
 
 	}
+
+	return NULL;
 
 }
 
@@ -168,20 +172,22 @@ void Emergencia::readFiles() {
 		No no1 = v1->getInfo();
 		No no2 = v2->getInfo();
 
-		int weight = sqrt(
+		double weight = sqrt(
 				pow((no2.getX() - no1.getX()), 2)
-						+ pow((no2.getY() - no1.getY()), 2));
+				+ pow((no2.getY() - no1.getY()), 2));
 
-		cout << "Id Aresta: " << idAresta << "   no1: " << no1.getID()
-				<< "   no2: " << no2.getID() << endl;
+		/*cout << "Id Aresta: " << idAresta << "   no1: " << no1.getID()
+						<< "   no2: " << no2.getID() << endl;*/
 		myGraph.addEdge(idAresta, no1, no2, weight);
+
+		ID_ARESTA_GERAL++;
 
 	}
 
 	inFile.close();
 
-	/*string nomeRua,twoWays;
-	int IDaresta;
+	string nomeRua,twoWays;
+	int NoID;
 
 	//Ler o ficheiro ruas.txt
 	inFile.open("ruas.txt");
@@ -200,18 +206,37 @@ void Emergencia::readFiles() {
 		linestream >> idRua>>token;
 		getline(linestream, nomeRua, ';');
 		getline(linestream, twoWays, ';');
-		Rua r(idRua, nomeRua, (twoWays.compare("True") ? true : false));
-		while(token!='\n'){
-			linestream>>IDaresta>>token;
-			r.setAresta(IDaresta);
-		}
 
+		Rua r(idRua, nomeRua, ((twoWays=="True") ? true : false));
+		do{
+			linestream>>NoID>>token;
+			r.setNoID(NoID);
+		}while(token==',');
 		ruas.push_back(r);
+
+		if(twoWays=="True"){
+
+			for(int i=r.getNosID().size()-1;i>0;i--){
+
+				Vertex<No>* v1 = findNo(r.getNosID().at(i));
+				Vertex<No>* v2 = findNo(r.getNosID().at(i-1));
+				No no1 = v1->getInfo();
+				No no2 = v2->getInfo();
+
+				double weight = sqrt(
+						pow((no2.getX() - no1.getX()), 2)
+						+ pow((no2.getY() - no1.getY()), 2));
+
+				myGraph.addEdge(ID_ARESTA_GERAL, no1, no2, weight);
+
+				ID_ARESTA_GERAL++;
+			}
+		}
 
 
 	}
 
-	inFile.close();*/
+	inFile.close();
 
 }
 
