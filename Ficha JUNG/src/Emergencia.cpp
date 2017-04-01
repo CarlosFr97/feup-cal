@@ -256,13 +256,6 @@ void Emergencia::displayGraph() {
 	typename vector<Vertex<No>*>::const_iterator it = vertexSet.begin();
 	typename vector<Vertex<No>*>::const_iterator ite = vertexSet.end();
 
-	for (; it != ite; it++) {
-		(*it)->setVisited(false);
-
-	}
-
-	it = vertexSet.begin();
-	ite = vertexSet.end();
 
 	for (; it != ite; it++) {
 
