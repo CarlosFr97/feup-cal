@@ -24,6 +24,7 @@ private:
 public:
 	Veiculo(No local);
 	virtual ~Veiculo();
+	No getLocal() const ;
 
 
 };

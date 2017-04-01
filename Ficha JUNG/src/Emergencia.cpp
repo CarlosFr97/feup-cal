@@ -261,7 +261,7 @@ void Emergencia::displayGraph() {
 
 		No addno = (*it)->getInfo();
 
-		gv->addNode(addno.getID(), addno.getX(), -addno.getY());
+		gv->addNode(addno.getID(), (addno.getX()*2)+20, -(addno.getY()*2)+420);
 	}
 
 	it = vertexSet.begin();
@@ -281,7 +281,67 @@ void Emergencia::displayGraph() {
 		}
 
 	}
+	colorNodes(gv);
 	gv->rearrange();
 
 }
 
+void Emergencia::colorNodes(GraphViewer *gv) const
+{
+	vector<Veiculo>::const_iterator it = this->INEM.begin();
+	for(it; it != INEM.end(); it++)
+	{
+		gv->setVertexColor((*it).getLocal().getID(),"green");
+	}
+	it = this->policia.begin();
+	for(it; it != policia.end(); it++)
+	{
+		gv->setVertexColor((*it).getLocal().getID(),"blue");
+	}
+	it = this->bombeiros.begin();
+	for(it; it != bombeiros.end(); it++)
+		{
+			gv->setVertexColor((*it).getLocal().getID(),"red");
+			//gv->setVertexIcon((*it).getLocal().getID(),"icon.gif");
+		}
+
+}
+
+bool Emergencia::findINEM(No posicao) const
+{
+	vector<Veiculo>::const_iterator it = this->INEM.begin();
+	for(it; it != INEM.end(); it++)
+	{
+		if((*it).getLocal() == posicao)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Emergencia::findBomb(No posicao) const
+{
+	vector<Veiculo>::const_iterator it = this->bombeiros.begin();
+	for(it; it != bombeiros.end(); it++)
+	{
+		if((*it).getLocal() == posicao)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Emergencia::findPolicia(No posicao) const
+{
+	vector<Veiculo>::const_iterator it = this->policia.begin();
+	for(it; it != policia.end(); it++)
+	{
+		if((*it).getLocal() == posicao)
+		{
+			return true;
+		}
+	}
+	return false;
+}

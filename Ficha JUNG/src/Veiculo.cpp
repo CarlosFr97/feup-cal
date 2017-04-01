@@ -16,3 +16,8 @@ Veiculo::~Veiculo() {
 	// TODO Auto-generated destructor stub
 }
 
+No Veiculo::getLocal() const
+{
+	return local;
+}
+
