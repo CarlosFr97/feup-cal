@@ -1,5 +1,6 @@
 #include "Emergencia.h"
 #include "Rua.h"
+#include "Graph.h"
 
 Emergencia::Emergencia() {
 	ID_ARESTA_GERAL = 1;
@@ -238,7 +239,7 @@ void Emergencia::readFiles() {
 void Emergencia::getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int inemFlag) {
 
 	No localizacao;
-	for(int i=0; i<myGraph.getVertexSet().size(); i++)
+	for(unsigned int i=0; i<myGraph.getVertexSet().size(); i++)
 	{
 		if(myGraph.getVertexSet()[i]->getInfo().getID() == noID)
 			localizacao = myGraph.getVertexSet()[i]->getInfo();
@@ -249,31 +250,43 @@ void Emergencia::getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int i
 	Vertex<No>* bombAssistencia = findBomb();
 	Vertex<No>* INEMAssistencia = findINEM();
 
-	if(polFlag != 0)
+	/*if(polFlag != 0)
 	{
-		vector<No> pathPolicia = myGraph.getPath(policiaAssistencia->getInfo(), localizacao);
+		vector< Edge<No> > edgestopaint;
+		vector<No> pathPolicia = myGraph.getPath(policiaAssistencia->getInfo(), localizacao, edgestopaint);
 			for(unsigned int i=0; i< pathPolicia.size(); i++)
 			{
 				cout<<"ID Policia NO: "<<pathPolicia[i].getID() << endl;
 			}
+		//this->drawPath(gv,findNo(policiaAssistencia->getInfo().getID()),"blue");
 	}
 
 	if(bombFlag != 0)
 	{
-		vector<No> pathINEM = myGraph.getPath(INEMAssistencia->getInfo(),localizacao);
+		vector< Edge<No> > edgestopaint;
+		vector<No> pathINEM = myGraph.getPath(INEMAssistencia->getInfo(),localizacao, edgestopaint);
 			for(unsigned int i = 0; i < pathINEM.size();i++)
 			{
 				cout << "ID INEM NO: " << pathINEM[i].getID()<< endl;
 			}
-	}
+			//this->drawPath(gv,INEMAssistencia,"green");
+
+	}*/
 
 	if(inemFlag != 0)
 	{
-		vector<No> pathBomb = myGraph.getPath(bombAssistencia->getInfo(),localizacao);
+		vector< Edge<No> > edgestopaint;
+		vector<No> pathBomb = myGraph.getPath(bombAssistencia->getInfo(),localizacao, edgestopaint);
 			for(unsigned int i = 0; i < pathBomb.size();i++)
 			{
 				cout << "ID Bombeiros NO: " << pathBomb[i].getID() << endl;;
+
 			}
+			for(int i=0; i<edgestopaint.size(); i++)
+			{
+				cout<<"Aresta: "<<edgestopaint[i].getDest()->getInfo().getID()<<endl;
+			}
+			//this->drawPath(gv,bombAssistencia,"red");
 	}
 
 
@@ -286,7 +299,7 @@ void Emergencia::displayGraph(GraphViewer *gv) {
 
 	gv->createWindow(600, 600);
 
-	gv->defineEdgeColor("blue");
+	gv->defineEdgeColor("black");
 	gv->defineVertexColor("yellow");
 	gv->defineEdgeCurved(false);
 
@@ -349,7 +362,7 @@ Vertex<No>* Emergencia::findINEM() {
 	int distAtual;
 	int distMinima = INT_MAX;
 
-	for (int i = 0; i < INEM.size(); i++) {
+	for (unsigned int i = 0; i < INEM.size(); i++) {
 			if (INEM[i].getDisponibilidade()) {
 				distAtual = INEM[i].getLocal()->getDist();
 				if (distAtual < distMinima) {
@@ -362,8 +375,37 @@ Vertex<No>* Emergencia::findINEM() {
 
 }
 
-void Emergencia::drawBombPath(GraphViewer *gv, Vertex<No>* path)
+void Emergencia::drawPath(GraphViewer *gv, Vertex<No>* path,string color)
 {
+	bool findEnd = false;
+	Vertex<No>* aux = path;
+	for(int i=0; i<myGraph.getVertexSet().size(); i++)
+	{
+		if(myGraph.getVertexSet()[i]->path == NULL)
+			cout<<myGraph.getVertexSet()[i]->getInfo().getID()<<" Null"<<endl;
+		else cout<<"Not null"<<endl;
+	}
+
+	/*do{
+		if(aux->path == NULL)
+		{
+			break;
+		}
+		for(unsigned int i = 0; i <aux->getAdj().size(); i++)
+		{
+			cout << "ENTROU";
+			if(aux->getAdj().at(i).getDest() == aux->path)
+			{
+
+				gv->setEdgeColor(aux->getAdj().at(i).getID(),color);
+				aux = aux->getAdj().at(i).getDest();
+				break;
+			}
+		}
+	}while(!findEnd);
+
+
+	gv->rearrange();*/
 
 }
 Vertex<No>* Emergencia::findBomb(){
@@ -371,7 +413,7 @@ Vertex<No>* Emergencia::findBomb(){
 	int distAtual;
 	int distMinima = INT_MAX;
 
-		for (int i = 0; i < bombeiros.size(); i++) {
+		for (unsigned int i = 0; i < bombeiros.size(); i++) {
 			if (bombeiros[i].getDisponibilidade()) {
 
 				distAtual = bombeiros[i].getLocal()->getDist();
@@ -388,7 +430,7 @@ Vertex<No>* Emergencia::findPolicia() {
 	int posicaofinal = 0;
 		int distAtual;
 		int distMinima = INT_MAX;
-		for (int i = 0; i < policia.size(); i++) {
+		for (unsigned int i = 0; i < policia.size(); i++) {
 			if (policia[i].getDisponibilidade()) {
 				distAtual = policia[i].getLocal()->getDist();
 				if (distAtual < distMinima) {
@@ -401,3 +443,7 @@ Vertex<No>* Emergencia::findPolicia() {
 
 
 }
+
+
+
+

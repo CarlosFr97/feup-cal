@@ -56,7 +56,7 @@ public:
 	Vertex<No>* findINEM();
 	Vertex<No>* findBomb();
 	Vertex<No>* findPolicia();
-	void drawBombPath(GraphViewer *gv,Vertex<No>* path);
+	void drawPath(GraphViewer *gv,Vertex<No>* path,string color);
 	void colorNodes(GraphViewer *gv) const;
 
 };

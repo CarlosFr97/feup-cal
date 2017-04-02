@@ -177,7 +177,7 @@ public:
 	int getNumCycles();
 	bool isDAG();
 	vector<T> topologicalOrder();
-	vector<T> getPath(const T &origin, const T &dest);
+	vector<T> getPath(const T &origin, const T &dest, vector<Edge<T>> &EdgestoPaint);
 
 	void unweightedShortestPath(const T &v);
 
@@ -521,18 +521,24 @@ void Graph<T>::getPathTo(Vertex<T> *dest, list<T> &res) {
 }
 
 template<class T>
-vector<T> Graph<T>::getPath(const T &origin, const T &dest){
-	unweightedShortestPath(origin);
+vector<T> Graph<T>::getPath(const T &origin, const T &dest, vector<Edge<T>> &EdgestoPaint){
+	dijkstraShortestPath(origin);
 
 	list<T> buffer;
 	Vertex<T>* v = getVertex(dest);
-	//cout << "Path to " << v->info << ": ";
 
-	//cout << v->info << " ";
 	buffer.push_front(v->info);
 	while (! (v->path->info == origin )) {
+
+		vector< Edge<T> > edges = v->adj;
+		for(int i=0; i<edges.size(); i++)
+		{
+			if(edges[i].dest == v->path)
+			{
+				EdgestoPaint.push_back(edges[i]);
+			}
+		}
 		v = v->path;
-		//cout << v->info << " ";
 		buffer.push_front(v->info);
 	}
 	buffer.push_front(v->path->info);

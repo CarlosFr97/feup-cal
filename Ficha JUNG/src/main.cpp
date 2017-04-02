@@ -13,7 +13,7 @@ int main()
 	Emergencia emergencia;
 	emergencia.readFiles();
 	emergencia.displayGraph(gv);
-	emergencia.getCall(gv,20,1,1,1);
+	emergencia.getCall(gv,20,1,0,1);
 
 	getchar();
 	return 0;
