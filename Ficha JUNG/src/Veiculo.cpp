@@ -7,7 +7,7 @@
 
 #include "Veiculo.h"
 
-Veiculo::Veiculo(No local) : disponivel(true){
+Veiculo::Veiculo(Vertex<No>* local) : disponivel(true){
 	this->local=local;
 
 }
@@ -16,8 +16,22 @@ Veiculo::~Veiculo() {
 	// TODO Auto-generated destructor stub
 }
 
-No Veiculo::getLocal() const
+No Veiculo::getlocalNode() const
 {
-	return local;
+	return this->local->getInfo();
 }
 
+Vertex<No>* Veiculo::getLocal() const
+{
+	return this->local;
+}
+
+bool Veiculo::getDisponibilidade() const
+{
+	return disponivel;
+}
+
+void Veiculo::setDisponibilidade(bool value)
+{
+	this->disponivel = value;
+}

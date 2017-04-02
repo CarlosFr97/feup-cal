@@ -9,9 +9,12 @@
 
 int main()
 {
+	GraphViewer *gv = new GraphViewer(600, 600, false);
 	Emergencia emergencia;
 	emergencia.readFiles();
-	emergencia.displayGraph();
+	emergencia.displayGraph(gv);
+	emergencia.getCall(gv,20,1,1,1);
+
 	getchar();
 	return 0;
 }

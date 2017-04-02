@@ -9,6 +9,7 @@
 #include <list>
 #include <climits>
 #include <cstddef>
+#include <iostream>
 using namespace std;
 
 template <class T> class Edge;
@@ -40,6 +41,7 @@ public:
 	T getInfo() const;
 	int getIndegree() const;
 	vector< Edge<T> > getAdj();
+	int getDist() const;
 	Vertex* path;
 
 };
@@ -95,6 +97,11 @@ T Vertex<T>::getInfo() const {
 template <class T>
 int Vertex<T>::getIndegree() const {
 	return this->indegree;
+}
+
+template <class T>
+int Vertex<T>::getDist() const {
+	return this->dist;
 }
 
 
@@ -519,13 +526,13 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest){
 
 	list<T> buffer;
 	Vertex<T>* v = getVertex(dest);
-	cout << "Path to " << v->info << ": ";
+	//cout << "Path to " << v->info << ": ";
 
-	cout << v->info << " ";
+	//cout << v->info << " ";
 	buffer.push_front(v->info);
-	while ( v->path->info != origin ) {
+	while (! (v->path->info == origin )) {
 		v = v->path;
-		cout << v->info << " ";
+		//cout << v->info << " ";
 		buffer.push_front(v->info);
 	}
 	buffer.push_front(v->path->info);

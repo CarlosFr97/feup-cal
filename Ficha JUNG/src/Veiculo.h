@@ -12,6 +12,7 @@
 #define SRC_VEICULO_H_
 
 #include <string>
+#include "Graph.h"
 #include "No.h"
 
 using namespace std;
@@ -19,12 +20,15 @@ using namespace std;
 class Veiculo {
 private:
 	bool disponivel;
-	No local;
+	Vertex<No>* local;
 
 public:
-	Veiculo(No local);
+	Veiculo( Vertex <No>* local);
 	virtual ~Veiculo();
-	No getLocal() const ;
+	No getlocalNode() const;
+	Vertex<No>* getLocal() const;
+	bool getDisponibilidade() const;
+	void setDisponibilidade(bool value);
 
 
 };

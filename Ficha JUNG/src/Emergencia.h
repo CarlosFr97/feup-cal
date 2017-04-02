@@ -28,9 +28,20 @@ private:
 	vector<Veiculo> bombeiros;
 	vector<Veiculo> policia;
 	vector<Rua> ruas;
-	vector<No> hospitais;
+	vector<Vertex<No>*> hospitais;
 	Graph<No> myGraph;
 	int ID_ARESTA_GERAL;
+	/*tipos emergencia:
+	 *
+	 * 1 - assalto/acidente rodoviario simples/desentendimentos ou similares - Veiculos: Carro Policia
+	 * 2 - Veiculos: Carro Policia + INEM
+	 * 3 - Veiculos: Carro Bombeiros
+	 * 4 - Veiculos: INEM simples
+	 * 5 - Veiculos: INEM hospital
+	 * 6 - Veiculos: Carro Policia + INEM + Carro Bombeiros
+	 *
+	 *
+	 */
 
 public:
 	Emergencia();
@@ -38,12 +49,14 @@ public:
 	void readNos();
 	void readArestas();
 	void readRuas();
-	void displayGraph();
+	void getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int inemFlag);
+	void displayGraph(GraphViewer *gv);
 	virtual ~Emergencia();
 	Vertex<No>* findNo(int id);
-	bool findINEM(No pos) const;
-	bool findBomb(No pos) const;
-	bool findPolicia(No pos) const ;
+	Vertex<No>* findINEM();
+	Vertex<No>* findBomb();
+	Vertex<No>* findPolicia();
+	void drawBombPath(GraphViewer *gv,Vertex<No>* path);
 	void colorNodes(GraphViewer *gv) const;
 
 };
