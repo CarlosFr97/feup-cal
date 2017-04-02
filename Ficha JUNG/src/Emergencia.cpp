@@ -325,6 +325,7 @@ void Emergencia::displayGraph(GraphViewer *gv) {
 
 }
 
+
 void Emergencia::colorNodes(GraphViewer *gv) const {
 	vector<Veiculo>::const_iterator it = this->INEM.begin();
 	for (it; it != INEM.end(); it++) {
@@ -397,5 +398,6 @@ Vertex<No>* Emergencia::findPolicia() {
 			}
 		}
 		return policia[posicaofinal].getLocal();
+
 
 }
