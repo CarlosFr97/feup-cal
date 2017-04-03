@@ -431,6 +431,7 @@ No Emergencia::findINEM(Vertex<No>* localizacao) {
 				}
 			}
 		}
+		INEM[posicaofinal].setDisponibilidade(false);
 		return INEM[posicaofinal].getlocalNode();
 
 }
@@ -510,6 +511,7 @@ No Emergencia::findBomb(Vertex<No>* localizacao){
 				}
 			}
 		}
+		bombeiros[posicaofinal].setDisponibilidade(false);
 	return bombeiros[posicaofinal].getlocalNode();
 }
 
@@ -527,6 +529,7 @@ No Emergencia::findPolicia(Vertex<No>* localizacao) {
 				}
 			}
 		}
+		policia[posicaofinal].setDisponibilidade(false);
 		return policia[posicaofinal].getlocalNode();
 
 
