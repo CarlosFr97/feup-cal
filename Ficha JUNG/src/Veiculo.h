@@ -20,13 +20,12 @@ using namespace std;
 class Veiculo {
 private:
 	bool disponivel;
-	Vertex<No>* local;
+	No local;
 
 public:
-	Veiculo( Vertex <No>* local);
+	Veiculo(No local);
 	virtual ~Veiculo();
 	No getlocalNode() const;
-	Vertex<No>* getLocal() const;
 	bool getDisponibilidade() const;
 	void setDisponibilidade(bool value);
 

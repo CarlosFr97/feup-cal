@@ -522,17 +522,22 @@ void Graph<T>::getPathTo(Vertex<T> *dest, list<T> &res) {
 
 template<class T>
 vector<T> Graph<T>::getPath(const T &origin, const T &dest, vector<Edge<T>> &EdgestoPaint){
+
 	dijkstraShortestPath(origin);
 
 	list<T> buffer;
 	Vertex<T>* v = getVertex(dest);
 
-	buffer.push_front(v->info);
+	vector< Edge<T> > edges;
+
+
+	buffer.push_back(v->info);
 	while (! (v->path->info == origin )) {
 
-		vector< Edge<T> > edges = v->adj;
+		edges = v->adj;
 		for(int i=0; i<edges.size(); i++)
 		{
+			cout<<"Edge: "<<edges[i].dest->getInfo().getID()<<endl;
 			if(edges[i].dest == v->path)
 			{
 				EdgestoPaint.push_back(edges[i]);
@@ -541,6 +546,16 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest, vector<Edge<T>> &Edg
 		v = v->path;
 		buffer.push_front(v->info);
 	}
+	edges = v->adj;
+			cout<<edges.size();
+			for(int i=0; i<edges.size(); i++)
+			{
+				if(edges[i].dest == v->path)
+				{
+
+					EdgestoPaint.push_back(edges[i]);
+				}
+			}
 	buffer.push_front(v->path->info);
 	cout << endl;
 

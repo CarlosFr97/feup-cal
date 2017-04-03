@@ -53,9 +53,9 @@ public:
 	void displayGraph(GraphViewer *gv);
 	virtual ~Emergencia();
 	Vertex<No>* findNo(int id);
-	Vertex<No>* findINEM();
-	Vertex<No>* findBomb();
-	Vertex<No>* findPolicia();
+	No findINEM(Vertex<No>* localizacao);
+	No findBomb(Vertex<No>* localizacao);
+	No findPolicia(Vertex<No>* localizacao);
 	void drawPath(GraphViewer *gv,Vertex<No>* path,string color);
 	void colorNodes(GraphViewer *gv) const;
 

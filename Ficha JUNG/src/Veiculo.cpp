@@ -7,7 +7,7 @@
 
 #include "Veiculo.h"
 
-Veiculo::Veiculo(Vertex<No>* local) : disponivel(true){
+Veiculo::Veiculo(No local) : disponivel(true){
 	this->local=local;
 
 }
@@ -18,13 +18,9 @@ Veiculo::~Veiculo() {
 
 No Veiculo::getlocalNode() const
 {
-	return this->local->getInfo();
-}
-
-Vertex<No>* Veiculo::getLocal() const
-{
 	return this->local;
 }
+
 
 bool Veiculo::getDisponibilidade() const
 {
