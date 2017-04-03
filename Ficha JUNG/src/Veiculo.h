@@ -23,6 +23,7 @@ private:
 	No local;
 
 public:
+	Veiculo() {};
 	Veiculo(No local);
 	virtual ~Veiculo();
 	No getlocalNode() const;

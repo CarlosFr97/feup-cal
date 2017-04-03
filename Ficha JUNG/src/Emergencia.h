@@ -56,7 +56,8 @@ public:
 	No findINEM(Vertex<No>* localizacao);
 	No findBomb(Vertex<No>* localizacao);
 	No findPolicia(Vertex<No>* localizacao);
-	void drawPath(GraphViewer *gv,Vertex<No>* path,string color);
+	void drawPath(GraphViewer *gv,vector<Edge<No>> &edgepath,string color);
+	void drawNodes(GraphViewer *gv,vector<No> no,string color);
 	void colorNodes(GraphViewer *gv) const;
 
 };

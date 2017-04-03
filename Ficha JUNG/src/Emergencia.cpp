@@ -245,14 +245,56 @@ void Emergencia::getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int i
 			localizacao = myGraph.getVertexSet()[i]->getInfo();
 	}
 
-	//myGraph.dijkstraShortestPath(localizacao);
-	//Vertex<No>* policiaAssistencia = findPolicia();
-	//Vertex<No>* bombAssistencia = findBomb();
-	No INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
-	cout<<"INEM proximo: "<<INEMAssistencia.getID();
+
+
 	vector< Edge<No> > pathedges;
-	vector<No> INEMPath = myGraph.getPath(INEMAssistencia, localizacao, pathedges);
-	for(int i=0)
+
+
+	if(inemFlag)
+	{
+		No INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
+		pathedges = myGraph.getPath(INEMAssistencia, localizacao);
+		this->drawPath(gv,pathedges,"green");
+		//this->drawNodes(gv,INEMPath,"green");
+		for(int i=0; i<pathedges.size(); i++)
+			{
+				cout<<"INEM: "<<pathedges[i].getDest()->getInfo().getID();
+			}
+	}
+
+	if(bombFlag)
+	{
+		No BombAssistencia = findBomb(myGraph.getVertex(localizacao));
+		if(!(BombAssistencia == localizacao))
+		{
+			pathedges = myGraph.getPath(BombAssistencia, localizacao);
+
+			this->drawPath(gv,pathedges,"red");
+		//this->drawNodes(gv,BombPath,"red");
+			for(int i=0; i<pathedges.size(); i++)
+			{
+				cout<<"Bombeiros: "<<pathedges[i].getDest()->getInfo().getID();
+			}
+		}
+		else
+			cout<<"Na sua localizacao já existe uns bombeiros"<<endl;
+
+	}
+
+
+	if(polFlag)
+	{
+		No PoliciaAssistencia = findPolicia(myGraph.getVertex(localizacao));
+		pathedges = myGraph.getPath(PoliciaAssistencia, localizacao);
+		this->drawPath(gv,pathedges,"blue");
+		//this->drawNodes(gv,PoliciaPath,"blue");
+		for(int i=0; i<pathedges.size(); i++)
+		{
+			cout<<"Policia: "<<pathedges[i].getDest()->getInfo().getID();
+		}
+	}
+
+
 	/*if(polFlag != 0)
 	{
 		vector< Edge<No> > edgestopaint;
@@ -277,7 +319,6 @@ void Emergencia::getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int i
 	}*/
 
 
-		vector< Edge<No> > edgestopaint;
 		//vector<No> pathBomb = myGraph.getPath(localizacao,policiaAssistencia->getInfo(), edgestopaint);
 			/*for(unsigned int i = 0; i < pathBomb.size();i++)
 			{
@@ -302,7 +343,7 @@ void Emergencia::displayGraph(GraphViewer *gv) {
 
 	gv->defineEdgeColor("black");
 	gv->defineVertexColor("yellow");
-	gv->defineEdgeCurved(false);
+	gv->defineEdgeCurved(true);
 
 	vector<Vertex<No>*> vertexSet = myGraph.getVertexSet();
 
@@ -377,16 +418,23 @@ No Emergencia::findINEM(Vertex<No>* localizacao) {
 
 }
 
-void Emergencia::drawPath(GraphViewer *gv, Vertex<No>* path,string color)
+void Emergencia::drawPath(GraphViewer *gv, vector<Edge<No>> &edgepath,string color)
 {
 	bool findEnd = false;
-	Vertex<No>* aux = path;
+/*
 	for(int i=0; i<myGraph.getVertexSet().size(); i++)
 	{
 		if(myGraph.getVertexSet()[i]->path == NULL)
 			cout<<myGraph.getVertexSet()[i]->getInfo().getID()<<" Null"<<endl;
-		else cout<<"Not null"<<endl;
+	}*/
+
+	for(unsigned int i = 0; i < edgepath.size();i++)
+	{
+		gv->setEdgeColor(edgepath.at(i).getID(),color);
+		Sleep(2000);
+		gv->setEdgeColor(edgepath.at(i).getID(),"black");
 	}
+
 
 	/*do{
 		if(aux->path == NULL)
@@ -410,41 +458,61 @@ void Emergencia::drawPath(GraphViewer *gv, Vertex<No>* path,string color)
 	gv->rearrange();*/
 
 }
-/*Vertex<No>* Emergencia::findBomb(Vertex<No>* localizacao){
+
+void Emergencia::drawNodes(GraphViewer *gv,vector<No> nos,string color)
+{
+	for(unsigned int i = 0; i < nos.size();i++)
+	{
+		if(i == nos.size()-1)
+		{
+			gv->setVertexColor(nos.at(i+1).getID(),color);
+		}else
+		{
+			gv->setVertexColor(nos.at(i).getID(),"yellow");
+			gv->setVertexColor(nos.at(i+1).getID(),color);
+		}
+		Sleep(2000);
+
+
+
+	}
+}
+No Emergencia::findBomb(Vertex<No>* localizacao){
 	int posicaofinal = 0;
 	int distAtual;
 	int distMinima = INT_MAX;
 
 		for (unsigned int i = 0; i < bombeiros.size(); i++) {
 			if (bombeiros[i].getDisponibilidade()) {
-
-				distAtual = bombeiros[i].getLocal()->getDist();
+				myGraph.dijkstraShortestPath(bombeiros[i].getlocalNode());
+				distAtual = localizacao->getDist();
 				if (distAtual < distMinima) {
 					distMinima = distAtual;
 					posicaofinal = i;
 				}
 			}
 		}
-	return bombeiros[posicaofinal].getLocal();
+	return bombeiros[posicaofinal].getlocalNode();
 }
 
-Vertex<No>* Emergencia::findPolicia(Vertex<No>* localizacao) {
+No Emergencia::findPolicia(Vertex<No>* localizacao) {
 	int posicaofinal = 0;
 		int distAtual;
 		int distMinima = INT_MAX;
 		for (unsigned int i = 0; i < policia.size(); i++) {
 			if (policia[i].getDisponibilidade()) {
-				distAtual = policia[i].getLocal()->getDist();
+				myGraph.dijkstraShortestPath(policia[i].getlocalNode());
+				distAtual = localizacao->getDist();
 				if (distAtual < distMinima) {
 					distMinima = distAtual;
 					posicaofinal = i;
 				}
 			}
 		}
-		return policia[posicaofinal].getLocal();
+		return policia[posicaofinal].getlocalNode();
 
 
-}*/
+}
 
 
 

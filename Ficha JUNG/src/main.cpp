@@ -12,8 +12,8 @@ int main()
 	GraphViewer *gv = new GraphViewer(600, 600, false);
 	Emergencia emergencia;
 	emergencia.readFiles();
-	emergencia.getCall(gv,20,1,0,1);
-	emergencia.displayGraph(gv);
+	emergencia.getCall(gv,11,1,0,0);
+	//emergencia.displayGraph(gv);
 
 
 	getchar();
