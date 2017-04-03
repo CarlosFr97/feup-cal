@@ -30,6 +30,7 @@ private:
 	vector<Rua> ruas;
 	vector<Vertex<No>*> hospitais;
 	Graph<No> myGraph;
+	GraphViewer *gv;
 	int ID_ARESTA_GERAL;
 	/*tipos emergencia:
 	 *
@@ -49,16 +50,17 @@ public:
 	void readNos();
 	void readArestas();
 	void readRuas();
-	void getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int inemFlag);
-	void displayGraph(GraphViewer *gv);
+	void getCall(int noID,int polFlag,int bombFlag,int inemFlag);
+	void displayGraph();
 	virtual ~Emergencia();
 	Vertex<No>* findNo(int id);
 	No findINEM(Vertex<No>* localizacao);
 	No findBomb(Vertex<No>* localizacao);
 	No findPolicia(Vertex<No>* localizacao);
-	void drawPath(GraphViewer *gv,vector<Edge<No>> &edgepath,string color);
-	void drawNodes(GraphViewer *gv,vector<No> no,string color);
-	void colorNodes(GraphViewer *gv) const;
+	void resetGV();
+	void drawPath(vector<Edge<No> > &edgepath,string color);
+	void drawNodes(vector<No> no,string color);
+	void colorNodes() const;
 
 };
 

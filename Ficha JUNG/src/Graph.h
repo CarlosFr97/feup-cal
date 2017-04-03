@@ -120,6 +120,7 @@ public:
 	Vertex<T>* getDest();
 	friend class Graph<T>;
 	friend class Vertex<T>;
+	double getWeight();
 };
 
 template <class T>
@@ -135,6 +136,11 @@ int Edge<T>::getID()
 	return ID;
 }
 
+template <class T>
+double Edge<T>::getWeight()
+{
+	return weight;
+}
 template<class T>
 Vertex<T> * Edge<T>::getDest()
 {
@@ -177,7 +183,7 @@ public:
 	int getNumCycles();
 	bool isDAG();
 	vector<T> topologicalOrder();
-	vector<Edge<T>> getPath(const T &origin, const T &dest);
+	vector<T> getPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint);
 
 	void unweightedShortestPath(const T &v);
 
@@ -521,7 +527,7 @@ void Graph<T>::getPathTo(Vertex<T> *dest, list<T> &res) {
 }
 
 template<class T>
-vector<Edge<T>> Graph<T>::getPath(const T &origin, const T &dest){
+vector<T> Graph<T>::getPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint){
 
 	dijkstraShortestPath(origin);
 
@@ -529,7 +535,7 @@ vector<Edge<T>> Graph<T>::getPath(const T &origin, const T &dest){
 	Vertex<T>* v = getVertex(dest);
 
 	vector< Edge<T> > edges;
-	vector< Edge<T> > EdgestoPaint;
+
 
 
 	buffer.push_front(v->info);
@@ -554,9 +560,12 @@ vector<Edge<T>> Graph<T>::getPath(const T &origin, const T &dest){
 				}
 			}
 	buffer.push_front(v->path->info);
-	cout << endl;
-
-	return EdgestoPaint;
+	vector<T> res;
+		while( !buffer.empty() ) {
+			res.push_back( buffer.front() );
+			buffer.pop_front();
+		}
+		return res;
 }
 
 template<class T>

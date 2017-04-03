@@ -4,6 +4,7 @@
 
 Emergencia::Emergencia() {
 	ID_ARESTA_GERAL = 1;
+	gv = new GraphViewer(600, 600, false);
 }
 
 Emergencia::~Emergencia() {
@@ -236,9 +237,10 @@ void Emergencia::readFiles() {
 
 }
 
-void Emergencia::getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int inemFlag) {
+void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 
 	No localizacao;
+	gv->setVertexIcon(noID,"ajuda.png");
 	for(unsigned int i=0; i<myGraph.getVertexSet().size(); i++)
 	{
 		if(myGraph.getVertexSet()[i]->getInfo().getID() == noID)
@@ -252,26 +254,28 @@ void Emergencia::getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int i
 
 	if(inemFlag)
 	{
+
 		No INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
-		pathedges = myGraph.getPath(INEMAssistencia, localizacao);
-		this->drawPath(gv,pathedges,"green");
-		//this->drawNodes(gv,INEMPath,"green");
+		vector<No> INEMPath= myGraph.getPath(INEMAssistencia, localizacao,pathedges);
+		//this->drawNodes(INEMPath,"INEM.png");
+		this->drawPath(pathedges,"green");
+
 		for(int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"INEM: "<<pathedges[i].getDest()->getInfo().getID();
 			}
 	}
-
+	pathedges.clear();
 	if(bombFlag)
 	{
 		No BombAssistencia = findBomb(myGraph.getVertex(localizacao));
 		if(!(BombAssistencia == localizacao))
 		{
-			pathedges = myGraph.getPath(BombAssistencia, localizacao);
+			vector<No> BombPath = myGraph.getPath(BombAssistencia, localizacao,pathedges);
+			//this->drawNodes(BombPath,"bombeiros.png");
+			this->drawPath(pathedges,"red");
 
-			this->drawPath(gv,pathedges,"red");
-		//this->drawNodes(gv,BombPath,"red");
-			for(int i=0; i<pathedges.size(); i++)
+			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"Bombeiros: "<<pathedges[i].getDest()->getInfo().getID();
 			}
@@ -281,14 +285,16 @@ void Emergencia::getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int i
 
 	}
 
-
+	pathedges.clear();
 	if(polFlag)
 	{
 		No PoliciaAssistencia = findPolicia(myGraph.getVertex(localizacao));
-		pathedges = myGraph.getPath(PoliciaAssistencia, localizacao);
-		this->drawPath(gv,pathedges,"blue");
-		//this->drawNodes(gv,PoliciaPath,"blue");
-		for(int i=0; i<pathedges.size(); i++)
+		 vector<No> PoliciaPath= myGraph.getPath(PoliciaAssistencia, localizacao,pathedges);
+		// this->drawNodes(PoliciaPath,"policia.png");
+		 this->drawPath(pathedges,"blue");
+
+
+		for(unsigned int i=0; i<pathedges.size(); i++)
 		{
 			cout<<"Policia: "<<pathedges[i].getDest()->getInfo().getID();
 		}
@@ -334,7 +340,7 @@ void Emergencia::getCall(GraphViewer *gv,int noID,int polFlag,int bombFlag,int i
 
 }
 
-void Emergencia::displayGraph(GraphViewer *gv) {
+void Emergencia::displayGraph() {
 
 	//TODO delete
 	cout << "display" << endl;
@@ -342,7 +348,7 @@ void Emergencia::displayGraph(GraphViewer *gv) {
 	gv->createWindow(600, 600);
 
 	gv->defineEdgeColor("black");
-	gv->defineVertexColor("yellow");
+	gv->defineVertexColor("white");
 	gv->defineEdgeCurved(true);
 
 	vector<Vertex<No>*> vertexSet = myGraph.getVertexSet();
@@ -356,6 +362,9 @@ void Emergencia::displayGraph(GraphViewer *gv) {
 
 		gv->addNode(addno.getID(), (addno.getX() * 2) + 20,
 				-(addno.getY() * 2) + 420);
+		stringstream ss;
+		ss<<addno.getID();
+		gv->setVertexLabel(addno.getID(),ss.str());
 	}
 
 	it = vertexSet.begin();
@@ -375,25 +384,33 @@ void Emergencia::displayGraph(GraphViewer *gv) {
 		}
 
 	}
-	colorNodes(gv);
+	colorNodes();
+	this->resetGV();
 	gv->rearrange();
 
 }
 
 
-void Emergencia::colorNodes(GraphViewer *gv) const {
+void Emergencia::colorNodes() const {
 	vector<Veiculo>::const_iterator it = this->INEM.begin();
-	for (it; it != INEM.end(); it++) {
-		gv->setVertexColor((*it).getlocalNode().getID(), "green");
+	for (; it != INEM.end(); it++) {
+		if((*it).getDisponibilidade())
+		gv->setVertexIcon((*it).getlocalNode().getID(), "INEM.png");
 	}
 	it = this->policia.begin();
-	for (it; it != policia.end(); it++) {
-		gv->setVertexColor((*it).getlocalNode().getID(), "blue");
+	for (; it != policia.end(); it++) {
+		if((*it).getDisponibilidade())
+		gv->setVertexIcon((*it).getlocalNode().getID(), "policia.png");
 	}
 	it = this->bombeiros.begin();
-	for (it; it != bombeiros.end(); it++) {
-		gv->setVertexColor((*it).getlocalNode().getID(), "red");
+	for (; it != bombeiros.end(); it++) {
+		if((*it).getDisponibilidade())
+		gv->setVertexIcon((*it).getlocalNode().getID(), "bombeiro.png");
 		//gv->setVertexIcon((*it).getLocal().getID(),"icon.gif");
+	}
+	for(unsigned int i = 0 ; i < this->hospitais.size();i++)
+	{
+		gv->setVertexIcon(hospitais.at(i)->getInfo().getID(),"hospital.png");
 	}
 
 }
@@ -418,9 +435,9 @@ No Emergencia::findINEM(Vertex<No>* localizacao) {
 
 }
 
-void Emergencia::drawPath(GraphViewer *gv, vector<Edge<No>> &edgepath,string color)
+void Emergencia::drawPath( vector<Edge<No> > &edgepath,string color)
 {
-	bool findEnd = false;
+	//bool findEnd = false;
 /*
 	for(int i=0; i<myGraph.getVertexSet().size(); i++)
 	{
@@ -431,8 +448,8 @@ void Emergencia::drawPath(GraphViewer *gv, vector<Edge<No>> &edgepath,string col
 	for(unsigned int i = 0; i < edgepath.size();i++)
 	{
 		gv->setEdgeColor(edgepath.at(i).getID(),color);
-		Sleep(2000);
-		gv->setEdgeColor(edgepath.at(i).getID(),"black");
+		//Sleep(2000);
+		//gv->setEdgeColor(edgepath.at(i).getID(),"black");
 	}
 
 
@@ -459,23 +476,24 @@ void Emergencia::drawPath(GraphViewer *gv, vector<Edge<No>> &edgepath,string col
 
 }
 
-void Emergencia::drawNodes(GraphViewer *gv,vector<No> nos,string color)
+void Emergencia::drawNodes(vector<No> nos,string color)
 {
 	for(unsigned int i = 0; i < nos.size();i++)
 	{
+
 		if(i == nos.size()-1)
 		{
-			gv->setVertexColor(nos.at(i+1).getID(),color);
-		}else
-		{
-			gv->setVertexColor(nos.at(i).getID(),"yellow");
-			gv->setVertexColor(nos.at(i+1).getID(),color);
+			gv->setVertexIcon(nos.at(i).getID(),color);
+			break;
 		}
-		Sleep(2000);
+		gv->setVertexIcon(nos.at(i).getID(),color);
+		Sleep(1000);
+		gv->setVertexColor(nos.at(i).getID(),"white");
 
 
 
 	}
+	gv->rearrange();
 }
 No Emergencia::findBomb(Vertex<No>* localizacao){
 	int posicaofinal = 0;
@@ -513,6 +531,33 @@ No Emergencia::findPolicia(Vertex<No>* localizacao) {
 
 
 }
+
+void Emergencia::resetGV()
+{
+
+	//gv->defineVertexIcon("INEM.png");
+
+	vector<Vertex<No>*> vertexSet = myGraph.getVertexSet();
+	typename vector<Vertex<No>*>::const_iterator it = vertexSet.begin();
+	typename vector<Vertex<No>*>::const_iterator ite = vertexSet.end();
+	typename vector<Edge<No> >::iterator itEdges;
+	typename vector<Edge<No> >::iterator iteEdges;
+
+		for (; it != ite; it++) {
+
+			vector<Edge<No> > edgesvec = (*it)->getAdj();
+			itEdges = edgesvec.begin();
+			iteEdges = edgesvec.end();
+			for (; itEdges != iteEdges; itEdges++) {
+				gv->setEdgeColor(itEdges->getID(),"black");
+			//	stringstream ss;
+				//ss << itEdges->getWeight();
+				//gv->setEdgeLabel(itEdges->getID(),ss.str());
+			}
+
+		}
+}
+
 
 
 

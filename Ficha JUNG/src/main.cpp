@@ -6,14 +6,17 @@
  */
 
 #include "Emergencia.h"
+#include "Menu.h"
 
 int main()
 {
-	GraphViewer *gv = new GraphViewer(600, 600, false);
+	//GraphViewer *gv = new GraphViewer(600, 600, false);
 	Emergencia emergencia;
 	emergencia.readFiles();
-	emergencia.getCall(gv,11,1,0,0);
-	//emergencia.displayGraph(gv);
+	emergencia.displayGraph();
+	menu_principal(emergencia);
+	//emergencia.getCall(20,1,1,1);
+
 
 
 	getchar();
