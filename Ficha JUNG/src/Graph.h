@@ -812,17 +812,18 @@ void Graph<T>::floydWarshallShortestPath() {
 
 
 template <class T>
-vector< Edge<T> > getEdges(vector<T> nodes){
+vector< Edge<T> > Graph<T>::getEdges(vector<T> nodes){
 
 	vector< Edge<T> > edges;
 	for(int i=0; i<nodes.size()-1; i++)
 	{
 		vector< Edge<T> > adjs = getVertex(nodes[i])->adj;
+
 		for(int j=0; j<adjs.size(); j++){
+			cout << adjs[j].dest->info.getID() << endl;
+			if(adjs[j].dest->info == nodes[i+1]){
 
-			if(adjs[i].dest->info == nodes[i+1]){
-
-				edges.push_back(adjs[i]);
+				edges.push_back(adjs[j]);
 				break;
 			}
 				
