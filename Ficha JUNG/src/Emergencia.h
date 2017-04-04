@@ -32,6 +32,7 @@ private:
 	vector<No> hospitais;
 	Graph<No> myGraph;
 	GraphViewer *gv;
+	bool isFloydWarshall;
 	int ID_ARESTA_GERAL;
 	/*tipos emergencia:
 	 *
@@ -46,12 +47,12 @@ private:
 	 */
 
 public:
-	Emergencia();
+	Emergencia(bool FloydWarshall);
 	void readFiles();
 	void readNos();
 	void readArestas();
 	void readRuas();
-	Vertex<No> * getCall(int noID,int polFlag,int bombFlag,int inemFlag);
+	Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag);
 	bool VerificarConectividade();
 	void displayGraph();
 	virtual ~Emergencia();
@@ -64,6 +65,8 @@ public:
 	void drawPath(vector<Edge<No> > &edgepath,string color);
 	void drawNodes(vector<No> no,string color);
 	void colorNodes() const;
+	void setFloydWarshall(bool value);
+	bool IsfloydWarshall();
 
 };
 

@@ -5,9 +5,10 @@
 
 using namespace std;
 
-Emergencia::Emergencia() {
+Emergencia::Emergencia(bool FloydWarshall) {
 	ID_ARESTA_GERAL = 1;
 	gv = new GraphViewer(600, 600, false);
+	isFloydWarshall = FloydWarshall;
 }
 
 Emergencia::~Emergencia() {
@@ -238,10 +239,17 @@ void Emergencia::readFiles() {
 
 	inFile.close();
 
+	if(isFloydWarshall)
+	{
+		myGraph.floydWarshallShortestPath();
+	}
+
 }
 
 Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 	
+
+
 	int tempoInicial = GetMilliCount();
 	if(VerificarConectividade())
 		cout<<"E conexo"<<endl;
@@ -261,6 +269,14 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 
 	if(inemFlag)
 	{
+
+		if(isFloydWarshall)
+		{
+			for(int i=0; i< INEM.size(); i++)
+			{
+
+			}
+		}
 
 		No INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
 		if(!(INEMAssistencia == localizacao))

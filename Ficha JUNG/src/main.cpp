@@ -11,7 +11,7 @@
 int main()
 {
 	//GraphViewer *gv = new GraphViewer(600, 600, false);
-	Emergencia emergencia;
+	Emergencia emergencia(true);
 	emergencia.readFiles();
 	emergencia.displayGraph();
 	menu_principal(emergencia);
