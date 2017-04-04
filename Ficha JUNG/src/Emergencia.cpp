@@ -475,6 +475,7 @@ void Emergencia::drawPath( vector<Edge<No> > &edgepath,string color)
 	for(unsigned int i = 0; i < edgepath.size();i++)
 	{
 		gv->setEdgeColor(edgepath.at(i).getID(),color);
+		gv->setEdgeThickness(edgepath.at(i).getID(),5);
 		//Sleep(2000);
 		//gv->setEdgeColor(edgepath.at(i).getID(),"black");
 	}
@@ -579,12 +580,15 @@ void Emergencia::resetGV()
 			iteEdges = edgesvec.end();
 			for (; itEdges != iteEdges; itEdges++) {
 				gv->setEdgeColor(itEdges->getID(),"black");
+				gv->setEdgeThickness(itEdges->getID(),1);
 			//	stringstream ss;
 				//ss << itEdges->getWeight();
 				//gv->setEdgeLabel(itEdges->getID(),ss.str());
 			}
 
 		}
+
+		gv->rearrange();
 }
 
 
