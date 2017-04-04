@@ -5,9 +5,10 @@
 
 using namespace std;
 
-Emergencia::Emergencia() {
+Emergencia::Emergencia(bool FloydWarshall) {
 	ID_ARESTA_GERAL = 1;
 	gv = new GraphViewer(600, 600, false);
+	isFloydWarshall = FloydWarshall;
 }
 
 Emergencia::~Emergencia() {
@@ -238,10 +239,17 @@ void Emergencia::readFiles() {
 
 	inFile.close();
 
+	if(isFloydWarshall)
+	{
+		myGraph.floydWarshallShortestPath();
+	}
+
 }
 
 Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 	
+
+
 	int tempoInicial = GetMilliCount();
 	if(VerificarConectividade())
 		cout<<"E conexo"<<endl;
@@ -261,18 +269,47 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 
 	if(inemFlag)
 	{
+		
+		No INEMAssistencia;
+		if(isFloydWarshall)
+		{
+			int distMinima=INT_MAX;
+			for(int i=0; i< INEM.size(); i++)
+			{
+				int weight = myGraph.getfloydWarshallweight( myGraph.getVertex(INEM[i].getlocalNode())->getVectorPos(),myGraph.getVertex(localizacao)->getVectorPos());
+				if(weight < distMinima)
+				{
+					distMinima = weight;
+					INEMAssistencia = INEM[i].getlocalNode();
+				}
 
-		No INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
+			}
+
+		}
+		else{
+			INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
+		}
 		if(!(INEMAssistencia == localizacao))
 		{
-			vector<No> INEMPath= myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
+			vector<No> INEMPath;
+			if(!isFloydWarshall)
+				INEMPath = myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
+			else
+				INEMPath = myGraph.getfloydWarshallPath(INEMAssistencia,localizacao);
 			//this->drawNodes(INEMPath,"INEM.png");
 			this->drawPath(pathedges,"green","INEM.png");
+
+			/*this->drawPath(pathedges,"green");
 
 			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"INEM: "<<pathedges[i].getDest()->getInfo().getID();
-			}
+			}*/
+
+			for(int i=0; i<INEMPath.size(); i++)
+			{
+				cout<<"INEM: "<<INEMPath[i].getID()<<endl;
+			}	
 		}else
 			cout << "Na sua localizaçao ja existe ambulancias\n";
 

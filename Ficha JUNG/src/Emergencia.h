@@ -1,3 +1,4 @@
+
 /*
  * Emergencia.h
  *
@@ -32,6 +33,7 @@ private:
 	vector<No> hospitais;
 	Graph<No> myGraph;
 	GraphViewer *gv;
+	bool isFloydWarshall;
 	int ID_ARESTA_GERAL;
 	/*tipos emergencia:
 	 *
@@ -46,7 +48,7 @@ private:
 	 */
 
 public:
-	Emergencia();
+	Emergencia(bool FloydWarshall);
 	void readFiles();
 	void readNos();
 	void readArestas();
@@ -64,6 +66,8 @@ public:
 	void drawPath(vector<Edge<No> > &edgepath,string color,string icon);
 	void drawNodes(vector<No> no,string color);
 	void colorNodes() const;
+	void setFloydWarshall(bool value);
+	bool IsfloydWarshall();
 
 };
 

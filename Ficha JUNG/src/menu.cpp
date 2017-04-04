@@ -23,7 +23,6 @@ void menu_principal(Emergencia &em)
 
 
 
-
 			gotoXY(18, 10); cout << "->";
 
 			while (running)
