@@ -61,7 +61,7 @@ public:
 	No findPolicia(Vertex<No>* localizacao);
 	vector<Edge<No> > moveToHospital(Vertex<No>* localizacao);
 	void resetGV();
-	void drawPath(vector<Edge<No> > &edgepath,string color);
+	void drawPath(vector<Edge<No> > &edgepath,string color,string icon);
 	void drawNodes(vector<No> no,string color);
 	void colorNodes() const;
 

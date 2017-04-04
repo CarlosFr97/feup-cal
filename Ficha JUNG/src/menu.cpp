@@ -280,7 +280,7 @@ void tipoEmergencia(Emergencia &em)
 								if(hs != 0)
 								{
 									vector<Edge<No> > aux =em.moveToHospital(n);
-								em.drawPath(aux,"green");
+									em.drawPath(aux,"green","INEM.png");
 								}
 
 

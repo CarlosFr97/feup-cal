@@ -267,7 +267,7 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 		{
 			vector<No> INEMPath= myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
 			//this->drawNodes(INEMPath,"INEM.png");
-			this->drawPath(pathedges,"green");
+			this->drawPath(pathedges,"green","INEM.png");
 
 			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
@@ -285,7 +285,7 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 		{
 			vector<No> BombPath = myGraph.getResourcesToPath(BombAssistencia, localizacao,pathedges);
 			//this->drawNodes(BombPath,"bombeiros.png");
-			this->drawPath(pathedges,"red");
+			this->drawPath(pathedges,"red","bombeiro.png");
 
 			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
@@ -305,7 +305,7 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 		{
 			 vector<No> PoliciaPath= myGraph.getResourcesToPath(PoliciaAssistencia, localizacao,pathedges);
 			// this->drawNodes(PoliciaPath,"policia.png");
-			 this->drawPath(pathedges,"blue");
+			 this->drawPath(pathedges,"blue","policia.png");
 			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"Policia: "<<pathedges[i].getDest()->getInfo().getID();
@@ -349,7 +349,7 @@ void Emergencia::displayGraph() {
 	gv->createWindow(600, 600);
 
 	gv->defineEdgeColor("black");
-	gv->defineVertexColor("white");
+	gv->defineVertexIcon("normal.png");
 	gv->defineEdgeCurved(true);
 
 	vector<Vertex<No>*> vertexSet = myGraph.getVertexSet();
@@ -393,6 +393,8 @@ void Emergencia::displayGraph() {
 
 
 void Emergencia::colorNodes() const {
+
+
 	vector<Veiculo>::const_iterator it = this->INEM.begin();
 	for (; it != INEM.end(); it++) {
 		if((*it).getDisponibilidade())
@@ -437,14 +439,18 @@ No Emergencia::findINEM(Vertex<No>* localizacao) {
 
 }
 
-void Emergencia::drawPath( vector<Edge<No> > &edgepath,string color)
+void Emergencia::drawPath( vector<Edge<No> > &edgepath,string color,string icon)
 {
 
 
-	for(unsigned int i = 0; i < edgepath.size();i++)
+	for( int i = edgepath.size()-1; i >=0;i-=1)
 	{
+		gv->setVertexIcon(edgepath.at(i).getDest()->getInfo().getID(),icon);
+
 		gv->setEdgeColor(edgepath.at(i).getID(),color);
 		gv->setEdgeThickness(edgepath.at(i).getID(),5);
+		Sleep(2000);
+		gv->setVertexIcon(edgepath.at(i).getDest()->getInfo().getID(),"normal.png");
 
 	}
 
@@ -465,7 +471,7 @@ void Emergencia::drawNodes(vector<No> nos,string color)
 		}
 		gv->setVertexIcon(nos.at(i).getID(),color);
 		Sleep(1000);
-		gv->setVertexColor(nos.at(i).getID(),"white");
+		gv->setVertexIcon(nos.at(i).getID(),"normal.png");
 
 
 
@@ -555,6 +561,12 @@ void Emergencia::resetGV()
 				//gv->setEdgeLabel(itEdges->getID(),ss.str());
 			}
 
+		}
+
+		vector<Vertex<No>* > aux = myGraph.getVertexSet();
+		for(unsigned int i = 0; i < aux.size();i++)
+		{
+			gv->setVertexIcon(aux.at(i)->getInfo().getID(),"normal.png");
 		}
 		this->colorNodes();
 
