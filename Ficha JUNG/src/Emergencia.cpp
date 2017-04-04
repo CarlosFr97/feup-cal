@@ -241,6 +241,8 @@ void Emergencia::readFiles() {
 }
 
 void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
+	
+	int tempoInicial = GetMilliCount();
 	if(VerificarConectividade())
 		cout<<"E conexo"<<endl;
 	else
@@ -342,6 +344,8 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 			}*/
 			//this->drawPath(gv,bombAssistencia,"red");
 
+	int tempoFinal = GetMilliSpan(tempoInicial);
+
 
 }
 
@@ -352,16 +356,11 @@ bool Emergencia::VerificarConectividade()
 	typename vector<Vertex<No>*>::const_iterator ite = vertexSet.end();
 
 	vector<No> vertexLigados;
-	No noatual;
 	for(; it!= ite; it++)
 	{
-		noatual = (*it)->getInfo();
 		vertexLigados = myGraph.bfs((*it));
-		vertexLigados.push_back(noatual);
-		std::sort(vertexLigados.begin(), vertexLigados.end());
-		if(vertexLigados[0].getID() != 1 || vertexLigados[vertexLigados.size()-1].getID() != 37 || vertexLigados.size() != 37)
+		if(vertexLigados.size() != 37)
 			return false;
-
 	}
 	return true;
 }
