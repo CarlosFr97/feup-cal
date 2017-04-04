@@ -263,14 +263,19 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 	{
 
 		No INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
-		vector<No> INEMPath= myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
-		//this->drawNodes(INEMPath,"INEM.png");
-		this->drawPath(pathedges,"green");
+		if(!(INEMAssistencia == localizacao))
+		{
+			vector<No> INEMPath= myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
+			//this->drawNodes(INEMPath,"INEM.png");
+			this->drawPath(pathedges,"green");
 
-		for(unsigned int i=0; i<pathedges.size(); i++)
+			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"INEM: "<<pathedges[i].getDest()->getInfo().getID();
 			}
+		}else
+			cout << "Na sua localizaçao ja existe ambulancias\n";
+
 	}
 	pathedges.clear();
 	if(bombFlag)
@@ -288,7 +293,7 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 			}
 		}
 		else
-			cout<<"Na sua localizacao já existe uns bombeiros"<<endl;
+			cout<<"Na sua localizacao ja existe uns bombeiros\n"<<endl;
 
 	}
 
@@ -296,54 +301,22 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 	if(polFlag)
 	{
 		No PoliciaAssistencia = findPolicia(myGraph.getVertex(localizacao));
-		 vector<No> PoliciaPath= myGraph.getResourcesToPath(PoliciaAssistencia, localizacao,pathedges);
-		// this->drawNodes(PoliciaPath,"policia.png");
-		 this->drawPath(pathedges,"blue");
-
-
-		for(unsigned int i=0; i<pathedges.size(); i++)
+		if(!(PoliciaAssistencia == localizacao))
 		{
-			cout<<"Policia: "<<pathedges[i].getDest()->getInfo().getID();
-		}
+			 vector<No> PoliciaPath= myGraph.getResourcesToPath(PoliciaAssistencia, localizacao,pathedges);
+			// this->drawNodes(PoliciaPath,"policia.png");
+			 this->drawPath(pathedges,"blue");
+			for(unsigned int i=0; i<pathedges.size(); i++)
+			{
+				cout<<"Policia: "<<pathedges[i].getDest()->getInfo().getID();
+			}
+		}else
+			cout << "Na sua localizacao ja existe policias\n" <<endl;
+
 	}
 
 
 
-	/*if(polFlag != 0)
-	{
-		vector< Edge<No> > edgestopaint;
-		vector<No> pathPolicia = myGraph.getPath(policiaAssistencia->getInfo(), localizacao, edgestopaint);
-			for(unsigned int i=0; i< pathPolicia.size(); i++)
-			{
-				cout<<"ID Policia NO: "<<pathPolicia[i].getID() << endl;
-			}
-		//this->drawPath(gv,findNo(policiaAssistencia->getInfo().getID()),"blue");
-	}
-
-	if(bombFlag != 0)
-	{
-		vector< Edge<No> > edgestopaint;
-		vector<No> pathINEM = myGraph.getPath(INEMAssistencia->getInfo(),localizacao, edgestopaint);
-			for(unsigned int i = 0; i < pathINEM.size();i++)
-			{
-				cout << "ID INEM NO: " << pathINEM[i].getID()<< endl;
-			}
-			//this->drawPath(gv,INEMAssistencia,"green");
-
-	}*/
-
-
-		//vector<No> pathBomb = myGraph.getPath(localizacao,policiaAssistencia->getInfo(), edgestopaint);
-			/*for(unsigned int i = 0; i < pathBomb.size();i++)
-			{
-				cout << "ID Bombeiros NO: " << pathBomb[i].getID() << endl;;
-
-			}
-			for(int i=0; i<edgestopaint.size(); i++)
-			{
-				cout<<"Aresta: "<<edgestopaint[i].getDest()->getInfo().getID()<<endl;
-			}*/
-			//this->drawPath(gv,bombAssistencia,"red");
 
 	int tempoFinal = GetMilliSpan(tempoInicial);
 	cout<<"Tempo Final: "<<tempoFinal;
@@ -583,6 +556,8 @@ void Emergencia::resetGV()
 			}
 
 		}
+		this->colorNodes();
+
 
 		gv->rearrange();
 }

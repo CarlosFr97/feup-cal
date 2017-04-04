@@ -268,16 +268,21 @@ void tipoEmergencia(Emergencia &em)
 							gotoXY(20,17);
 							cout << "Inem?: ";
 							cin >> inem;
-							gotoXY(20,17);
-							cout << "                           ";
-							gotoXY(20,17);
-							cout << "Hospital? :";
-							cin >> hs;
+
 							Vertex<No> * n = em.getCall(noid,pol,bomb,inem);
-							if(hs != 0 && inem != 0)
+							if(inem != 0)
 							{
-								vector<Edge<No> > aux =em.moveToHospital(n);
+								gotoXY(20,17);
+								cout << "                           ";
+								gotoXY(20,17);
+								cout << "Hospital? :";
+								cin >> hs;
+								if(hs != 0)
+								{
+									vector<Edge<No> > aux =em.moveToHospital(n);
 								em.drawPath(aux,"green");
+								}
+
 
 							}
 							Sleep(10000);
