@@ -542,7 +542,7 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest,vector<Edge<T> > &Edg
 	buffer.push_front(v->info);
 	while (! (v->path->info == origin )) {
 		edges = v->path->adj;
-		for(int i=0; i<edges.size(); i++)
+		for(unsigned int i=0; i<edges.size(); i++)
 		{
 			if(edges[i].dest == v)
 			{
@@ -553,7 +553,7 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest,vector<Edge<T> > &Edg
 		buffer.push_front(v->info);
 	}
 	edges = v->path->adj;
-			for(int i=0; i<edges.size(); i++)
+			for(unsigned int i=0; i<edges.size(); i++)
 			{
 				if(edges[i].dest == v)
 				{

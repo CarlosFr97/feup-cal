@@ -267,7 +267,7 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 		//this->drawNodes(INEMPath,"INEM.png");
 		this->drawPath(pathedges,"green");
 
-		for(int i=0; i<pathedges.size(); i++)
+		for(unsigned int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"INEM: "<<pathedges[i].getDest()->getInfo().getID();
 			}
@@ -306,7 +306,7 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 			cout<<"Policia: "<<pathedges[i].getDest()->getInfo().getID();
 		}
 	}
-	return this->findNo(localizacao.getID());
+
 
 
 	/*if(polFlag != 0)
@@ -347,6 +347,8 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 
 	int tempoFinal = GetMilliSpan(tempoInicial);
 	cout<<"Tempo Final: "<<tempoFinal;
+	return this->findNo(localizacao.getID());
+
 
 }
 
@@ -464,43 +466,17 @@ No Emergencia::findINEM(Vertex<No>* localizacao) {
 
 void Emergencia::drawPath( vector<Edge<No> > &edgepath,string color)
 {
-	//bool findEnd = false;
-/*
-	for(int i=0; i<myGraph.getVertexSet().size(); i++)
-	{
-		if(myGraph.getVertexSet()[i]->path == NULL)
-			cout<<myGraph.getVertexSet()[i]->getInfo().getID()<<" Null"<<endl;
-	}*/
+
 
 	for(unsigned int i = 0; i < edgepath.size();i++)
 	{
 		gv->setEdgeColor(edgepath.at(i).getID(),color);
 		gv->setEdgeThickness(edgepath.at(i).getID(),5);
-		//Sleep(2000);
-		//gv->setEdgeColor(edgepath.at(i).getID(),"black");
+
 	}
 
 
-	/*do{
-		if(aux->path == NULL)
-		{
-			break;
-		}
-		for(unsigned int i = 0; i <aux->getAdj().size(); i++)
-		{
-			cout << "ENTROU";
-			if(aux->getAdj().at(i).getDest() == aux->path)
-			{
 
-				gv->setEdgeColor(aux->getAdj().at(i).getID(),color);
-				aux = aux->getAdj().at(i).getDest();
-				break;
-			}
-		}
-	}while(!findEnd);
-
-
-	gv->rearrange();*/
 
 }
 
