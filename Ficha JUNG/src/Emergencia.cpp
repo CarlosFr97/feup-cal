@@ -273,7 +273,7 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 		No INEMAssistencia;
 		if(isFloydWarshall)
 		{
-			int distMinima;
+			int distMinima=INT_MAX;
 			for(int i=0; i< INEM.size(); i++)
 			{
 				int weight = myGraph.getfloydWarshallweight(getVertex(localizacao).getVectorPos(), getVertex(INEM[i].getlocalNode()).getVectorPos());
@@ -297,12 +297,17 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 			else
 				INEMPath = myGraph.getfloydWarshallPath(localizacao, INEMAssistencia);
 			//this->drawNodes(INEMPath,"INEM.png");
-			this->drawPath(pathedges,"green");
+			/*this->drawPath(pathedges,"green");
 
 			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"INEM: "<<pathedges[i].getDest()->getInfo().getID();
-			}
+			}*/
+
+			for(int i=0; i<INEMPath.size(); i++)
+			{
+				cout<<"INEM: "<<INEMPath[i].getID()<<endl;
+			}	
 		}else
 			cout << "Na sua localizaçao ja existe ambulancias\n";
 
