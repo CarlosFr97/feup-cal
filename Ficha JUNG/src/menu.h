@@ -19,6 +19,7 @@
 using namespace std;
 
 void menu_principal(Emergencia &em);
+void tipoEmergencia(Emergencia &em);
 void gotoXY(int x,int y);
 
 
