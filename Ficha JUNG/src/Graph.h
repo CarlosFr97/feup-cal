@@ -184,6 +184,7 @@ public:
 	bool isDAG();
 	vector<T> topologicalOrder();
 	vector<T> getPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint);
+	vector <T> getResourcesToPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint);
 
 	void unweightedShortestPath(const T &v);
 
@@ -529,7 +530,7 @@ void Graph<T>::getPathTo(Vertex<T> *dest, list<T> &res) {
 template<class T>
 vector<T> Graph<T>::getPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint){
 
-	dijkstraShortestPath(origin);
+	//dijkstraShortestPath(origin);
 
 	list<T> buffer;
 	Vertex<T>* v = getVertex(dest);
@@ -566,6 +567,13 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest,vector<Edge<T> > &Edg
 			buffer.pop_front();
 		}
 		return res;
+}
+
+template<class T>
+vector<T> Graph<T>::getResourcesToPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint)
+{
+	dijkstraShortestPath(origin);
+	 return getPath(origin,dest,EdgestoPaint);
 }
 
 template<class T>

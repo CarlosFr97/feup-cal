@@ -20,6 +20,8 @@
 #include <math.h>
 #include <fstream>
 #include <algorithm>
+#include "utils.h"
+
 
 class Emergencia {
 private:
@@ -27,7 +29,7 @@ private:
 	vector<Veiculo> bombeiros;
 	vector<Veiculo> policia;
 	vector<Rua> ruas;
-	vector<Vertex<No>*> hospitais;
+	vector<No> hospitais;
 	Graph<No> myGraph;
 	GraphViewer *gv;
 	int ID_ARESTA_GERAL;
@@ -49,7 +51,7 @@ public:
 	void readNos();
 	void readArestas();
 	void readRuas();
-	void getCall(int noID,int polFlag,int bombFlag,int inemFlag);
+	Vertex<No> * getCall(int noID,int polFlag,int bombFlag,int inemFlag);
 	bool VerificarConectividade();
 	void displayGraph();
 	virtual ~Emergencia();
@@ -57,6 +59,7 @@ public:
 	No findINEM(Vertex<No>* localizacao);
 	No findBomb(Vertex<No>* localizacao);
 	No findPolicia(Vertex<No>* localizacao);
+	vector<Edge<No> > moveToHospital(Vertex<No>* localizacao);
 	void resetGV();
 	void drawPath(vector<Edge<No> > &edgepath,string color);
 	void drawNodes(vector<No> no,string color);

@@ -248,7 +248,7 @@ void tipoEmergencia(Emergencia &em)
 
 						case 0: {
 
-							int noid,bomb,pol,inem;
+							int noid,bomb,pol,inem,hs;
 
 							gotoXY(20, 16);//para que o proximo cout nao sobreponha o menu
 							cout << "A chamar:     ";
@@ -268,9 +268,17 @@ void tipoEmergencia(Emergencia &em)
 							gotoXY(20,17);
 							cout << "Inem?: ";
 							cin >> inem;
-
-							em.getCall(noid,pol,bomb,inem);
-							Sleep(5000);
+							gotoXY(20,17);
+							cout << "                           ";
+							gotoXY(20,17);
+							cout << "Hospital? :";
+							cin >> hs;
+							Vertex<No> * n = em.getCall(noid,pol,bomb,inem);
+							if(hs != 0)
+							{
+								em.moveToHospital(n);
+							}
+							Sleep(10000);
 							em.resetGV();
 
 							running = false;

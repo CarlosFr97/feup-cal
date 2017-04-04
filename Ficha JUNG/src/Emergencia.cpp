@@ -74,7 +74,7 @@ void Emergencia::readFiles() {
 		No n(idNo, X, Y);
 
 		myGraph.addVertex(n);
-		hospitais.push_back(myGraph.getVertex(n));
+		hospitais.push_back(n);
 
 	}
 
@@ -240,7 +240,7 @@ void Emergencia::readFiles() {
 
 }
 
-void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
+Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 	
 	int tempoInicial = GetMilliCount();
 	if(VerificarConectividade())
@@ -263,7 +263,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 	{
 
 		No INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
-		vector<No> INEMPath= myGraph.getPath(INEMAssistencia, localizacao,pathedges);
+		vector<No> INEMPath= myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
 		//this->drawNodes(INEMPath,"INEM.png");
 		this->drawPath(pathedges,"green");
 
@@ -278,7 +278,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 		No BombAssistencia = findBomb(myGraph.getVertex(localizacao));
 		if(!(BombAssistencia == localizacao))
 		{
-			vector<No> BombPath = myGraph.getPath(BombAssistencia, localizacao,pathedges);
+			vector<No> BombPath = myGraph.getResourcesToPath(BombAssistencia, localizacao,pathedges);
 			//this->drawNodes(BombPath,"bombeiros.png");
 			this->drawPath(pathedges,"red");
 
@@ -296,7 +296,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 	if(polFlag)
 	{
 		No PoliciaAssistencia = findPolicia(myGraph.getVertex(localizacao));
-		 vector<No> PoliciaPath= myGraph.getPath(PoliciaAssistencia, localizacao,pathedges);
+		 vector<No> PoliciaPath= myGraph.getResourcesToPath(PoliciaAssistencia, localizacao,pathedges);
 		// this->drawNodes(PoliciaPath,"policia.png");
 		 this->drawPath(pathedges,"blue");
 
@@ -306,6 +306,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 			cout<<"Policia: "<<pathedges[i].getDest()->getInfo().getID();
 		}
 	}
+	return this->findNo(localizacao.getID());
 
 
 	/*if(polFlag != 0)
@@ -345,7 +346,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 			//this->drawPath(gv,bombAssistencia,"red");
 
 	int tempoFinal = GetMilliSpan(tempoInicial);
-
+	cout<<"Tempo Final: "<<tempoFinal;
 
 }
 
@@ -435,7 +436,7 @@ void Emergencia::colorNodes() const {
 	}
 	for(unsigned int i = 0 ; i < this->hospitais.size();i++)
 	{
-		gv->setVertexIcon(hospitais.at(i)->getInfo().getID(),"hospital.png");
+		gv->setVertexIcon(hospitais.at(i).getID(),"hospital.png");
 	}
 
 }
@@ -559,6 +560,26 @@ No Emergencia::findPolicia(Vertex<No>* localizacao) {
 		return policia[posicaofinal].getlocalNode();
 
 
+}
+
+vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao)
+{
+	int distmin = INT_MAX;
+	No nofinal;
+	Vertex<No>* aux;
+	myGraph.dijkstraShortestPath(localizacao->getInfo());
+	for(unsigned int i = 0; i < this->hospitais.size();i++)
+	{
+		aux  = myGraph.getVertex(hospitais.at(i));
+		if(aux->getDist() < distmin)
+		{
+			distmin = aux->getDist();
+			nofinal = hospitais.at(i) ;
+		}
+	}
+	vector<Edge<No> > edgestopaint;
+	myGraph.getPath(localizacao->getInfo(),nofinal,edgestopaint);
+	return edgestopaint;
 }
 
 void Emergencia::resetGV()
