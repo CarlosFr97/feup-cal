@@ -269,19 +269,33 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 
 	if(inemFlag)
 	{
-
+		
+		No INEMAssistencia;
 		if(isFloydWarshall)
 		{
+			int distMinima;
 			for(int i=0; i< INEM.size(); i++)
 			{
+				int weight = myGraph.getfloydWarshallweight(getVertex(localizacao).getVectorPos(), getVertex(INEM[i].getlocalNode()).getVectorPos());
+				if(weight < distMinima)
+				{
+					distMinima = weight;
+					INEMAssistencia = INEM[i].getlocalNode();
+				}
 
 			}
-		}
 
-		No INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
+		}
+		else{
+			INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
+		}
 		if(!(INEMAssistencia == localizacao))
 		{
-			vector<No> INEMPath= myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
+			vector<No> INEMPath;
+			if(!isFloydWarshall)
+				INEMPath = myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
+			else
+				INEMPath = myGraph.getfloydWarshallPath(localizacao, INEMAssistencia);
 			//this->drawNodes(INEMPath,"INEM.png");
 			this->drawPath(pathedges,"green");
 

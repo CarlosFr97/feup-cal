@@ -27,6 +27,7 @@ template <class T>
 class Vertex {
 	T info;
 	vector<Edge<T>  > adj;
+	int vectorPos;
 	bool visited;
 	bool processing;
 	void addEdge(int idAresta, Vertex<T> *dest, double w);
@@ -42,6 +43,7 @@ public:
 	int getIndegree() const;
 	vector< Edge<T> > getAdj();
 	int getDist() const;
+	int getVectorPos const;
 	Vertex* path;
 
 };
@@ -104,6 +106,11 @@ int Vertex<T>::getDist() const {
 	return this->dist;
 }
 
+template <class T>
+int Vertex<T>::getVectorPos const{
+
+	return vectorPos;
+}
 
 /*
  * Class Edge
@@ -192,6 +199,7 @@ public:
 		void bellmanFordShortestPath(const T &s);
 		void dijkstraShortestPath(const T &s);
 		void floydWarshallShortestPath();
+		int getfloydWarshallweight(int vOrigIndex, int vDestIndex);
 		int edgeCost(int vOrigIndex, int vDestIndex);
 		vector<T> getfloydWarshallPath(const T &origin, const T &dest);
 		void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
@@ -215,6 +223,10 @@ bool Graph<T>::addVertex(const T &in) {
 	for (; it!=ite; it++)
 		if ((*it)->info == in) return false;
 	Vertex<T> *v1 = new Vertex<T>(in);
+	if(vertexSet.size() > 0)
+		(*v1).vectorPos = vertexSet.size();
+	else
+		(*v1).vectorPos = 0;
 	vertexSet.push_back(v1);
 	return true;
 }
@@ -574,6 +586,12 @@ vector<T> Graph<T>::getResourcesToPath(const T &origin, const T &dest,vector<Edg
 {
 	dijkstraShortestPath(origin);
 	 return getPath(origin,dest,EdgestoPaint);
+}
+
+template <class T>
+int Graph<T>::getfloydWarshallweight(int vOrigIndex, int vDestIndex){
+	return W[vOrigIndex][vDestIndex];
+
 }
 
 template<class T>
