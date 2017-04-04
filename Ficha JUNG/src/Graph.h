@@ -203,6 +203,7 @@ public:
 		int edgeCost(int vOrigIndex, int vDestIndex);
 		vector<T> getfloydWarshallPath(const T &origin, const T &dest);
 		void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
+		vector< Edge<T> > getEdges(vector<T> nodes);
 
 };
 
@@ -809,6 +810,26 @@ void Graph<T>::floydWarshallShortestPath() {
 
 }
 
+
+template <class T>
+vector< Edge<T> > getEdges(vector<T> nodes){
+
+	vector< Edge<T> > edges;
+	for(int i=0; i<nodes.size()-1; i++)
+	{
+		vector< Edge<T> > adjs = getVertex(nodes[i])->adj;
+		for(int j=0; j<adjs.size(); j++){
+
+			if(adjs[i].dest->info == nodes[i+1]){
+
+				edges.push_back(adjs[i]);
+				break;
+			}
+				
+		}
+	}
+	return edges;
+}
 
 #endif /* GRAPH_H_ */
 

@@ -295,21 +295,24 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 			if(!isFloydWarshall)
 				INEMPath = myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
 			else
+			{
 				INEMPath = myGraph.getfloydWarshallPath(INEMAssistencia,localizacao);
+				pathedges = myGraph.getEdges(INEMPath);
+			}
 			//this->drawNodes(INEMPath,"INEM.png");
 			this->drawPath(pathedges,"green","INEM.png");
 
-			/*this->drawPath(pathedges,"green");
+			this->drawPath(pathedges,"green");
 
 			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"INEM: "<<pathedges[i].getDest()->getInfo().getID();
-			}*/
+			}
 
-			for(int i=0; i<INEMPath.size(); i++)
+			/*for(int i=0; i<INEMPath.size(); i++)
 			{
 				cout<<"INEM: "<<INEMPath[i].getID()<<endl;
-			}	
+			}*/
 		}else
 			cout << "Na sua localizaçao ja existe ambulancias\n";
 
