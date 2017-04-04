@@ -2,6 +2,9 @@
 #include "Rua.h"
 #include "Graph.h"
 
+
+using namespace std;
+
 Emergencia::Emergencia() {
 	ID_ARESTA_GERAL = 1;
 	gv = new GraphViewer(600, 600, false);
@@ -238,7 +241,10 @@ void Emergencia::readFiles() {
 }
 
 void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
-
+	if(VerificarConectividade())
+		cout<<"E conexo"<<endl;
+	else
+		cout<<"Não e conexo"<<endl;
 	No localizacao;
 	gv->setVertexIcon(noID,"ajuda.png");
 	for(unsigned int i=0; i<myGraph.getVertexSet().size(); i++)
@@ -246,7 +252,6 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 		if(myGraph.getVertexSet()[i]->getInfo().getID() == noID)
 			localizacao = myGraph.getVertexSet()[i]->getInfo();
 	}
-
 
 
 	vector< Edge<No> > pathedges;
@@ -338,6 +343,27 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag) {
 			//this->drawPath(gv,bombAssistencia,"red");
 
 
+}
+
+bool Emergencia::VerificarConectividade()
+{
+	vector< Vertex<No>* > vertexSet = myGraph.getVertexSet();
+	typename vector<Vertex<No>*>::const_iterator it = vertexSet.begin();
+	typename vector<Vertex<No>*>::const_iterator ite = vertexSet.end();
+
+	vector<No> vertexLigados;
+	No noatual;
+	for(; it!= ite; it++)
+	{
+		noatual = (*it)->getInfo();
+		vertexLigados = myGraph.bfs((*it));
+		vertexLigados.push_back(noatual);
+		std::sort(vertexLigados.begin(), vertexLigados.end());
+		if(vertexLigados[0].getID() != 1 || vertexLigados[vertexLigados.size()-1].getID() != 37 || vertexLigados.size() != 37)
+			return false;
+
+	}
+	return true;
 }
 
 void Emergencia::displayGraph() {

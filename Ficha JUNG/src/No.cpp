@@ -42,3 +42,8 @@ int No::getY() const{
 	return y;
 
 }
+
+bool No::operator<(const No &no1) const
+{
+	return this->getID() < no1.getID();
+}

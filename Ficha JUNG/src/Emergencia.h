@@ -19,8 +19,7 @@
 #include "Rua.h"
 #include <math.h>
 #include <fstream>
-
-
+#include <algorithm>
 
 class Emergencia {
 private:
@@ -51,6 +50,7 @@ public:
 	void readArestas();
 	void readRuas();
 	void getCall(int noID,int polFlag,int bombFlag,int inemFlag);
+	bool VerificarConectividade();
 	void displayGraph();
 	virtual ~Emergencia();
 	Vertex<No>* findNo(int id);

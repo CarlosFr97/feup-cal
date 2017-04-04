@@ -21,6 +21,7 @@ public:
 	virtual ~No();
 	int getID() const;
 	bool operator==(const No &no1) const;
+	bool operator<(const No &no1) const;
 	int getX() const;
 	int getY() const;
 };
