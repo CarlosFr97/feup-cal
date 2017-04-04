@@ -274,7 +274,7 @@ void tipoEmergencia(Emergencia &em)
 							cout << "Hospital? :";
 							cin >> hs;
 							Vertex<No> * n = em.getCall(noid,pol,bomb,inem);
-							if(hs != 0)
+							if(hs != 0 && inem != 0)
 							{
 								vector<Edge<No> > aux =em.moveToHospital(n);
 								em.drawPath(aux,"green");
