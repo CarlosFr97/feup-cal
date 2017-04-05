@@ -334,7 +334,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 	if(gotoHospital)
 	{
 			pathHospital = moveToHospital(myGraph.getVertex(localizacao));
-		if(pathHospital== 0)
+		if(pathHospital.size()== 0)
 			cout << "Na sua localizacao ja existe um hospital\n" <<endl;
 	}
 
