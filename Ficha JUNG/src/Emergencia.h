@@ -58,9 +58,10 @@ public:
 	void displayGraph();
 	virtual ~Emergencia();
 	Vertex<No>* findNo(int id);
-	No findINEM(Vertex<No>* localizacao, vector<No> &pathnodes);
-	No findBomb(Vertex<No>* localizacao);
-	No findPolicia(Vertex<No>* localizacao);
+	No findElement(Vertex<No>* localizacao, vector<No> &pathnodes, char elementType);
+	//No findINEM(Vertex<No>* localizacao, vector<No> &pathnodes);
+	//No findBomb(Vertex<No>* localizacao);
+	//No findPolicia(Vertex<No>* localizacao);
 	vector<Edge<No> > moveToHospital(Vertex<No>* localizacao);
 	void resetGV();
 	void drawPath(vector<Edge<No> > &edgepath,string color,string icon);
