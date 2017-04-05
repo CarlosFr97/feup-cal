@@ -419,16 +419,16 @@ void Emergencia::colorNodes() const {
 
 No Emergencia::findElement(Vertex<No>* localizacao, vector<No> &pathnodes, char elementType){
 
-	vector<Veiculo> auxvector;
+	vector<Veiculo>* auxvector;
 	switch(elementType){
 		case 'B':
-			auxvector = bombeiros;
+			auxvector = &bombeiros;
 			break;
 		case 'P':
-			auxvector = policia;
+			auxvector = &policia;
 			break;
 		case 'I':
-			auxvector = INEM;
+			auxvector = &INEM;
 			break;
 	};
 
@@ -437,14 +437,14 @@ No Emergencia::findElement(Vertex<No>* localizacao, vector<No> &pathnodes, char 
 		int distMinima = INT_MAX;
 
 		if(!(isFloydWarshall)){
-			for (unsigned int i = 0; i < auxvector.size(); i++) {
-				if (auxvector[i].getDisponibilidade()) {
-					myGraph.dijkstraShortestPath(auxvector[i].getlocalNode());
+			for (unsigned int i = 0; i < (*auxvector).size(); i++) {
+				if ((*auxvector)[i].getDisponibilidade()) {
+					myGraph.dijkstraShortestPath((*auxvector)[i].getlocalNode());
 					distAtual = localizacao->getDist();
 					if (distAtual < distMinima) {
 						distMinima = distAtual;
 						posicaofinal = i;
-						pathnodes = myGraph.getPath(auxvector[i].getlocalNode(), localizacao->getInfo());
+						pathnodes = myGraph.getPath((*auxvector)[i].getlocalNode(), localizacao->getInfo());
 					}
 				}
 			}
@@ -452,9 +452,9 @@ No Emergencia::findElement(Vertex<No>* localizacao, vector<No> &pathnodes, char 
 		}
 		else{
 
-			for (unsigned int i = 0; i < auxvector.size(); i++) {
+			for (unsigned int i = 0; i < (*auxvector).size(); i++) {
 
-				distAtual = myGraph.getfloydWarshallweight( myGraph.getVertex(auxvector[i].getlocalNode())->getVectorPos(),localizacao->getVectorPos());
+				distAtual = myGraph.getfloydWarshallweight( myGraph.getVertex((*auxvector)[i].getlocalNode())->getVectorPos(),localizacao->getVectorPos());
 				if(distAtual < distMinima)
 				{
 					distMinima = distAtual;
@@ -462,11 +462,11 @@ No Emergencia::findElement(Vertex<No>* localizacao, vector<No> &pathnodes, char 
 				}
 
 			}
-			pathnodes = myGraph.getfloydWarshallPath(auxvector[posicaofinal].getlocalNode(),localizacao->getInfo());
+			pathnodes = myGraph.getfloydWarshallPath((*auxvector)[posicaofinal].getlocalNode(),localizacao->getInfo());
 		}
 
-		auxvector[posicaofinal].setDisponibilidade(false);
-		return auxvector[posicaofinal].getlocalNode();
+		(*auxvector)[posicaofinal].setDisponibilidade(false);
+		return (*auxvector)[posicaofinal].getlocalNode();
 
 
 }
