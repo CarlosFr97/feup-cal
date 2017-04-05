@@ -477,7 +477,7 @@ void Emergencia::drawPath( vector<Edge<No> > &edgepath,string color,string icon)
 {
 
 
-	for( int i = edgepath.size()-1; i >=0;i-=1)
+	for( unsigned int i = 0; i < edgepath.size();i++)
 	{
 		gv->setVertexIcon(edgepath.at(i).getDest()->getInfo().getID(),icon);
 

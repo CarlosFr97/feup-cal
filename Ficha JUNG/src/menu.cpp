@@ -439,7 +439,7 @@ void emLevel(Emergencia &em,int typeFlag)
 					em.getCall(noid,0,0,1);
 					break;
 				}
-				Sleep(8000);
+				Sleep(2000);
 				em.resetGV();
 				running = false;
 				system("CLS");
@@ -469,7 +469,7 @@ void emLevel(Emergencia &em,int typeFlag)
 					em.drawPath(aux,"green","INEM.png");
 					break;
 				}
-				Sleep(8000);
+				Sleep(2000);
 				em.resetGV();
 				running = false;
 				system("CLS");
@@ -511,7 +511,7 @@ void emLevel(Emergencia &em,int typeFlag)
 					}
 
 				}
-				Sleep(8000);
+				Sleep(2000);
 				em.resetGV();
 				running = false;
 				system("CLS");
