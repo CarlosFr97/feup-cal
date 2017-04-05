@@ -265,56 +265,26 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 
 
 	vector< Edge<No> > pathedges;
-
+	vector<No> pathnodes;
 
 	if(inemFlag)
 	{
 		
 		No INEMAssistencia;
-		if(isFloydWarshall)
-		{
-			int distMinima=INT_MAX;
-			for(int i=0; i< INEM.size(); i++)
-			{
-				int weight = myGraph.getfloydWarshallweight( myGraph.getVertex(INEM[i].getlocalNode())->getVectorPos(),myGraph.getVertex(localizacao)->getVectorPos());
-				if(weight < distMinima)
-				{
-					distMinima = weight;
-					INEMAssistencia = INEM[i].getlocalNode();
-				}
-
-			}
-
-		}
-		else{
-			INEMAssistencia = findINEM(myGraph.getVertex(localizacao));
-		}
+		INEMAssistencia = findINEM(myGraph.getVertex(localizacao), pathnodes);
 		if(!(INEMAssistencia == localizacao))
 		{
-			vector<No> INEMPath;
-			if(!isFloydWarshall)
-				INEMPath = myGraph.getResourcesToPath(INEMAssistencia, localizacao,pathedges);
-			else
-			{
-				INEMPath = myGraph.getfloydWarshallPath(INEMAssistencia,localizacao);
-				pathedges = myGraph.getEdges(INEMPath);
-				cout << pathedges.size();
-
-			}
+			pathedges = myGraph.getEdges(pathnodes);
+			cout << pathedges.size();
 			//this->drawNodes(INEMPath,"INEM.png");
 			this->drawPath(pathedges,"green","INEM.png");
 
-			//this->drawPath(pathedges,"green");
 
 			for(unsigned int i=0; i<pathedges.size(); i++)
 			{
 				cout<<"INEM: "<<pathedges[i].getDest()->getInfo().getID();
 			}
 
-			for(int i=0; i<INEMPath.size(); i++)
-			{
-				cout<<"INEM: "<<INEMPath[i].getID()<<endl;
-			}
 		}else
 			cout << "Na sua localizaçao ja existe ambulancias\n";
 
@@ -366,7 +336,7 @@ Vertex<No> * Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag)
 
 
 }
-
+//TODO verificar conectividade
 bool Emergencia::VerificarConectividade()
 {
 	vector< Vertex<No>* > vertexSet = myGraph.getVertexSet();
@@ -374,13 +344,11 @@ bool Emergencia::VerificarConectividade()
 	typename vector<Vertex<No>*>::const_iterator ite = vertexSet.end();
 
 	vector<No> vertexLigados;
-	for(; it!= ite; it++)
-	{
-		vertexLigados = myGraph.bfs((*it));
+	vertexLigados =	myGraph.dfs();
 		if(vertexLigados.size() != 37)
 			return false;
-	}
-	return true;
+		else
+			return true;
 }
 
 void Emergencia::displayGraph() {
@@ -460,25 +428,43 @@ void Emergencia::colorNodes() const {
 
 }
 
-No Emergencia::findINEM(Vertex<No>* localizacao) {
+No Emergencia::findINEM(Vertex<No>* localizacao, vector<No> &pathnodes) {
 
 	int posicaofinal = 0;
 	int distAtual;
 	int distMinima = INT_MAX;
 
-	for (unsigned int i = 0; i < INEM.size(); i++) {
+	if(!(isFloydWarshall)){
+		for (unsigned int i = 0; i < INEM.size(); i++) {
 			if (INEM[i].getDisponibilidade()) {
 				myGraph.dijkstraShortestPath(INEM[i].getlocalNode());
 				distAtual = localizacao->getDist();
 				if (distAtual < distMinima) {
 					distMinima = distAtual;
 					posicaofinal = i;
+					pathnodes = myGraph.getPath(INEM[i].getlocalNode(), localizacao->getInfo());
 				}
 			}
 		}
-		INEM[posicaofinal].setDisponibilidade(false);
-		return INEM[posicaofinal].getlocalNode();
 
+	}
+	else{
+
+		for (unsigned int i = 0; i < INEM.size(); i++) {
+
+			distAtual = myGraph.getfloydWarshallweight( myGraph.getVertex(INEM[i].getlocalNode())->getVectorPos(),localizacao->getVectorPos());
+			if(distAtual < distMinima)
+			{
+				distMinima = distAtual;
+				posicaofinal = i;
+			}
+
+		}
+		pathnodes = myGraph.getfloydWarshallPath(INEM[posicaofinal].getlocalNode(),localizacao->getInfo());
+	}
+
+	INEM[posicaofinal].setDisponibilidade(false);
+	return INEM[posicaofinal].getlocalNode();
 }
 
 void Emergencia::drawPath( vector<Edge<No> > &edgepath,string color,string icon)
@@ -575,7 +561,7 @@ vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao)
 		}
 	}
 	vector<Edge<No> > edgestopaint;
-	myGraph.getPath(localizacao->getInfo(),nofinal,edgestopaint);
+	//myGraph.getPath(localizacao->getInfo(),nofinal,edgestopaint);
 	return edgestopaint;
 }
 

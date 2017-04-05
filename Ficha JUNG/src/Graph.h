@@ -190,7 +190,7 @@ public:
 	int getNumCycles();
 	bool isDAG();
 	vector<T> topologicalOrder();
-	vector<T> getPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint);
+	vector<T> getPath(const T &origin, const T &dest);
 	vector <T> getResourcesToPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint);
 
 	void unweightedShortestPath(const T &v);
@@ -541,9 +541,8 @@ void Graph<T>::getPathTo(Vertex<T> *dest, list<T> &res) {
 }
 
 template<class T>
-vector<T> Graph<T>::getPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint){
+vector<T> Graph<T>::getPath(const T &origin, const T &dest){
 
-	//dijkstraShortestPath(origin);
 
 	list<T> buffer;
 	Vertex<T>* v = getVertex(dest);
@@ -554,25 +553,11 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest,vector<Edge<T> > &Edg
 
 	buffer.push_front(v->info);
 	while (! (v->path->info == origin )) {
-		edges = v->path->adj;
-		for(unsigned int i=0; i<edges.size(); i++)
-		{
-			if(edges[i].dest == v)
-			{
-				EdgestoPaint.push_back(edges[i]);
-			}
-		}
+
 		v = v->path;
 		buffer.push_front(v->info);
 	}
-	edges = v->path->adj;
-			for(unsigned int i=0; i<edges.size(); i++)
-			{
-				if(edges[i].dest == v)
-				{
-					EdgestoPaint.push_back(edges[i]);
-				}
-			}
+
 	buffer.push_front(v->path->info);
 	vector<T> res;
 		while( !buffer.empty() ) {
@@ -586,7 +571,7 @@ template<class T>
 vector<T> Graph<T>::getResourcesToPath(const T &origin, const T &dest,vector<Edge<T> > &EdgestoPaint)
 {
 	dijkstraShortestPath(origin);
-	 return getPath(origin,dest,EdgestoPaint);
+	 //return getPath(origin,dest,EdgestoPaint);
 }
 
 template <class T>
