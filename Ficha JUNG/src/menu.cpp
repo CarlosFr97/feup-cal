@@ -389,8 +389,7 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
-				cout << "No local: ";
-				cin >> noid;
+				noid = chooseRua(em);
 				switch(typeFlag)
 				{
 				case 1:
@@ -417,8 +416,7 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
-				cout << "No local: ";
-				cin >> noid;
+				noid = chooseRua(em);
 				switch(typeFlag)
 				{
 				case 1:
@@ -443,8 +441,7 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
-				cout << "No local: ";
-				cin >> noid;
+				noid = chooseRua(em);
 				switch(typeFlag)
 				{
 					case 1:
@@ -485,6 +482,169 @@ void emLevel(Emergencia &em,int typeFlag)
 
 	gotoXY(20, 17);// para que a mensagem de fechar o programa "Press any key to continue..." se encontra uma linha apos o cout apresentado ao querer sair do programa
 	return;
+}
+
+int chooseRua(Emergencia &em)
+{
+	int menu_item = 0, x = 10, x2 = 10,pagina = 0;
+		bool running = true;
+		bool mini_flag = false;
+		bool ultima_pag = false;
+		bool ultima_pag_2 = false;
+		system("CLS");
+
+
+		gotoXY(18, 10); cout << "->";
+		while (running)
+		{
+			gotoXY(18, 8); cout << "Lista de ruas";
+
+			if (mini_flag == false)
+			{
+				for (int i = 10; i < 21;i++)
+				{
+					gotoXY(20, i);
+					cout << CLEAN_LINE;
+				}
+				if (ultima_pag == true)
+				{
+					for (int i = pagina; i < em.getRuas().size(); i++)
+					{
+						gotoXY(20, x2);
+						cout << em.getRuas().at(i).getNome();
+						x2++;
+					}
+				}
+				else
+				{
+					for (int i = pagina; (i <= pagina + 9); i++)
+					{
+						gotoXY(20, x2);
+						cout << em.getRuas().at(i).getNome();
+						x2++;
+					}
+				}
+
+			}
+			system("pause>nul"); // the >nul bit causes it the print no message
+
+			if (!GetAsyncKeyState(VK_DOWN) && !GetAsyncKeyState(VK_UP) && !GetAsyncKeyState(VK_RETURN) && !GetAsyncKeyState(VK_LEFT) && !GetAsyncKeyState(VK_RIGHT))
+			{
+				continue;
+			}
+
+			if (GetAsyncKeyState(VK_DOWN) && x != (x2-1)) //down button pressed
+			{
+				gotoXY(18, x); cout << "  ";
+				x++;
+				gotoXY(18, x); cout << "->";
+				menu_item++;
+				mini_flag = true;
+				continue;
+
+			}
+			else if (GetAsyncKeyState(VK_DOWN) && x == (x2-1))
+			{
+
+					gotoXY(18, x); cout << "  ";
+					x = 10;
+					gotoXY(18, x); cout << "->";
+					menu_item = pagina;
+				mini_flag = true;
+				continue;
+
+			}
+
+			else if (GetAsyncKeyState(VK_UP) && x != 10) //up button pressed
+			{
+				gotoXY(18, x); cout << "  ";
+				x--;
+				gotoXY(18, x); cout << "->";
+				menu_item--;
+				mini_flag = true;
+				ultima_pag = false;
+				continue;
+			}
+			else if (GetAsyncKeyState(VK_UP) && x == 10)
+			{
+				gotoXY(18, x); cout << "  ";
+				x = x2-1;
+				gotoXY(18, x); cout << "->";
+				mini_flag = true;
+				ultima_pag = false;
+				menu_item = pagina + 9;
+				continue;
+
+
+			}
+			else if (GetAsyncKeyState(VK_RIGHT))
+			{
+				/*if ((vc1.getMusicas().size() - pagina < 10) && (vc1.getMusicas().size() - pagina > 0))
+				{
+					ultima_pag = true;
+					menu_item = pagina;
+					mini_flag = false;
+					x2 = 10;
+
+
+				}*/
+				if (pagina < em.getRuas().size())
+				{
+					if (pagina + 20 > em.getRuas().size())
+
+					{
+						if (ultima_pag_2 == false)
+						{
+							menu_item = em.getRuas().size() - 1;
+							pagina += 10;
+							x2 = 10;
+							ultima_pag = true;
+							mini_flag = false;
+							ultima_pag_2 = true;
+						}
+						else
+						{
+							mini_flag = true;
+						}
+					}
+					else
+					{
+						menu_item += 10;
+						pagina += 10;
+						x2 = 10;
+						mini_flag = false;
+						ultima_pag = false;
+						ultima_pag_2 = false;
+					}
+
+				}
+				else
+					mini_flag = true;
+
+			}
+			else if (GetAsyncKeyState(VK_LEFT))
+			{
+
+				if (pagina >= 10)
+				{
+					pagina -= 10;
+					menu_item -= 10;
+					x2 = 10;
+					ultima_pag = false;
+					mini_flag = false;
+					ultima_pag_2 = false;
+				}
+				else
+					mini_flag = true;
+			}
+
+
+			else if (GetAsyncKeyState(VK_RETURN)) {
+				system("CLS");
+				return em.getRuas().at(menu_item).getRandNoID();
+			}
+
+		}
 }
 
 bool chooseAlgorithm()

@@ -352,7 +352,11 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 	for(int i=0; i<pathsPolicia.size(); i++)
 		this->drawPath(pathsPolicia[i],"blue","policia.png");
 	if(pathHospital.size()>0)
+	{
 		drawPath(pathHospital,"green","INEM.png");
+		cout << "desenhou path hospital";
+	}
+
 	//return this->findNo(localizacao.getID());
 
 
@@ -417,7 +421,9 @@ void Emergencia::displayGraph() {
 
 	}
 	colorNodes();
+
 	this->resetGV();
+	this->writeRuas();
 	gv->rearrange();
 
 }
@@ -546,7 +552,7 @@ vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao)
 	No nofinal;
 	Vertex<No>* aux;
 	vector<No> nodestopaint;
-		vector<Edge<No>> edgestopaint;
+		vector<Edge<No> > edgestopaint;
 	if(!isFloydWarshall){
 		myGraph.dijkstraShortestPath(localizacao->getInfo());
 	for(unsigned int i = 0; i < this->hospitais.size();i++)
@@ -628,6 +634,32 @@ void Emergencia::resetGV()
 
 
 		gv->rearrange();
+}
+
+vector<Rua> Emergencia::getRuas()
+{
+	return this->ruas;
+}
+
+void Emergencia::writeRuas()
+{
+	vector<No> path ;
+	for(unsigned int i = 0; i < ruas.size(); i++)
+	{
+		for(unsigned int a = 0; a < ruas.at(i).getNosID().size();a++)
+		{
+			No n = No(ruas.at(i).getNosID().at(a));
+			path.push_back(n);
+		}
+		vector<Edge<No> > aux = myGraph.getEdges(path);
+		path.clear();
+		for(unsigned int a = 0; a < aux.size();a++)
+		{
+			gv->setEdgeLabel(aux.at(a).getID(),ruas.at(i).getNome());
+		}
+		aux.clear();
+	}
+
 }
 
 

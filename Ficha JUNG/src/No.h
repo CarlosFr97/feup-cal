@@ -17,6 +17,7 @@ private:
     int y;
 public:
     No(){};
+    No(int id);
 	No(int id, int x, int y);
 	virtual ~No();
 	int getID() const;

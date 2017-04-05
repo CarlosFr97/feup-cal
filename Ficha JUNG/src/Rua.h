@@ -30,6 +30,7 @@ public:
 	virtual ~Rua();
 	void setNoID(int IDnos);
 	vector<int> getNosID();
+	string getNome();
 	int getRandNoID();
 };
 

@@ -16,11 +16,13 @@
 #include "Emergencia.h"
 #include <string>
 
+#define CLEAN_LINE "                                                                                 "
 using namespace std;
 
 void menu_principal(Emergencia &em);
 void tipoEmergencia(Emergencia &em);
 void emLevel(Emergencia &em,int typeFlag);
+int chooseRua(Emergencia &em);
 bool chooseAlgorithm();
 void gotoXY(int x,int y);
 

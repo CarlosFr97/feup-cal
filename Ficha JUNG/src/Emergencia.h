@@ -73,6 +73,8 @@ public:
 	void drawPath(vector<Edge<No> > &edgepath,string color,string icon);
 	void colorNodes();
 	void setFloydWarshall(bool value);
+	vector<Rua> getRuas();
+	void writeRuas();
 
 };
 

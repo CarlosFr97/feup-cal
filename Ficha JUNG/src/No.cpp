@@ -17,6 +17,11 @@ No::No(int id, int x, int y) {
 
 }
 
+No::No(int id)
+{
+	this->id = id;
+}
+
 No::~No() {
 	// TODO Auto-generated destructor stub
 }

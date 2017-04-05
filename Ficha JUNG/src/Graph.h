@@ -10,6 +10,7 @@
 #include <climits>
 #include <cstddef>
 #include <iostream>
+#include <stack>
 using namespace std;
 
 template <class T> class Edge;
@@ -178,12 +179,14 @@ public:
 	bool removeVertex(const T &in);
 	bool removeEdge(const T &sourc, const T &dest);
 	vector<T> dfs() const;
+	vector<T> posdfs(bool resetVisited);
+	vector<T> stronglyConnectedComponents();
+	Graph<T> getTranspose();
 	vector<T> bfs(Vertex<T> *v) const;
 	int maxNewChildren(Vertex<T> *v, T &inf) const;
 	vector<Vertex<T> * > getVertexSet() const;
 	int getNumVertex() const;
 
-	//Exercicio 5
 	Vertex<T>* getVertex(const T &v) const;
 	void resetIndegrees();
 	vector<Vertex<T>*> getSources() const;
@@ -195,7 +198,6 @@ public:
 
 	void unweightedShortestPath(const T &v);
 
-	//exercicio 6
 		void bellmanFordShortestPath(const T &s);
 		void dijkstraShortestPath(const T &s);
 		void floydWarshallShortestPath();
@@ -323,6 +325,59 @@ void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
 	    if ( it->dest->visited == false ){
 	    	dfs(it->dest, res);
 	    }
+}
+
+template<class T>
+vector<T> Graph<T>::posdfs(bool resetVisited)
+{
+	typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin();
+	typename vector<Vertex<T>*>::const_iterator ite= vertexSet.end();
+
+	if(resetVisited)
+	{
+		for(;it != ite ; it++)
+		{
+			(*it)->visited = false;
+		}
+	}
+
+	vector<T> res;
+	it = vertexSet.begin();
+	ite = --vertexSet.end();
+	for(; ite >= it; ite--)
+	{
+		if((*ite)->visited == false)
+		{
+			dfs(*ite,res);
+		}
+	}
+	return res;
+
+}
+template<class T>
+Graph<T> Graph<T>::getTranspose()
+{
+	Graph res = this;
+	vector<Vertex<T> *>  aux = this->vertexSet;
+	for(unsigned int i = 0; i < aux.size();i++)
+	{
+		for(unsigned int j = 0; j < aux.at(i)->adj.size(); j++)
+		{
+
+				Vertex<T> * vt = aux.at(i);
+				Edge<T> ed = vt->adj.at(j);
+				ed.dest = vt;
+		}
+	}
+}
+
+template <class T>
+vector<T> Graph<T>::stronglyConnectedComponents(){
+
+		vector<T> graphPosDFS= this->posdfs(true);
+		Graph<T> Gr = this->getTranspose();
+		vector<T> GrPosDFS = Gr.posdfs(false);
+
 }
 
 template <class T>

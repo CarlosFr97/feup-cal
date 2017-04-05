@@ -26,6 +26,10 @@ vector<int> Rua::getNosID(){
 	return IDnos;
 }
 
+string Rua::getNome()
+{
+	return this->nome;
+}
 
 int Rua::getRandNoID(){
 	srand(time(NULL));
