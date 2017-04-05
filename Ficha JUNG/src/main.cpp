@@ -10,16 +10,11 @@
 
 int main()
 {
-	//GraphViewer *gv = new GraphViewer(600, 600, false);
-	Emergencia emergencia(true);
+
+	Emergencia emergencia(chooseAlgorithm());
 	emergencia.readFiles();
 	emergencia.displayGraph();
 	menu_principal(emergencia);
-	//emergencia.getCall(20,1,1,1);
-
-
-
-	getchar();
 	return 0;
 }
 

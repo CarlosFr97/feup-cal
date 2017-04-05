@@ -20,6 +20,8 @@ using namespace std;
 
 void menu_principal(Emergencia &em);
 void tipoEmergencia(Emergencia &em);
+void emLevel(Emergencia &em,int typeFlag);
+bool chooseAlgorithm();
 void gotoXY(int x,int y);
 
 
