@@ -7,7 +7,7 @@
 
 #include "Veiculo.h"
 
-Veiculo::Veiculo(No local) : disponivel(true){
+Veiculo::Veiculo(No local) : disponivel(0){
 	this->local=local;
 
 }
@@ -21,13 +21,22 @@ No Veiculo::getlocalNode() const
 	return this->local;
 }
 
+void Veiculo::setlocalNode(No novoLocal){
+	this->local = novoLocal;
+}
 
-bool Veiculo::getDisponibilidade() const
+
+unsigned int Veiculo::getDisponibilidade() const
 {
 	return disponivel;
 }
 
-void Veiculo::setDisponibilidade(bool value)
+void Veiculo::setDisponibilidade(unsigned int value)
 {
 	this->disponivel = value;
+}
+
+void Veiculo::decDisponibilidade(){
+	if(disponivel > 0)
+		disponivel--;
 }

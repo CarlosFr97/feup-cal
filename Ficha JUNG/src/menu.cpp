@@ -252,42 +252,6 @@ void tipoEmergencia(Emergencia &em)
 				gotoXY(20, 16);//para que o proximo cout nao sobreponha o menu
 				cout << "A chamar:     ";
 				emLevel(em,1);
-				/*gotoXY(20,17);
-				cout << "No local: ";
-				cin >> noid;
-				gotoXY(20,17);
-				cout << "Bombeiros?: ";
-				cin >> bomb;
-				gotoXY(20,17);
-				cout << "                           ";
-				gotoXY(20,17);
-				cout << "Policia?: ";
-				cin >> pol;
-				gotoXY(20,17);
-				cout << "                           ";
-				gotoXY(20,17);
-				cout << "Inem?: ";
-				cin >> inem;
-
-				Vertex<No> * n = em.getCall(noid,pol,bomb,inem);
-				if(inem != 0)
-				{
-					gotoXY(20,17);
-					cout << "                           ";
-					gotoXY(20,17);
-					cout << "Hospital? :";
-					cin >> hs;
-					if(hs != 0)
-					{
-						vector<Edge<No> > aux =em.moveToHospital(n);
-						em.drawPath(aux,"green","INEM.png");
-					}
-
-
-				}
-				Sleep(10000);
-				em.resetGV();
-*/
 				running = false;
 
 				system("CLS");
@@ -430,13 +394,13 @@ void emLevel(Emergencia &em,int typeFlag)
 				switch(typeFlag)
 				{
 				case 1:
-					em.getCall(noid,0,1,0);
+					em.getCall(noid,0,1,0, false);
 					break;
 				case 2:
-					em.getCall(noid,1,0,0);
+					em.getCall(noid,1,0,0, false);
 					break;
 				case 3:
-					em.getCall(noid,0,0,1);
+					em.getCall(noid,0,0,1, false);
 					break;
 				}
 				Sleep(2000);
@@ -458,15 +422,13 @@ void emLevel(Emergencia &em,int typeFlag)
 				switch(typeFlag)
 				{
 				case 1:
-					em.getCall(noid,1,1,0);
+					em.getCall(noid,1,1,0, false);
 					break;
 				case 2:
-					em.getCall(noid,1,0,1);
+					em.getCall(noid,1,0,1, false);
 					break;
 				case 3:
-					Vertex<No> * n = em.getCall(noid,1,0,1);
-					vector<Edge<No> > aux = em.moveToHospital(n);
-					em.drawPath(aux,"green","INEM.png");
+					em.getCall(noid,1,0,1, true);
 					break;
 				}
 				Sleep(2000);
@@ -487,26 +449,20 @@ void emLevel(Emergencia &em,int typeFlag)
 				{
 					case 1:
 					{
-					Vertex<No> * vt = em.getCall(noid,1,2,1);
-					vector<Edge<No> > aux = em.moveToHospital(vt);
-					em.drawPath(aux,"green","INEM.png");
+					em.getCall(noid,1,2,1,true);
 					break;
 					}
 
 
 					case 2:
 					{
-						Vertex<No> * vt = em.getCall(noid,2,1,1);
-						vector<Edge<No> > aux = em.moveToHospital(vt);
-						em.drawPath(aux,"green","INEM.png");
+					em.getCall(noid,2,1,1, true);
 						break;
 					}
 
 					case 3:
 					{
-						Vertex<No> * vt = em.getCall(noid,1,1,2);
-						vector<Edge<No> > aux = em.moveToHospital(vt);
-						em.drawPath(aux,"green","INEM.png");
+					em.getCall(noid,1,1,2, true);
 						break;
 					}
 

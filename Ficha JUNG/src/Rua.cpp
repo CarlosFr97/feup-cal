@@ -25,3 +25,10 @@ Rua::~Rua() {
 vector<int> Rua::getNosID(){
 	return IDnos;
 }
+
+
+int Rua::getRandNoID(){
+	srand(time(NULL));
+
+	return IDnos[rand()%IDnos.size()];
+}

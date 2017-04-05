@@ -805,7 +805,6 @@ vector< Edge<T> > Graph<T>::getEdges(vector<T> nodes){
 		vector< Edge<T> > adjs = getVertex(nodes[i])->adj;
 
 		for(int j=0; j<adjs.size(); j++){
-			cout << adjs[j].dest->info.getID() << endl;
 			if(adjs[j].dest->info == nodes[i+1]){
 
 				edges.push_back(adjs[j]);

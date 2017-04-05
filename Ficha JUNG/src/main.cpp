@@ -14,6 +14,7 @@ int main()
 	Emergencia emergencia(chooseAlgorithm());
 	emergencia.readFiles();
 	emergencia.displayGraph();
+
 	menu_principal(emergencia);
 	return 0;
 }

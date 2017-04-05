@@ -19,7 +19,7 @@ using namespace std;
 
 class Veiculo {
 private:
-	bool disponivel;
+	unsigned int disponivel;
 	No local;
 
 public:
@@ -27,8 +27,10 @@ public:
 	Veiculo(No local);
 	virtual ~Veiculo();
 	No getlocalNode() const;
-	bool getDisponibilidade() const;
-	void setDisponibilidade(bool value);
+	void setlocalNode(No novoLocal);
+	unsigned int getDisponibilidade() const;
+	void setDisponibilidade(unsigned int value);
+	void decDisponibilidade();
 
 
 };

@@ -14,6 +14,7 @@
 #include "Veiculo.h"
 #include "No.h"
 #include <sstream>
+#include <stdio.h>
 #include <iostream>
 #include "graphviewer.h"
 #include "Graph.h"
@@ -24,7 +25,9 @@
 #include "utils.h"
 
 
+
 class Emergencia {
+
 private:
 	vector<Veiculo> INEM;
 	vector<Veiculo> bombeiros;
@@ -35,6 +38,9 @@ private:
 	GraphViewer *gv;
 	bool isFloydWarshall;
 	int ID_ARESTA_GERAL;
+	int tempoinicial;
+	int tempofinal;
+	short tempointermedio;
 	/*tipos emergencia:
 	 *
 	 * 1 - assalto/acidente rodoviario simples/desentendimentos ou similares - Veiculos: Carro Policia
@@ -53,7 +59,7 @@ public:
 	void readNos();
 	void readArestas();
 	void readRuas();
-	Vertex<No> * getCall(int noID,int polFlag,int bombFlag,int inemFlag);
+	void getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool gotoHospital);
 	bool VerificarConectividade();
 	void displayGraph();
 	virtual ~Emergencia();
@@ -65,10 +71,8 @@ public:
 	vector<Edge<No> > moveToHospital(Vertex<No>* localizacao);
 	void resetGV();
 	void drawPath(vector<Edge<No> > &edgepath,string color,string icon);
-	void drawNodes(vector<No> no,string color);
-	void colorNodes() const;
+	void colorNodes();
 	void setFloydWarshall(bool value);
-	bool IsfloydWarshall();
 
 };
 

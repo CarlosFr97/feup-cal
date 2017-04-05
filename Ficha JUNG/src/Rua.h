@@ -10,7 +10,8 @@
 
 #include <string>
 #include <vector>
-
+#include <cstdlib>
+#include <time.h>
 using namespace std;
 
 
@@ -29,6 +30,7 @@ public:
 	virtual ~Rua();
 	void setNoID(int IDnos);
 	vector<int> getNosID();
+	int getRandNoID();
 };
 
 #endif /* SRC_RUA_H_ */
