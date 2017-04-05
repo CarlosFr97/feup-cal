@@ -180,7 +180,7 @@ public:
 	bool removeEdge(const T &sourc, const T &dest);
 	vector<T> dfs() const;
 	vector<T> posdfs(bool resetVisited);
-	vector<T> stronglyConnectedComponents();
+	bool stronglyConnectedComponents();
 	Graph<T> getTranspose();
 	vector<T> bfs(Vertex<T> *v) const;
 	int maxNewChildren(Vertex<T> *v, T &inf) const;
@@ -372,11 +372,14 @@ Graph<T> Graph<T>::getTranspose()
 }
 
 template <class T>
-vector<T> Graph<T>::stronglyConnectedComponents(){
+bool Graph<T>::stronglyConnectedComponents(){
 
 		vector<T> graphPosDFS= this->posdfs(true);
 		Graph<T> Gr = this->getTranspose();
-		vector<T> GrPosDFS = Gr.posdfs(false);
+		vector<T> GrPosDFS = Gr.posdfs(true);
+		if(graphPosDFS.size() == GrPosDFS.size())
+			return true;
+		else return false;
 
 }
 
