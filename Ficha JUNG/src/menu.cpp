@@ -381,6 +381,7 @@ void emLevel(Emergencia &em,int typeFlag)
 					break;
 				}
 				Sleep(2000);
+				getchar();
 				em.resetGV();
 				running = false;
 				system("CLS");
@@ -410,6 +411,7 @@ void emLevel(Emergencia &em,int typeFlag)
 					break;
 				}
 				Sleep(2000);
+				getchar();
 				em.resetGV();
 				running = false;
 				system("CLS");
@@ -447,6 +449,7 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				}
 				Sleep(2000);
+				getchar();
 				em.resetGV();
 				running = false;
 				system("CLS");
@@ -468,7 +471,7 @@ void emLevel(Emergencia &em,int typeFlag)
 
 int chooseRua(Emergencia &em)
 {
-	int menu_item = 0, x = 10, x2 = 10,pagina = 0;
+	unsigned int menu_item = 0, x = 10, x2 = 10,pagina = 0;
 		bool running = true;
 		bool mini_flag = false;
 		bool ultima_pag = false;
@@ -490,7 +493,7 @@ int chooseRua(Emergencia &em)
 				}
 				if (ultima_pag == true)
 				{
-					for (int i = pagina; i < em.getRuas().size(); i++)
+					for (unsigned int i = pagina; i < em.getRuas().size(); i++)
 					{
 						gotoXY(20, x2);
 						cout << em.getRuas().at(i).getNome();
@@ -499,7 +502,7 @@ int chooseRua(Emergencia &em)
 				}
 				else
 				{
-					for (int i = pagina; (i <= pagina + 9); i++)
+					for (unsigned int i = pagina; (i <= pagina + 9); i++)
 					{
 						gotoXY(20, x2);
 						cout << em.getRuas().at(i).getNome();
@@ -569,8 +572,9 @@ int chooseRua(Emergencia &em)
 					{
 						if (ultima_pag_2 == false)
 						{
-							menu_item = em.getRuas().size() - 1;
+							menu_item +=10;//(em.getRuas().size() - pagina) + (pagina+10) - em.getRuas().size();
 							pagina += 10;
+							x = 0;
 							x2 = 10;
 							ultima_pag = true;
 							mini_flag = false;
@@ -615,10 +619,16 @@ int chooseRua(Emergencia &em)
 
 			else if (GetAsyncKeyState(VK_RETURN)) {
 				system("CLS");
+				//cout << "Ruas size: " << em.getRuas().size();
+				//cout << endl << "menu_item: " << menu_item <<endl;
+				///getchar();
+				cout << em.getRuas().at(menu_item).getNome() << endl;
+				getchar();
 				return em.getRuas().at(menu_item).getRandNoID();
 			}
 
 		}
+	return 0;
 }
 
 bool chooseAlgorithm()

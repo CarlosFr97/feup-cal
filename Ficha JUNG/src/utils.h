@@ -12,7 +12,13 @@
 #include <time.h>
 #include <sys/timeb.h>
 
+/**
+ *
+ */
 int GetMilliCount();
+/**
+ *
+ */
 int GetMilliSpan(int nTimeStart);
 
 #endif /* SRC_UTILS_H_ */

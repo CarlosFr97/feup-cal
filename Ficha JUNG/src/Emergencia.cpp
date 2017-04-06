@@ -262,7 +262,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 	tempoinicial = GetMilliCount();
 
 	No localizacao;
-	gv->setVertexIcon(noID,"ajuda.png");
+	gv->setVertexIcon(noID,"ajuda1.png");
 	for(unsigned int i=0; i<myGraph.getVertexSet().size(); i++)
 	{
 		if(myGraph.getVertexSet()[i]->getInfo().getID() == noID)
@@ -384,7 +384,7 @@ void Emergencia::displayGraph() {
 
 	gv->defineEdgeColor("black");
 	gv->defineVertexIcon("normal.png");
-	gv->defineEdgeCurved(true);
+	gv->defineEdgeCurved(false);
 
 	vector<Vertex<No>*> vertexSet = myGraph.getVertexSet();
 

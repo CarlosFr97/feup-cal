@@ -41,17 +41,7 @@ private:
 	int tempoinicial;
 	int tempofinal;
 	short tempointermedio;
-	/*tipos emergencia:
-	 *
-	 * 1 - assalto/acidente rodoviario simples/desentendimentos ou similares - Veiculos: Carro Policia
-	 * 2 - Veiculos: Carro Policia + INEM
-	 * 3 - Veiculos: Carro Bombeiros
-	 * 4 - Veiculos: INEM simples
-	 * 5 - Veiculos: INEM hospital
-	 * 6 - Veiculos: Carro Policia + INEM + Carro Bombeiros
-	 *
-	 *
-	 */
+
 
 public:
 	Emergencia(bool FloydWarshall);
@@ -60,20 +50,39 @@ public:
 	void readArestas();
 	void readRuas();
 	void getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool gotoHospital);
+	/**
+	 * Verifica se o Grafo que representa o mapa do programa, e conexo
+	 * @return true se for conexo,caso contrario retorna false
+	 */
 	bool VerificarConectividade();
+	/**
+	 * Cria a partir do Grafo myGraph uma representacao visual do mesmo atraves do GraphViewer
+	 */
 	void displayGraph();
+	/**
+	 * Destrutor de Emergencia
+	 */
 	virtual ~Emergencia();
 	Vertex<No>* findNo(int id);
 	No findElement(Vertex<No>* localizacao, vector<No> &pathnodes, char elementType);
-	//No findINEM(Vertex<No>* localizacao, vector<No> &pathnodes);
-	//No findBomb(Vertex<No>* localizacao);
-	//No findPolicia(Vertex<No>* localizacao);
+
 	vector<Edge<No> > moveToHospital(Vertex<No>* localizacao);
+	/**
+	 * Apos ser demonstrado  percurso no GraphViewer feito por um veiculo e preciso atualizar o estado dos Nos do mesmo e voltar a meter as arestas
+	 * como se encontravam originalmente
+	 */
 	void resetGV();
 	void drawPath(vector<Edge<No> > &edgepath,string color,string icon);
+	/**
+	 * Pinta cada No do grafo do graphViewer com o respetivo icone que representa cada local de forma
+	 * percetivel
+	 */
 	void colorNodes();
 	void setFloydWarshall(bool value);
 	vector<Rua> getRuas();
+	/**
+	 * Desenha em cada aresta do grafo representado no graphviewer o nome da rua a que pertence
+	 */
 	void writeRuas();
 
 };
