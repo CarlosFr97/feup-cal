@@ -574,7 +574,7 @@ int chooseRua(Emergencia &em)
 						{
 							menu_item +=10;//(em.getRuas().size() - pagina) + (pagina+10) - em.getRuas().size();
 							pagina += 10;
-							x = 0;
+
 							x2 = 10;
 							ultima_pag = true;
 							mini_flag = false;

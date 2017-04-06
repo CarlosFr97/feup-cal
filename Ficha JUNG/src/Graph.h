@@ -375,9 +375,9 @@ Graph<T> Graph<T>::getTranspose()
 template <class T>
 bool Graph<T>::stronglyConnectedComponents(){
 
-		vector<T> graphPosDFS= this->dfs();
+		vector<T> graphPosDFS= this->posdfs(true);
 		Graph<T> Gr = this->getTranspose();
-		vector<T> GrPosDFS = Gr.dfs();
+		vector<T> GrPosDFS = Gr.posdfs(true);
 		if(graphPosDFS.size() == GrPosDFS.size())
 			return true;
 		else return false;
