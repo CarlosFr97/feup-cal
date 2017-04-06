@@ -247,17 +247,17 @@ void Emergencia::readFiles() {
 		tempoinicial = GetMilliCount();
 		myGraph.floydWarshallShortestPath();
 		tempointermedio = GetMilliSpan(tempoinicial);
-		getchar();
 	}
-
+	cout<<"tempo intermedio: "<<tempointermedio<<endl;
+	getchar();
 }
 
 void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool gotoHospital) {
 	
-	/*if(VerificarConectividade())
+	if(myGraph.stronglyConnectedComponents())
 		cout<<"E conexo"<<endl;
 	else
-		cout<<"Não e conexo"<<endl;*/
+		cout<<"Não e conexo"<<endl;
 
 	tempoinicial = GetMilliCount();
 
@@ -341,7 +341,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 
 
 
-	tempofinal = GetMilliSpan(tempoinicial);
+	tempofinal = GetMilliSpan(tempoinicial) + tempointermedio;
 	//cout<<endl<<"Tempo Intermedio: "<<tempointermedio<<endl;
 	cout<<endl<<"Tempo Final: "<<tempofinal<<endl;
 	for(int i=0; i<pathsINEM.size(); i++)

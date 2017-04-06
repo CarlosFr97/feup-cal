@@ -357,8 +357,8 @@ vector<T> Graph<T>::posdfs(bool resetVisited)
 template<class T>
 Graph<T> Graph<T>::getTranspose()
 {
-	Graph res = this;
-	vector<Vertex<T> *>  aux = this->vertexSet;
+	Graph res = *this;
+	vector<Vertex<T> *>  aux = res.vertexSet;
 	for(unsigned int i = 0; i < aux.size();i++)
 	{
 		for(unsigned int j = 0; j < aux.at(i)->adj.size(); j++)
@@ -369,14 +369,15 @@ Graph<T> Graph<T>::getTranspose()
 				ed.dest = vt;
 		}
 	}
+	return res;
 }
 
 template <class T>
 bool Graph<T>::stronglyConnectedComponents(){
 
-		vector<T> graphPosDFS= this->posdfs(true);
+		vector<T> graphPosDFS= this->dfs();
 		Graph<T> Gr = this->getTranspose();
-		vector<T> GrPosDFS = Gr.posdfs(true);
+		vector<T> GrPosDFS = Gr.dfs();
 		if(graphPosDFS.size() == GrPosDFS.size())
 			return true;
 		else return false;

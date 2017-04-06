@@ -98,30 +98,6 @@ void menu_principal(Emergencia &em)
 
 			case 0: {
 
-				/*int noid,bomb,pol,inem;
-
-						gotoXY(20, 16);//para que o proximo cout nao sobreponha o menu
-						cout << "A chamar:     ";
-						gotoXY(20,17);
-						cout << "No local: ";
-						cin >> noid;
-						gotoXY(20,17);
-						cout << "Bombeiros?: ";
-						cin >> bomb;
-						gotoXY(20,17);
-						cout << "                           ";
-						gotoXY(20,17);
-						cout << "Policia?: ";
-						cin >> pol;
-						gotoXY(20,17);
-						cout << "                           ";
-						gotoXY(20,17);
-						cout << "Inem?: ";
-						cin >> inem;
-
-						em.getCall(noid,pol,bomb,inem);
-						Sleep(5000);
-						em.resetGV();*/
 				tipoEmergencia(em);
 
 				break;
@@ -389,6 +365,8 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
+				/*cout<<"No: ";
+				cin >>noid;*/
 				noid = chooseRua(em);
 				switch(typeFlag)
 				{
@@ -416,6 +394,8 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
+				/*cout<<"No: ";
+								cin >>noid;*/
 				noid = chooseRua(em);
 				switch(typeFlag)
 				{
@@ -441,6 +421,8 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
+				/*cout<<"No: ";
+								cin >>noid;*/
 				noid = chooseRua(em);
 				switch(typeFlag)
 				{
@@ -579,15 +561,7 @@ int chooseRua(Emergencia &em)
 			}
 			else if (GetAsyncKeyState(VK_RIGHT))
 			{
-				/*if ((vc1.getMusicas().size() - pagina < 10) && (vc1.getMusicas().size() - pagina > 0))
-				{
-					ultima_pag = true;
-					menu_item = pagina;
-					mini_flag = false;
-					x2 = 10;
 
-
-				}*/
 				if (pagina < em.getRuas().size())
 				{
 					if (pagina + 20 > em.getRuas().size())
