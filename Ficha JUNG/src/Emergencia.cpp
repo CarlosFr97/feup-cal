@@ -45,7 +45,7 @@ void Emergencia::readFiles() {
 	inFile.open("nos.txt");
 
 	if (!inFile) {
-		cerr << "Unable to open file datafile.txt";
+		cerr << "Unable to open file nos.txt";
 		exit(1);   // call system to stop
 	}
 
@@ -65,7 +65,7 @@ void Emergencia::readFiles() {
 	inFile.open("hospitais.txt");
 
 	if (!inFile) {
-		cerr << "Unable to open file datafile.txt";
+		cerr << "Unable to open file hospitais.txt";
 		exit(1);   // call system to stop
 	}
 
@@ -88,7 +88,7 @@ void Emergencia::readFiles() {
 	inFile.open("INEM.txt");
 
 	if (!inFile) {
-		cerr << "Unable to open file datafile.txt";
+		cerr << "Unable to open file INEM.txt";
 		exit(1);   // call system to stop
 	}
 
@@ -112,7 +112,7 @@ void Emergencia::readFiles() {
 	inFile.open("bombeiros.txt");
 
 	if (!inFile) {
-		cerr << "Unable to open file datafile.txt";
+		cerr << "Unable to open file bombeiros.txt";
 		exit(1);   // call system to stop
 	}
 
@@ -136,7 +136,7 @@ void Emergencia::readFiles() {
 	inFile.open("policia.txt");
 
 	if (!inFile) {
-		cerr << "Unable to open file datafile.txt";
+		cerr << "Unable to open file policia.txt";
 		exit(1);   // call system to stop
 	}
 
@@ -164,7 +164,7 @@ void Emergencia::readFiles() {
 	inFile.open("arestas.txt");
 
 	if (!inFile) {
-		cerr << "Unable to open file datafile.txt";
+		cerr << "Unable to open file arestas.txt";
 		exit(1);   // call system to stop
 	}
 
@@ -199,7 +199,7 @@ void Emergencia::readFiles() {
 	inFile.open("ruas.txt");
 
 	if (!inFile) {
-		cerr << "Unable to open file datafile.txt";
+		cerr << "Unable to open file ruas.txt";
 		exit(1);   // call system to stop
 	}
 
@@ -248,16 +248,16 @@ void Emergencia::readFiles() {
 		myGraph.floydWarshallShortestPath();
 		tempointermedio = GetMilliSpan(tempoinicial);
 	}
-	cout<<"tempo intermedio: "<<tempointermedio<<endl;
-	getchar();
+
 }
 
 void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool gotoHospital) {
 	
-	if(myGraph.stronglyConnectedComponents())
-		cout<<"E conexo"<<endl;
-	else
-		cout<<"Não e conexo"<<endl;
+	if(!myGraph.stronglyConnectedComponents())
+	{
+		cout << "Nao e possivel calcular a sua chamada por invalidade do mapa" << endl;
+		return;
+	}
 
 	tempoinicial = GetMilliCount();
 
@@ -286,7 +286,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 		{
 
 			cout<<"A ambulancia do INEM seguira o seguinte caminho: ";
-			for(int i=0; i<pathnodes.size(); i++)
+			for(unsigned int i=0; i<pathnodes.size(); i++)
 				cout<<pathnodes[i].getID()<<" ";
 			cout<<endl;
 			pathedgesINEM = myGraph.getEdges(pathnodes);
@@ -304,7 +304,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 		if(pathnodes.size()>0)
 		{
 			cout<<"O camiao dos bombeiros seguira o seguinte caminho: ";
-			for(int i=0; i<pathnodes.size(); i++)
+			for(unsigned int i=0; i<pathnodes.size(); i++)
 				cout<<pathnodes[i].getID()<<" ";
 			cout<<endl;
 			pathedgesBombeiros = myGraph.getEdges(pathnodes);
@@ -322,7 +322,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 		if(pathnodes.size()>0)
 		{
 			cout<<"O carro da policia seguira o seguinte caminho: ";
-			for(int i=0; i<pathnodes.size(); i++)
+			for(unsigned int i=0; i<pathnodes.size(); i++)
 				cout<<pathnodes[i].getID()<<" ";
 			cout<<endl;
 			 pathedgesPolicia=myGraph.getEdges(pathnodes);
@@ -343,19 +343,18 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 
 	tempofinal = GetMilliSpan(tempoinicial) + tempointermedio;
 	cout<<endl<<"Tempo Final: "<<tempofinal<<endl;
-	for(int i=0; i<pathsINEM.size(); i++)
+	for(unsigned int i=0; i<pathsINEM.size(); i++)
 		this->drawPath(pathsINEM[i],"green","INEM.png");
-	for(int i=0; i<pathsBombeiros.size(); i++)
+	for(unsigned int i=0; i<pathsBombeiros.size(); i++)
 		this->drawPath(pathsBombeiros[i],"red","bombeiro.png");
-	for(int i=0; i<pathsPolicia.size(); i++)
+	for(unsigned int i=0; i<pathsPolicia.size(); i++)
 		this->drawPath(pathsPolicia[i],"blue","policia.png");
 	if(pathHospital.size()>0)
 	{
 		drawPath(pathHospital,"green","INEM.png");
-		cout << "desenhou path hospital";
 	}
 
-	//return this->findNo(localizacao.getID());
+
 
 
 }
@@ -363,8 +362,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 
 void Emergencia::displayGraph() {
 
-	//TODO delete
-	cout << "display" << endl;
+
 
 	gv->createWindow(600, 600);
 
@@ -551,10 +549,14 @@ vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao)
 	}
 		if(distmin != 0){
 			cout<<"Posteriormente a ambulancia seguira o seguinte caminho em direcao ao hospital: ";
-			for(int i=0; i<nodestopaint.size(); i++)
+			nodestopaint = myGraph.getPath(localizacao->getInfo(),nofinal);
+			for(unsigned int i=0; i<nodestopaint.size(); i++)
 				cout<<nodestopaint[i].getID()<<" ";
 			cout<<endl;
-			nodestopaint = myGraph.getPath(localizacao->getInfo(),nofinal);
+
+		}else
+		{
+			cout << "Na sua localizacao ja existe um hospital\n";
 		}
 	}
 	else{
@@ -572,10 +574,14 @@ vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao)
 		if(distmin != 0)
 		{
 			cout<<"Posteriormente a ambulancia seguira o seguinte caminho em direcao ao hospital: ";
-			for(int i=0; i<nodestopaint.size(); i++)
+			nodestopaint = myGraph.getfloydWarshallPath(localizacao->getInfo(), nofinal);
+			for(unsigned int i=0; i<nodestopaint.size(); i++)
 				cout<<nodestopaint[i].getID()<<" ";
 			cout<<endl;
-			nodestopaint = myGraph.getfloydWarshallPath(localizacao->getInfo(), nofinal);
+
+		}else
+		{
+			cout << "Na sua localizacao ja existe um hospital\n";
 		}
 
 	}
@@ -587,7 +593,6 @@ vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao)
 void Emergencia::resetGV()
 {
 
-	//gv->defineVertexIcon("INEM.png");
 
 	vector<Vertex<No>*> vertexSet = myGraph.getVertexSet();
 	typename vector<Vertex<No>*>::const_iterator it = vertexSet.begin();
@@ -603,9 +608,6 @@ void Emergencia::resetGV()
 			for (; itEdges != iteEdges; itEdges++) {
 				gv->setEdgeColor(itEdges->getID(),"black");
 				gv->setEdgeThickness(itEdges->getID(),1);
-			//	stringstream ss;
-				//ss << itEdges->getWeight();
-				//gv->setEdgeLabel(itEdges->getID(),ss.str());
 			}
 
 		}
@@ -645,6 +647,10 @@ void Emergencia::writeRuas()
 		aux.clear();
 	}
 
+}
+
+bool Emergencia::verificarConetividade(){
+	return myGraph.stronglyConnectedComponents();
 }
 
 

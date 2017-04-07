@@ -7,6 +7,8 @@
 
 #include "menu.h"
 
+using namespace std;
+
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); // Retrieves a handle for the standard input, standard output, or standard error device
 COORD CursorPosition; // Defines the coordinates of a character cell in a console screen buffer used in gotoXY
 
@@ -29,7 +31,8 @@ void menu_principal(Emergencia &em)
 	{
 		gotoXY(18, 8); cout << "Central de Atendimento de Urgencias:";
 		gotoXY(20, 10);  cout << "1) Realizar chamada";
-		gotoXY(20, 11);  cout << "2) Sair";
+		gotoXY(20,11); cout << "2) Verificar conetividade do grafo";
+		gotoXY(20, 12);  cout << "3) Sair";
 
 		system("pause>nul"); // the >nul bit causes it to print no message
 
@@ -38,7 +41,7 @@ void menu_principal(Emergencia &em)
 			continue;
 		}
 
-		if (GetAsyncKeyState(VK_DOWN) && x != 11) //down button pressed and
+		if (GetAsyncKeyState(VK_DOWN) && x != 12) //down button pressed and
 		{
 			gotoXY(18, x); cout << "  ";//limpa seta
 			x++;
@@ -47,7 +50,7 @@ void menu_principal(Emergencia &em)
 			continue;
 
 		}
-		else if (GetAsyncKeyState(VK_DOWN) && x == 11) // se precionar para baixo na ultima linha do menu, volta a primeira linha do mesmo
+		else if (GetAsyncKeyState(VK_DOWN) && x == 12) // se precionar para baixo na ultima linha do menu, volta a primeira linha do mesmo
 		{
 			gotoXY(18, x); cout << "  ";//"limpa" a seta
 			x = 10;//posicao em x da pos inicial
@@ -68,9 +71,9 @@ void menu_principal(Emergencia &em)
 		else if (GetAsyncKeyState(VK_UP) && x == 10)//se precionar para cima na primeira linha do menu a seta passa a apontar para a ultima linha do mesmo
 		{
 			gotoXY(18, x); cout << "  ";
-			x = 11;//pos em x da pos final do menu (defenido nos couts)
+			x = 12;//pos em x da pos final do menu (defenido nos couts)
 			gotoXY(18, x); cout << "->";//mete seta nessa posicao
-			menu_item = 1; // menu_item correspondente a ultima linha do menu
+			menu_item = 2; // menu_item correspondente a ultima linha do menu
 			continue;
 
 
@@ -91,6 +94,14 @@ void menu_principal(Emergencia &em)
 			menu_item = 1;
 			continue;
 		}
+		else if (GetAsyncKeyState(0x33))
+				{
+					gotoXY(18, x); cout << "  ";
+					x = 12;
+					gotoXY(18, x); cout << "->";
+					menu_item = 2;
+					continue;
+				}
 		else if (GetAsyncKeyState(VK_RETURN)) { // Enter key pressed
 			//dependendo da posicao da seta no menu, ao carregar enter vera o valor do menu_item correspondente a essa linha e executa a opcao escolhida
 
@@ -103,9 +114,25 @@ void menu_principal(Emergencia &em)
 				break;
 			}
 
+			case 1:{
+				if(em.verificarConetividade())
+				{
+					gotoXY(20,16);
+					cout << "O grafo e conexo";
 
-			case 1: {
-				gotoXY(20, 16);//para que o proximo cout nao sobreponha o menu
+				}else
+				{
+					gotoXY(20,16);
+					cout << "O grafo nao e conexo";
+				}
+				getchar();
+				system("CLS");
+				break;
+			}
+
+
+			case 2: {
+				gotoXY(20, 17);//para que o proximo cout nao sobreponha o menu
 				cout << "A sair da linha de atendimento!";
 				Sleep(3);
 				running = false;//de forma a sair do while
@@ -223,13 +250,9 @@ void tipoEmergencia(Emergencia &em)
 
 			case 0: {
 
-				//int noid,bomb,pol,inem,hs;
 
-				gotoXY(20, 16);//para que o proximo cout nao sobreponha o menu
-				cout << "A chamar:     ";
 				emLevel(em,1);
 				running = false;
-
 				system("CLS");
 				break;
 			}
@@ -237,17 +260,13 @@ void tipoEmergencia(Emergencia &em)
 
 			case 1: {
 
-				gotoXY(20, 16);//para que o proximo cout nao sobreponha o menu
-								cout << "A chamar:     ";
-								emLevel(em,2);
-								running = false;
-								system("CLS");
+				emLevel(em,2);
+				running = false;
+				system("CLS");
 				break;
 			}
 
 			case 2: {
-				gotoXY(20, 16);//para que o proximo cout nao sobreponha o menu
-				cout << "A chamar:     ";
 				emLevel(em,3);
 				running = false;
 				system("CLS");
@@ -365,8 +384,6 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
-				/*cout<<"No: ";
-				cin >>noid;*/
 				noid = tipoLocalizacao(em);
 				switch(typeFlag)
 				{
@@ -395,8 +412,6 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
-				/*cout<<"No: ";
-								cin >>noid;*/
 				noid = tipoLocalizacao(em);
 				switch(typeFlag)
 				{
@@ -423,8 +438,6 @@ void emLevel(Emergencia &em,int typeFlag)
 
 				int noid;
 				gotoXY(20,17);
-				/*cout<<"No: ";
-								cin >>noid;*/
 				noid = tipoLocalizacao(em);
 				switch(typeFlag)
 				{

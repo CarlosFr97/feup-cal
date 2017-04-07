@@ -16,8 +16,8 @@
 #include "Emergencia.h"
 #include <string>
 
-#define CLEAN_LINE "                                                                                 "
-using namespace std;
+#define CLEAN_LINE "                                                                                 ";
+
 
 /**
  * Funcao que representa o menu principal do programa em que deteta o uso de teclas do teclado de forma a escolher
