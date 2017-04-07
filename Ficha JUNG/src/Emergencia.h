@@ -44,17 +44,18 @@ private:
 
 
 public:
-	Emergencia(bool FloydWarshall);
-	void readFiles();
-	void readNos();
-	void readArestas();
-	void readRuas();
-	void getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool gotoHospital);
 	/**
-	 * Verifica se o Grafo que representa o mapa do programa, e conexo
-	 * @return true se for conexo,caso contrario retorna false
+	 *
 	 */
-	bool VerificarConectividade();
+	Emergencia(bool FloydWarshall);
+	/**
+	 *
+	 */
+	void readFiles();
+	/**
+	 *
+	 */
+	void getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool gotoHospital);
 	/**
 	 * Cria a partir do Grafo myGraph uma representacao visual do mesmo atraves do GraphViewer
 	 */
@@ -72,13 +73,27 @@ public:
 	 * como se encontravam originalmente
 	 */
 	void resetGV();
+	/**
+	 * Pinta as arestas contidas no vetor edgepath com a cor "color" e preenche os respetivos vértices de destino com o icone "icon", dando reset ao vértice de origem.
+	 * @param edgepath Vetor que contém as arestas a serem modificadas
+	 * @param color com com a qual devem ser pintadas as arestas
+	 * @param icon icon que ficará no vértice de destino das arestas pintadas
+	 */
 	void drawPath(vector<Edge<No> > &edgepath,string color,string icon);
 	/**
 	 * Pinta cada No do grafo do graphViewer com o respetivo icone que representa cada local de forma
 	 * percetivel
 	 */
 	void colorNodes();
+	/**
+	 * Atribui o valor a variavel FloydWarshall para que durante o processo de verificacao de caminhos seja possivel saber qual o algoritmo que o utilizador selecionou
+	 * @param value Verdadeiro se foi escolhido utilizar este algoritmo e false caso nao tenha sido.
+	 */
 	void setFloydWarshall(bool value);
+	/**
+	 * Retorna um vetor das ruas existentes no mapa
+	 * @return Vetor que contem as ruas
+	 */
 	vector<Rua> getRuas();
 	/**
 	 * Desenha em cada aresta do grafo representado no graphviewer o nome da rua a que pertence

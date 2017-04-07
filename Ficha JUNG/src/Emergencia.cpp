@@ -342,7 +342,6 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 
 
 	tempofinal = GetMilliSpan(tempoinicial) + tempointermedio;
-	//cout<<endl<<"Tempo Intermedio: "<<tempointermedio<<endl;
 	cout<<endl<<"Tempo Final: "<<tempofinal<<endl;
 	for(int i=0; i<pathsINEM.size(); i++)
 		this->drawPath(pathsINEM[i],"green","INEM.png");
@@ -360,20 +359,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 
 
 }
-//TODO verificar conectividade
-bool Emergencia::VerificarConectividade()
-{
-	vector< Vertex<No>* > vertexSet = myGraph.getVertexSet();
-	typename vector<Vertex<No>*>::const_iterator it = vertexSet.begin();
-	typename vector<Vertex<No>*>::const_iterator ite = vertexSet.end();
 
-	vector<No> vertexLigados;
-	vertexLigados =	myGraph.dfs();
-		if(vertexLigados.size() != 37)
-			return false;
-		else
-			return true;
-}
 
 void Emergencia::displayGraph() {
 
