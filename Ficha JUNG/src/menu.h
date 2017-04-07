@@ -49,6 +49,12 @@ int chooseRua(Emergencia &em);
  */
 bool chooseAlgorithm();
 /**
+ * Mini menu de escolha de como o utilizador quer escolher a zona de emergencia,atraves do nome da rua, ou atraves do ID do No especifico
+ * @param em objeto do tipo emergencia onde se encontra o grafo onde estao guardados os Nos
+ * @return o ID do No escolhido
+ */
+int tipoLocalizacao(Emergencia &em);
+/**
  * Vai para XY da consola do sistema
  * @param x indica a posicao em x
  * @param y indica a posicao em y

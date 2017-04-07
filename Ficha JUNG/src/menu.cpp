@@ -367,7 +367,7 @@ void emLevel(Emergencia &em,int typeFlag)
 				gotoXY(20,17);
 				/*cout<<"No: ";
 				cin >>noid;*/
-				noid = chooseRua(em);
+				noid = tipoLocalizacao(em);
 				switch(typeFlag)
 				{
 				case 1:
@@ -397,7 +397,7 @@ void emLevel(Emergencia &em,int typeFlag)
 				gotoXY(20,17);
 				/*cout<<"No: ";
 								cin >>noid;*/
-				noid = chooseRua(em);
+				noid = tipoLocalizacao(em);
 				switch(typeFlag)
 				{
 				case 1:
@@ -425,7 +425,7 @@ void emLevel(Emergencia &em,int typeFlag)
 				gotoXY(20,17);
 				/*cout<<"No: ";
 								cin >>noid;*/
-				noid = chooseRua(em);
+				noid = tipoLocalizacao(em);
 				switch(typeFlag)
 				{
 					case 1:
@@ -736,6 +736,123 @@ bool chooseAlgorithm()
 
 	}
 
+	return false;
+}
+
+int tipoLocalizacao(Emergencia &em)
+{
+	int menu_item = 0; //usada para saber qual e o caso do switch que esta a apontar
+		int 	x = 10; //usada para saber a linha que a seta esta apontar
+		bool running = true;
+		system("CLS");//cleans cmd
+
+
+
+
+		gotoXY(18, 10); cout << "->";
+
+		while (running)
+		{
+			gotoXY(18, 8); cout << "Tipo de escolha:";
+			gotoXY(20, 10);  cout << "1) Nos";
+			gotoXY(20, 11);  cout << "2) Ruas";
+
+			system("pause>nul"); // the >nul bit causes it to print no message
+
+			if (!GetAsyncKeyState(VK_DOWN) && !GetAsyncKeyState(VK_UP) && !GetAsyncKeyState(VK_RETURN) && !GetAsyncKeyState(0x31) && !GetAsyncKeyState(0x32) )// se for clicado uma tecla diferente das setas (cima e baixo) e enter, nao faz nada
+			{
+				continue;
+			}
+
+			if (GetAsyncKeyState(VK_DOWN) && x != 11) //down button pressed and
+			{
+				gotoXY(18, x); cout << "  ";//limpa seta
+				x++;
+				gotoXY(18, x); cout << "->";//seta aponta para a proxima linha do menu
+				menu_item++;//faz com que este valor seja coerente com a linha que esta apontar
+				continue;
+
+			}
+			else if (GetAsyncKeyState(VK_DOWN) && x == 11) // se precionar para baixo na ultima linha do menu, volta a primeira linha do mesmo
+			{
+				gotoXY(18, x); cout << "  ";//"limpa" a seta
+				x = 10;//posicao em x da pos inicial
+				gotoXY(18, x); cout << "->"; // mete a seta nessa pos inicial
+				menu_item = 0;//atribui o caso 0 do switch para a primeira linha como e suposto
+				continue;
+
+			}
+
+			else if (GetAsyncKeyState(VK_UP) && x != 10) //up button pressed
+			{
+				gotoXY(18, x); cout << "  ";
+				x--;
+				gotoXY(18, x); cout << "->";//seta aponta para a linha anterior
+				menu_item--;
+				continue;
+			}
+			else if (GetAsyncKeyState(VK_UP) && x == 10)//se precionar para cima na primeira linha do menu a seta passa a apontar para a ultima linha do mesmo
+			{
+				gotoXY(18, x); cout << "  ";
+				x = 11;//pos em x da pos final do menu (defenido nos couts)
+				gotoXY(18, x); cout << "->";//mete seta nessa posicao
+				menu_item = 1; // menu_item correspondente a ultima linha do menu
+				continue;
+
+
+			}
+			else if (GetAsyncKeyState(0x31))
+			{
+				gotoXY(18, x); cout << "  ";
+				x = 10;
+				gotoXY(18, x); cout << "->";
+				menu_item = 0;
+				continue;
+			}
+			else if (GetAsyncKeyState(0x32))
+			{
+				gotoXY(18, x); cout << "  ";
+				x = 11;
+				gotoXY(18, x); cout << "->";
+				menu_item = 1;
+				continue;
+			}
+			else if (GetAsyncKeyState(VK_RETURN)) { // Enter key pressed
+				//dependendo da posicao da seta no menu, ao carregar enter vera o valor do menu_item correspondente a essa linha e executa a opcao escolhida
+
+				switch (menu_item) {
+
+				case 0: {
+
+					int noID = -1;
+					while(noID < 0)
+					{
+						gotoXY(20,16);
+						cout << "Insira o No onde se encontra: ";
+						cin >> noID;
+					}
+
+
+					return noID;
+					break;
+				}
+
+
+				case 1: {
+					return chooseRua(em);
+					break;
+				}
+
+
+
+
+				}
+
+			}
+
+		}
+
+		return 0;
 
 }
 
