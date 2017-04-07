@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['graphviewer',['GraphViewer',['../class_graph_viewer.html#a8adc614f4fc290a3efcec7d7ceb1c58a',1,'GraphViewer::GraphViewer(int width, int height, bool dynamic)'],['../class_graph_viewer.html#ad9d7b1d8b4ba8ef18517eae0e68568a2',1,'GraphViewer::GraphViewer(int width, int height, bool dynamic, int port_n)']]]
+  ['edge',['Edge',['../class_edge.html#a9da861a03f920c89984be33515a5d870',1,'Edge::Edge(Vertex&lt; T &gt; *d, double w)'],['../class_edge.html#ab4520cf1aca4b47f8e10abcb65012596',1,'Edge::Edge(int ID, Vertex&lt; T &gt; *d, double w)']]],
+  ['edgecost',['edgeCost',['../class_graph.html#a7e137f1ef838395ac1044a944fa54448',1,'Graph']]],
+  ['emergencia',['Emergencia',['../class_emergencia.html#a34045ba81d1a57fdc1be7fb2d324e301',1,'Emergencia']]],
+  ['emlevel',['emLevel',['../menu_8cpp.html#af836a0ce56929ed518914fedc0b32866',1,'emLevel(Emergencia &amp;em, int typeFlag):&#160;menu.cpp'],['../menu_8h.html#af836a0ce56929ed518914fedc0b32866',1,'emLevel(Emergencia &amp;em, int typeFlag):&#160;menu.cpp']]]
 ];

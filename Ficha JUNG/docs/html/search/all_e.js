@@ -1,16 +1,17 @@
 var searchData=
 [
-  ['sendmsg',['sendMsg',['../class_connection.html#a4b9f6db1fb42fc9857f829fa0bc52e6e',1,'Connection']]],
-  ['setbackground',['setBackground',['../class_graph_viewer.html#a02437b5fecd8b90de24436068312d593',1,'GraphViewer']]],
-  ['setedgecolor',['setEdgeColor',['../class_graph_viewer.html#a07ccc96707efae4aa5f3ced3dca015af',1,'GraphViewer']]],
-  ['setedgedashed',['setEdgeDashed',['../class_graph_viewer.html#a1698f1c6b3a8e7cabc7b7d7cf42fc7f0',1,'GraphViewer']]],
-  ['setedgeflow',['setEdgeFlow',['../class_graph_viewer.html#a69eb065145063e4dea41961e92e35c8e',1,'GraphViewer']]],
-  ['setedgelabel',['setEdgeLabel',['../class_graph_viewer.html#a447cca0064e785654c2105602c2961ca',1,'GraphViewer']]],
-  ['setedgethickness',['setEdgeThickness',['../class_graph_viewer.html#a07f598272fe3515455eab13be749604a',1,'GraphViewer']]],
-  ['setedgeweight',['setEdgeWeight',['../class_graph_viewer.html#ac211de009a0afe2e6d44f4f8d030a2cc',1,'GraphViewer']]],
-  ['setvertexcolor',['setVertexColor',['../class_graph_viewer.html#a8b542d7e09e81a45a74760c19233beb0',1,'GraphViewer']]],
-  ['setvertexicon',['setVertexIcon',['../class_graph_viewer.html#a02d5f7393eab9a2d1b66719039597a64',1,'GraphViewer']]],
-  ['setvertexlabel',['setVertexLabel',['../class_graph_viewer.html#ac25d7d007022fda16799808ba136e909',1,'GraphViewer']]],
-  ['setvertexsize',['setVertexSize',['../class_graph_viewer.html#ae930dfdfcdeb7a871eefb6028d74b9f9',1,'GraphViewer']]],
-  ['sock',['sock',['../class_connection.html#a50ca7c17a64836ca25a1fe9953cc6cf6',1,'Connection']]]
+  ['readfiles',['readFiles',['../class_emergencia.html#a9f1b0de1ade1768bc4c42bec7151793e',1,'Emergencia']]],
+  ['readline',['readLine',['../class_connection.html#a1df16b436751b686d96c24ca0c498659',1,'Connection']]],
+  ['rearrange',['rearrange',['../class_graph_viewer.html#a3009a66958686ccb7e78b68e37c3c423',1,'GraphViewer']]],
+  ['red',['RED',['../graphviewer_8h.html#a8d23feea868a983c8c2b661e1e16972f',1,'graphviewer.h']]],
+  ['removeedge',['removeEdge',['../class_graph.html#a1106092a37366486cf55576f9ec01692',1,'Graph::removeEdge()'],['../class_graph_viewer.html#a9a8ee68c7c12b373affbe4069dd95d72',1,'GraphViewer::removeEdge()']]],
+  ['removeedgeto',['removeEdgeTo',['../class_vertex.html#ab2b5b43fb1709a901b78718436763a84',1,'Vertex']]],
+  ['removenode',['removeNode',['../class_graph_viewer.html#a0c418639bb911eb827cabf895915f775',1,'GraphViewer']]],
+  ['removevertex',['removeVertex',['../class_graph.html#af9c903104ad69a7782979fa9caedf163',1,'Graph']]],
+  ['resetgv',['resetGV',['../class_emergencia.html#a2573b320ba0207f120cbbb711c2a1d80',1,'Emergencia']]],
+  ['resetindegrees',['resetIndegrees',['../class_graph.html#af34eb86d804272e6e3e221a9ed688c53',1,'Graph']]],
+  ['rua',['Rua',['../class_rua.html',1,'Rua'],['../class_rua.html#a4adb41b067bb1c1a0edb94687af2d13f',1,'Rua::Rua()']]],
+  ['rua_2ecpp',['Rua.cpp',['../_rua_8cpp.html',1,'']]],
+  ['rua_2eh',['Rua.h',['../_rua_8h.html',1,'']]],
+  ['ruas',['ruas',['../class_emergencia.html#a2bda6e47dc17e5426dffd0019bbf3607',1,'Emergencia']]]
 ];

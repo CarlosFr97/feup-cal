@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['sock',['sock',['../class_connection.html#a50ca7c17a64836ca25a1fe9953cc6cf6',1,'Connection']]]
+  ['height',['height',['../class_graph_viewer.html#a9a1000e492a66ac4301c7135275690da',1,'GraphViewer']]],
+  ['hospitais',['hospitais',['../class_emergencia.html#a59c43321ccc4b16c82523d90f43aa4fd',1,'Emergencia']]]
 ];

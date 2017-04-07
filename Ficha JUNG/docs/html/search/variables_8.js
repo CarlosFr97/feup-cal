@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['width',['width',['../class_graph_viewer.html#a5de27a1d20968b8494cd4bf5a4eb27e1',1,'GraphViewer']]]
+  ['mygraph',['myGraph',['../class_emergencia.html#a2afa3e43309e14d1ef7a5d9e74daf45c',1,'Emergencia']]]
 ];

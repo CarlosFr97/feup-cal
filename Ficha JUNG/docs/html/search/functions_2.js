@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['defineedgecolor',['defineEdgeColor',['../class_graph_viewer.html#a4102580b69826ba83251ef7bb262f8be',1,'GraphViewer']]],
-  ['defineedgecurved',['defineEdgeCurved',['../class_graph_viewer.html#a08f362be0e682d91e7506dca8caae1b8',1,'GraphViewer']]],
-  ['defineedgedashed',['defineEdgeDashed',['../class_graph_viewer.html#af785279b5c204df0e274b20c36276fc3',1,'GraphViewer']]],
-  ['definevertexcolor',['defineVertexColor',['../class_graph_viewer.html#a76de8676b7a93d72af514b84cdaa4d21',1,'GraphViewer']]],
-  ['definevertexicon',['defineVertexIcon',['../class_graph_viewer.html#af1adb6a361457187a820e01dcf0a34b7',1,'GraphViewer']]],
-  ['definevertexsize',['defineVertexSize',['../class_graph_viewer.html#ac4b2a9fec74d38e64088aa79ca4b7d9b',1,'GraphViewer']]]
+  ['choosealgorithm',['chooseAlgorithm',['../menu_8cpp.html#a1a3f2bf7e781077fdfe49795e58f9b1d',1,'chooseAlgorithm():&#160;menu.cpp'],['../menu_8h.html#a1a3f2bf7e781077fdfe49795e58f9b1d',1,'chooseAlgorithm():&#160;menu.cpp']]],
+  ['chooserua',['chooseRua',['../menu_8cpp.html#a8b1a428bd9363e7232edd41a30da7909',1,'chooseRua(Emergencia &amp;em):&#160;menu.cpp'],['../menu_8h.html#a8b1a428bd9363e7232edd41a30da7909',1,'chooseRua(Emergencia &amp;em):&#160;menu.cpp']]],
+  ['closewindow',['closeWindow',['../class_graph_viewer.html#a85990c1eaac7feed3950960d4bd2fd4c',1,'GraphViewer']]],
+  ['colornodes',['colorNodes',['../class_emergencia.html#a0144265613c0e4a64a51fe32a0b0ef00',1,'Emergencia']]],
+  ['connection',['Connection',['../class_connection.html#a8089476d48ba545f44e691cd4bd0278d',1,'Connection']]],
+  ['createwindow',['createWindow',['../class_graph_viewer.html#ae5247dc66449dcd21fc5d531bbbaddfa',1,'GraphViewer']]]
 ];
