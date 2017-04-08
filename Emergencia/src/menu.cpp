@@ -838,11 +838,13 @@ int tipoLocalizacao(Emergencia &em)
 				case 0: {
 
 					int noID = -1;
-					while(noID < 0)
+					while(em.findNo(noID) == NULL)
 					{
 						gotoXY(20,16);
 						cout << "Insira o No onde se encontra: ";
 						cin >> noID;
+						gotoXY(20,16);
+						cout << CLEAN_LINE;
 					}
 
 
