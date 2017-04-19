@@ -377,7 +377,8 @@ bool Graph<T>::stronglyConnectedComponents(){
 
 		vector<T> graphPosDFS= this->posdfs(true);
 		Graph<T> Gr = this->getTranspose();
-		vector<T> GrPosDFS = Gr.posdfs(true);
+		vector<T> GrPosDFS;
+		Gr.dfs(getVertex(graphPosDFS.at(graphPosDFS.size()-1)), GrPosDFS));
 		if(graphPosDFS.size() == GrPosDFS.size())
 			return true;
 		else return false;
