@@ -378,7 +378,10 @@ bool Graph<T>::stronglyConnectedComponents(){
 		vector<T> graphPosDFS= this->posdfs(true);
 		Graph<T> Gr = this->getTranspose();
 		vector<T> GrPosDFS;
-		Gr.dfs(getVertex(graphPosDFS.at(graphPosDFS.size()-1)), GrPosDFS));
+		Gr.dfs(getVertex(graphPosDFS.at(graphPosDFS.size()-1)), GrPosDFS);
+		cout<<"Size 1: "<<GrPosDFS<<endl;
+		cout<<"Size 2: "<<GrPosDFS<<endl;
+		getchar();
 		if(graphPosDFS.size() == GrPosDFS.size())
 			return true;
 		else return false;
