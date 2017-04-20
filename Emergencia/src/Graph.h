@@ -180,8 +180,9 @@ public:
 	bool removeEdge(const T &sourc, const T &dest);
 	vector<T> dfs() const;
 	vector<T> posdfs(bool resetVisited);
-	bool stronglyConnectedComponents();
 	Graph<T> getTranspose();
+	void fillOrder(int v, bool visited[], stack<int> &Stack);
+	bool stronglyConnectedComponents();
 	vector<T> bfs(Vertex<T> *v) const;
 	int maxNewChildren(Vertex<T> *v, T &inf) const;
 	vector<Vertex<T> * > getVertexSet() const;
@@ -318,6 +319,7 @@ vector<T> Graph<T>::dfs() const {
 template <class T>
 void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
 	v->visited = true;
+	cout<<"Vertice: "<<v->getInfo().getID();
 	res.push_back(v->info);
 	typename vector<Edge<T> >::iterator it= (v->adj).begin();
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
@@ -357,30 +359,49 @@ vector<T> Graph<T>::posdfs(bool resetVisited)
 template<class T>
 Graph<T> Graph<T>::getTranspose()
 {
-	Graph res = *this;
-	vector<Vertex<T> *>  aux = res.vertexSet;
+	Graph res;
+	vector<Vertex<T> *>  aux = vertexSet;
+	int aresta_nr=0;
 	for(unsigned int i = 0; i < aux.size();i++)
 	{
 		for(unsigned int j = 0; j < aux.at(i)->adj.size(); j++)
 		{
 
-				Vertex<T> * vt = aux.at(i);
-				Edge<T> ed = vt->adj.at(j);
-				ed.dest = vt;
+				Vertex<T> * vO = aux.at(i);
+				Edge<T> ed = vO->adj.at(j);
+				Vertex<T>* vd = ed.getDest();
+				res.addVertex(vO->getInfo());
+				res.addVertex(vd->getInfo());
+				res.addEdge(aresta_nr,vd->getInfo(), vO->getInfo(), ed.weight);
+				aresta_nr++;
 		}
 	}
 	return res;
 }
 
+
+
 template <class T>
 bool Graph<T>::stronglyConnectedComponents(){
 
-		vector<T> graphPosDFS= this->posdfs(true);
-		Graph<T> Gr = this->getTranspose();
+		vector<T> graphPosDFS= this->dfs();
+		Graph<T> Gr = getTranspose();
 		vector<T> GrPosDFS;
+		typename vector<Vertex<T>*>::const_iterator it= Gr.vertexSet.begin();
+			typename vector<Vertex<T>*>::const_iterator ite= Gr.vertexSet.end();
+
+				for(;it != ite ; it++)
+				{
+					(*it)->visited = false;
+				}
+		cout<<graphPosDFS[graphPosDFS.size()-1].getID()<<endl;
 		Gr.dfs(getVertex(graphPosDFS.at(graphPosDFS.size()-1)), GrPosDFS);
-		cout<<"Size 1: "<<GrPosDFS<<endl;
-		cout<<"Size 2: "<<GrPosDFS<<endl;
+		std::cout<<"Size 1: "<<graphPosDFS.size()<<endl;
+		std::cout<<"Size 2: "<<GrPosDFS.size()<<endl;
+		for(int a=0; a<GrPosDFS.size(); a++)
+		for(int i=0; i<Gr.getVertex(GrPosDFS[a])->adj.size(); i++){
+			cout<<"Adj No: "<<(Gr.getVertex(GrPosDFS[a])->adj)[i].dest->getInfo().getID()<<(Gr.getVertex(GrPosDFS[a])->adj)[i].dest->visited<<endl;}
+
 		getchar();
 		if(graphPosDFS.size() == GrPosDFS.size())
 			return true;

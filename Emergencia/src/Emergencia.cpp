@@ -42,7 +42,7 @@ void Emergencia::readFiles() {
 	char token;
 
 	//Ler o ficheiro nosNormals.txt
-	inFile.open("nos.txt");
+	inFile.open("nos2.txt");
 
 	if (!inFile) {
 		cerr << "Unable to open file nos.txt";
@@ -62,7 +62,7 @@ void Emergencia::readFiles() {
 	inFile.close();
 
 	//Ler o ficheiro hospitalNos.txt
-	inFile.open("hospitais.txt");
+	inFile.open("hospitais2.txt");
 
 	if (!inFile) {
 		cerr << "Unable to open file hospitais.txt";
@@ -85,7 +85,7 @@ void Emergencia::readFiles() {
 	inFile.close();
 
 	//Ler o ficheiro inemNos.txt
-	inFile.open("INEM.txt");
+	inFile.open("INEM2.txt");
 
 	if (!inFile) {
 		cerr << "Unable to open file INEM.txt";
@@ -109,7 +109,7 @@ void Emergencia::readFiles() {
 	inFile.close();
 
 	//Ler o ficheiro bombeirosNos.txt
-	inFile.open("bombeiros.txt");
+	inFile.open("bombeiros2.txt");
 
 	if (!inFile) {
 		cerr << "Unable to open file bombeiros.txt";
@@ -133,7 +133,7 @@ void Emergencia::readFiles() {
 	inFile.close();
 
 	//Ler o ficheiro policiaNos.txt
-	inFile.open("policia.txt");
+	inFile.open("policia2.txt");
 
 	if (!inFile) {
 		cerr << "Unable to open file policia.txt";
@@ -161,7 +161,7 @@ void Emergencia::readFiles() {
 	int idNo1 = 0, idNo2 = 0;
 
 	//Ler o ficheiro arestas.txt
-	inFile.open("arestas.txt");
+	inFile.open("arestas2.txt");
 
 	if (!inFile) {
 		cerr << "Unable to open file arestas.txt";
@@ -196,7 +196,7 @@ void Emergencia::readFiles() {
 	int NoID;
 
 	//Ler o ficheiro ruas.txt
-	inFile.open("ruas.txt");
+	inFile.open("ruas2.txt");
 
 	if (!inFile) {
 		cerr << "Unable to open file ruas.txt";
