@@ -156,44 +156,10 @@ void Emergencia::readFiles() {
 
 	inFile.close();
 
-	int idRua = 0;
-	int idAresta = 0;
-	int idNo1 = 0, idNo2 = 0;
 
-	//Ler o ficheiro arestas.txt
-	inFile.open("arestas.txt");
-
-	if (!inFile) {
-		cerr << "Unable to open file arestas.txt";
-		exit(1);   // call system to stop
-	}
-
-	while (getline(inFile, line)) {
-
-		std::stringstream linestream(line);
-
-		linestream >> idAresta >> token >> idNo1 >> token >> idNo2;
-
-		Vertex<No>* v1 = findNo(idNo1);
-		Vertex<No>* v2 = findNo(idNo2);
-		No no1 = v1->getInfo();
-		No no2 = v2->getInfo();
-
-		double weight = sqrt(
-				pow((no2.getX() - no1.getX()), 2)
-						+ pow((no2.getY() - no1.getY()), 2));
-
-
-		myGraph.addEdge(idAresta, no1, no2, weight);
-
-		ID_ARESTA_GERAL++;
-
-	}
-
-	inFile.close();
 
 	string nomeRua, twoWays;
-	int NoID;
+	int NoID, idRua;
 
 	//Ler o ficheiro ruas.txt
 	inFile.open("ruas.txt");
@@ -218,6 +184,22 @@ void Emergencia::readFiles() {
 		} while (token == ',');
 		ruas.push_back(r);
 
+		for (int i = 0 ; i < r.getNosID().size() - 1; i++) {
+
+			Vertex<No>* v1 = findNo(r.getNosID().at(i));
+			Vertex<No>* v2 = findNo(r.getNosID().at(i + 1));
+			No no1 = v1->getInfo();
+			No no2 = v2->getInfo();
+
+			double weight = sqrt(
+					pow((no2.getX() - no1.getX()), 2)
+					+ pow((no2.getY() - no1.getY()), 2));
+
+			myGraph.addEdge(ID_ARESTA_GERAL, no1, no2, weight);
+
+			ID_ARESTA_GERAL++;
+		}
+
 		if (twoWays == "True") {
 
 			for (int i = r.getNosID().size() - 1; i > 0; i--) {
@@ -229,7 +211,7 @@ void Emergencia::readFiles() {
 
 				double weight = sqrt(
 						pow((no2.getX() - no1.getX()), 2)
-								+ pow((no2.getY() - no1.getY()), 2));
+						+ pow((no2.getY() - no1.getY()), 2));
 
 				myGraph.addEdge(ID_ARESTA_GERAL, no1, no2, weight);
 
@@ -252,7 +234,7 @@ void Emergencia::readFiles() {
 }
 
 void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool gotoHospital) {
-	
+
 	if(!myGraph.stronglyConnectedComponents())
 	{
 		cout << "Nao e possivel calcular a sua chamada por invalidade do mapa" << endl;
@@ -281,7 +263,7 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 	vector< vector<Edge<No> > > pathsINEM;
 	while(inemFlag>0)
 	{
-		
+
 		No INEMAssistencia = findElement(myGraph.getVertex(localizacao), pathnodes, 'I');
 		if(pathnodes.size()>0)
 		{
@@ -326,15 +308,15 @@ void Emergencia::getCall(int noID,int polFlag,int bombFlag,int inemFlag, bool go
 			for(unsigned int i=0; i<pathnodes.size(); i++)
 				cout<<pathnodes[i].getID()<<" ";
 			cout<<endl;
-			 pathedgesPolicia=myGraph.getEdges(pathnodes);
-			 pathsPolicia.push_back(pathedgesPolicia);
+			pathedgesPolicia=myGraph.getEdges(pathnodes);
+			pathsPolicia.push_back(pathedgesPolicia);
 		}else
 			cout << "Na sua localizacao ja existe policias\n" <<endl;
 		polFlag--;
 	}
 	if(gotoHospital)
 	{
-			pathHospital = moveToHospital(myGraph.getVertex(localizacao));
+		pathHospital = moveToHospital(myGraph.getVertex(localizacao));
 		if(pathHospital.size()== 0)
 			cout << "Na sua localizacao ja existe um hospital\n" <<endl;
 	}
@@ -450,41 +432,41 @@ No Emergencia::findElement(Vertex<No>* localizacao, vector<No> &pathnodes, char 
 
 	vector<Veiculo>* auxvector;
 	switch(elementType){
-		case 'B':
-			auxvector = &bombeiros;
-			break;
-		case 'P':
-			auxvector = &policia;
-			break;
-		case 'I':
-			auxvector = &INEM;
-			break;
+	case 'B':
+		auxvector = &bombeiros;
+		break;
+	case 'P':
+		auxvector = &policia;
+		break;
+	case 'I':
+		auxvector = &INEM;
+		break;
 	};
 
 	Veiculo* veicFinal;
-		int distAtual;
-		int distMinima = INT_MAX;
+	int distAtual;
+	int distMinima = INT_MAX;
 
-		if(!(isFloydWarshall)){
-			for (unsigned int i = 0; i < (*auxvector).size(); i++) {
-				if ((*auxvector)[i].getDisponibilidade() == 0) {
-					myGraph.dijkstraShortestPath((*auxvector)[i].getlocalNode());
-					distAtual = localizacao->getDist();
-					if (distAtual < distMinima) {
-						distMinima = distAtual;
-						veicFinal = &(*auxvector)[i];
-						if(!((*auxvector)[i].getlocalNode()== localizacao->getInfo()))
+	if(!(isFloydWarshall)){
+		for (unsigned int i = 0; i < (*auxvector).size(); i++) {
+			if ((*auxvector)[i].getDisponibilidade() == 0) {
+				myGraph.dijkstraShortestPath((*auxvector)[i].getlocalNode());
+				distAtual = localizacao->getDist();
+				if (distAtual < distMinima) {
+					distMinima = distAtual;
+					veicFinal = &(*auxvector)[i];
+					if(!((*auxvector)[i].getlocalNode()== localizacao->getInfo()))
 						pathnodes = myGraph.getPath((*auxvector)[i].getlocalNode(), localizacao->getInfo());
-					}
 				}
-
 			}
 
 		}
-		else{
 
-			for (unsigned int i = 0; i < (*auxvector).size(); i++) {
-				if ((*auxvector)[i].getDisponibilidade() == 0) {
+	}
+	else{
+
+		for (unsigned int i = 0; i < (*auxvector).size(); i++) {
+			if ((*auxvector)[i].getDisponibilidade() == 0) {
 				distAtual = myGraph.getfloydWarshallweight( myGraph.getVertex((*auxvector)[i].getlocalNode())->getVectorPos(),localizacao->getVectorPos());
 				if(distAtual < distMinima)
 				{
@@ -495,12 +477,12 @@ No Emergencia::findElement(Vertex<No>* localizacao, vector<No> &pathnodes, char 
 		}
 		if(!((*veicFinal).getlocalNode()== localizacao->getInfo()))
 			pathnodes = myGraph.getfloydWarshallPath((*veicFinal).getlocalNode(),localizacao->getInfo());
-		}
+	}
 
-		(*veicFinal).setDisponibilidade(3);
-		if(pathnodes.size()>0)
-			(*veicFinal).setlocalNode(pathnodes[pathnodes.size()-1]);
-		return (*veicFinal).getlocalNode();
+	(*veicFinal).setDisponibilidade(3);
+	if(pathnodes.size()>0)
+		(*veicFinal).setlocalNode(pathnodes[pathnodes.size()-1]);
+	return (*veicFinal).getlocalNode();
 
 
 }
@@ -536,18 +518,18 @@ vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao)
 	No nofinal;
 	Vertex<No>* aux;
 	vector<No> nodestopaint;
-		vector<Edge<No> > edgestopaint;
+	vector<Edge<No> > edgestopaint;
 	if(!isFloydWarshall){
 		myGraph.dijkstraShortestPath(localizacao->getInfo());
-	for(unsigned int i = 0; i < this->hospitais.size();i++)
-	{
-		aux  = myGraph.getVertex(hospitais.at(i));
-		if(aux->getDist() < distmin)
+		for(unsigned int i = 0; i < this->hospitais.size();i++)
 		{
-			distmin = aux->getDist();
-			nofinal = hospitais.at(i) ;
+			aux  = myGraph.getVertex(hospitais.at(i));
+			if(aux->getDist() < distmin)
+			{
+				distmin = aux->getDist();
+				nofinal = hospitais.at(i) ;
+			}
 		}
-	}
 		if(distmin != 0){
 			cout<<"Posteriormente a ambulancia seguira o seguinte caminho em direcao ao hospital: ";
 			nodestopaint = myGraph.getPath(localizacao->getInfo(),nofinal);
@@ -601,27 +583,27 @@ void Emergencia::resetGV()
 	typename vector<Edge<No> >::iterator itEdges;
 	typename vector<Edge<No> >::iterator iteEdges;
 
-		for (; it != ite; it++) {
+	for (; it != ite; it++) {
 
-			vector<Edge<No> > edgesvec = (*it)->getAdj();
-			itEdges = edgesvec.begin();
-			iteEdges = edgesvec.end();
-			for (; itEdges != iteEdges; itEdges++) {
-				gv->setEdgeColor(itEdges->getID(),"black");
-				gv->setEdgeThickness(itEdges->getID(),1);
-			}
-
+		vector<Edge<No> > edgesvec = (*it)->getAdj();
+		itEdges = edgesvec.begin();
+		iteEdges = edgesvec.end();
+		for (; itEdges != iteEdges; itEdges++) {
+			gv->setEdgeColor(itEdges->getID(),"black");
+			gv->setEdgeThickness(itEdges->getID(),1);
 		}
 
-		vector<Vertex<No>* > aux = myGraph.getVertexSet();
-		for(unsigned int i = 0; i < aux.size();i++)
-		{
-			gv->setVertexIcon(aux.at(i)->getInfo().getID(),"normal.png");
-		}
-		this->colorNodes();
+	}
+
+	vector<Vertex<No>* > aux = myGraph.getVertexSet();
+	for(unsigned int i = 0; i < aux.size();i++)
+	{
+		gv->setVertexIcon(aux.at(i)->getInfo().getID(),"normal.png");
+	}
+	this->colorNodes();
 
 
-		gv->rearrange();
+	gv->rearrange();
 }
 
 vector<Rua> Emergencia::getRuas()
