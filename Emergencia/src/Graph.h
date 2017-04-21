@@ -162,7 +162,7 @@ Vertex<T> * Edge<T>::getDest()
 template <class T>
 class Graph {
 	vector<Vertex<T> *> vertexSet;
-	void dfs(Vertex<T> *v, vector<T> &res) const;
+
 
 	//Exercicio 5
 	int numCycles;
@@ -174,6 +174,7 @@ class Graph {
 		int ** W;   //weight
 		int ** P;   //path
 public:
+	void dfs(Vertex<T> *v, vector<T> &res) const;
 	bool addVertex(const T &in);
 	bool addEdge(int idAresta, const T &sourc, const T &dest, double w);
 	bool removeVertex(const T &in);
@@ -319,12 +320,11 @@ vector<T> Graph<T>::dfs() const {
 template <class T>
 void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
 	v->visited = true;
-	cout<<"Vertice: "<<v->getInfo().getID();
 	res.push_back(v->info);
 	typename vector<Edge<T> >::iterator it= (v->adj).begin();
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
 	for (; it !=ite; it++)
-	    if ( it->dest->visited == false ){
+	    if ( it->dest->visited == false){
 	    	dfs(it->dest, res);
 	    }
 }
@@ -384,7 +384,7 @@ Graph<T> Graph<T>::getTranspose()
 template <class T>
 bool Graph<T>::stronglyConnectedComponents(){
 
-		vector<T> graphPosDFS= this->dfs();
+		vector<T> graphPosDFS= this->posdfs(true);
 		Graph<T> Gr = getTranspose();
 		vector<T> GrPosDFS;
 		typename vector<Vertex<T>*>::const_iterator it= Gr.vertexSet.begin();
@@ -394,18 +394,11 @@ bool Graph<T>::stronglyConnectedComponents(){
 				{
 					(*it)->visited = false;
 				}
-		cout<<graphPosDFS[graphPosDFS.size()-1].getID()<<endl;
-		Gr.dfs(getVertex(graphPosDFS.at(graphPosDFS.size()-1)), GrPosDFS);
-		std::cout<<"Size 1: "<<graphPosDFS.size()<<endl;
-		std::cout<<"Size 2: "<<GrPosDFS.size()<<endl;
-		for(int a=0; a<GrPosDFS.size(); a++)
-		for(int i=0; i<Gr.getVertex(GrPosDFS[a])->adj.size(); i++){
-			cout<<"Adj No: "<<(Gr.getVertex(GrPosDFS[a])->adj)[i].dest->getInfo().getID()<<(Gr.getVertex(GrPosDFS[a])->adj)[i].dest->visited<<endl;}
-
-		getchar();
+		Gr.dfs(Gr.getVertex(graphPosDFS.at(graphPosDFS.size()-1)), GrPosDFS);
 		if(graphPosDFS.size() == GrPosDFS.size())
 			return true;
-		else return false;
+		else
+			return false;
 
 }
 

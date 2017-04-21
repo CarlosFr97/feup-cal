@@ -110,7 +110,7 @@ void menu_principal(Emergencia &em)
 			case 0: {
 
 				tipoEmergencia(em);
-
+				gotoXY(20,16);
 				break;
 			}
 
