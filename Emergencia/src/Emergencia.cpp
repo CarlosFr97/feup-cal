@@ -596,13 +596,17 @@ bool Emergencia::verificarConetividade() {
 }
 
 string Emergencia::verificarRuaExata(string rua_utilizador) {
-	string ret = "lugar desconhecido";
+	string ret = "";
+	bool encontrou = false;
 	for (unsigned int i = 0; i < ruas.size(); i++) {
 		if (pesquisaExata(rua_utilizador, ruas.at(i).getNome())) {
+			encontrou = true;
 			ret += encontraVeiculos(ruas.at(i)) + "\n";
 
 		}
 	}
+	if(!encontrou)
+		ret = "lugar desconhecido";
 	return ret;
 }
 
