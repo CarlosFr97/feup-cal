@@ -599,8 +599,8 @@ string Emergencia::verificarRuaExata(string rua_utilizador) {
 	string ret = "lugar desconhecido";
 	for (unsigned int i = 0; i < ruas.size(); i++) {
 		if (pesquisaExata(rua_utilizador, ruas.at(i).getNome())) {
-			ret = encontraVeiculos(ruas.at(i));
-			break;
+			ret += encontraVeiculos(ruas.at(i)) + "\n";
+
 		}
 	}
 	return ret;
@@ -612,7 +612,7 @@ bool Emergencia::pesquisaExata(string rua_utilizador, string rua_grafo) {
 }
 
 string Emergencia::encontraVeiculos(Rua rua) {
-	string ret = "";
+	string ret = rua.getNome() + " - ";
 	for (unsigned int i = 0; i < INEM.size(); i++) {
 		for (unsigned int a = 0; a < rua.getNosID().size(); a++) {
 			if (INEM.at(i).getlocalNode().getID() == rua.getNosID().at(a)) {
