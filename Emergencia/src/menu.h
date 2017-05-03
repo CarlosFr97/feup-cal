@@ -54,6 +54,8 @@ bool chooseAlgorithm();
  * @return o ID do No escolhido
  */
 int tipoLocalizacao(Emergencia &em);
+
+int stringMethod(string rua);
 /**
  * Vai para XY da consola do sistema
  * @param x indica a posicao em x

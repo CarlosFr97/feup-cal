@@ -131,10 +131,22 @@ public:
 	 */
 	void writeRuas();
 
+
 	/**
 	 * A funcao que verifica a conetividade do grafo
 	 */
 	bool verificarConetividade();
+
+	string verificarRuaExata(string rua_utilizador);
+
+	bool pesquisaExata(string rua_utilizador,string rua_grafo);
+
+	bool pesquisaAproximada(string rua_utilizador,string rua_grafo);
+
+
+	string encontraVeiculos(Rua rua);
+
+	vector<string> verificarRuaAproximada(string rua_utilizador);
 
 };
 
