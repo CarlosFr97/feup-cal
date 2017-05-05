@@ -24,3 +24,31 @@ int GetMilliSpan(int nTimeStart){
   return nSpan;
 }
 //---------------------------------------------------------------------------
+
+
+vector<string> splitString(string rua){
+	string buf;
+	stringstream ss;
+	ss.str(rua);
+
+	vector<string> ret;
+
+	while (ss >> buf)
+		ret.push_back(buf);
+
+	return ret;
+
+}
+
+string concatenateStrings(vector<string> vec, int num, int first_pos){
+	stringstream ss;
+	for(int i = 0; i< num ; i++){
+		if(i != num -1)
+			ss << vec.at(first_pos + i) << " ";
+		else
+			ss << vec.at(first_pos + i);
+	}
+
+	return ss.str();
+}
+

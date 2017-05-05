@@ -191,7 +191,7 @@ void Emergencia::readFiles() {
 
 			double weight = sqrt(
 					pow((no2.getX() - no1.getX()), 2)
-							+ pow((no2.getY() - no1.getY()), 2));
+					+ pow((no2.getY() - no1.getY()), 2));
 
 			myGraph.addEdge(ID_ARESTA_GERAL, no1, no2, weight);
 
@@ -209,7 +209,7 @@ void Emergencia::readFiles() {
 
 				double weight = sqrt(
 						pow((no2.getX() - no1.getX()), 2)
-								+ pow((no2.getY() - no1.getY()), 2));
+						+ pow((no2.getY() - no1.getY()), 2));
 
 				myGraph.addEdge(ID_ARESTA_GERAL, no1, no2, weight);
 
@@ -449,7 +449,7 @@ No Emergencia::findElement(Vertex<No>* localizacao, vector<No> &pathnodes,
 						myGraph.getfloydWarshallweight(
 								myGraph.getVertex(
 										(*auxvector)[i].getlocalNode())->getVectorPos(),
-								localizacao->getVectorPos());
+										localizacao->getVectorPos());
 				if (distAtual < distMinima) {
 					distMinima = distAtual;
 					veicFinal = &(*auxvector)[i];
@@ -502,7 +502,7 @@ vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao) {
 		}
 		if (distmin != 0) {
 			cout
-					<< "Posteriormente a ambulancia seguira o seguinte caminho em direcao ao hospital: ";
+			<< "Posteriormente a ambulancia seguira o seguinte caminho em direcao ao hospital: ";
 			nodestopaint = myGraph.getPath(localizacao->getInfo(), nofinal);
 			for (unsigned int i = 0; i < nodestopaint.size(); i++)
 				cout << nodestopaint[i].getID() << " ";
@@ -524,7 +524,7 @@ vector<Edge<No> > Emergencia::moveToHospital(Vertex<No>* localizacao) {
 		}
 		if (distmin != 0) {
 			cout
-					<< "Posteriormente a ambulancia seguira o seguinte caminho em direcao ao hospital: ";
+			<< "Posteriormente a ambulancia seguira o seguinte caminho em direcao ao hospital: ";
 			nodestopaint = myGraph.getfloydWarshallPath(localizacao->getInfo(),
 					nofinal);
 			for (unsigned int i = 0; i < nodestopaint.size(); i++)
@@ -610,10 +610,25 @@ string Emergencia::verificarRuaExata(string rua_utilizador) {
 	return ret;
 }
 
+
 bool Emergencia::pesquisaExata(string rua_utilizador, string rua_grafo) {
-	//TODO aplicar rmt algoritmo
+	//Percorrer todas as strings em rua grafo, e analisar cada uma com  o algoritmo
+	//se o numero de carateres matched for igual à length da rua do user, entao encontrou a palavra k se procurava
+	//faz se break e retorna true
+	vector<string> splited_rua_grafo = splitString(rua_grafo);
+	vector<string> splited_rua_utilizador = splitString(rua_utilizador);
+
+	for(int i = 0 ; (i + splited_rua_utilizador.size()) < splited_rua_grafo.size() ; i++ ){
+		string text = concatenateStrings(splited_rua_grafo, splited_rua_utilizador.size(), i);
+		string pattern = concatenateStrings(splited_rua_utilizador, splited_rua_utilizador.size(), 0);
+		if(KMP(pattern, text))
+			return true;
+
+	}
 	return false;
 }
+
+
 
 string Emergencia::encontraVeiculos(Rua rua) {
 	string ret = rua.getNome() + " - ";

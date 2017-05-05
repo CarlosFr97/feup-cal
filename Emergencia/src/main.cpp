@@ -16,6 +16,8 @@ int main()
 	emergencia.displayGraph();
 
 	menu_principal(emergencia);
+
+
 	return 0;
 }
 

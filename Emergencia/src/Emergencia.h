@@ -23,6 +23,7 @@
 #include <fstream>
 #include <algorithm>
 #include "utils.h"
+#include "StringSearch.h"
 
 
 
@@ -147,6 +148,10 @@ public:
 	string encontraVeiculos(Rua rua);
 
 	vector<string> verificarRuaAproximada(string rua_utilizador);
+
+
+
+
 
 };
 
