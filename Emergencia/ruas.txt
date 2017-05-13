@@ -36,3 +36,8 @@
 36; Rua Antonio Campo;False;17,36;
 37; Rua Vale Longo;False;4,8;
 38; Rua Nova de Salgueiros;False;30,25;
+39; Rua Doutor Gil da Costa;False;35,36;
+40; Rua Vila Nova;False;33,35;
+41; Rua de Cancelo;True;38,39;
+42; Rua de Benfica;False;39,33;
+43; Rua do Tetra;False;38,35;
