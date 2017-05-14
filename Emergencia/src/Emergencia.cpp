@@ -221,6 +221,38 @@ void Emergencia::readFiles() {
 
 	inFile.close();
 
+	//Ler o ficheiro freguesias.txt
+	inFile.open("freguesias.txt");
+
+	if (!inFile) {
+		cerr << "Unable to open file freguesias.txt";
+		exit(1);   // call system to stop
+	}
+
+	string nomeFreguesia;
+	int idFreguesia;
+
+	while (getline(inFile, line)) {
+
+		std::stringstream linestream(line);
+
+		linestream >> idFreguesia >> token;
+		getline(linestream, nomeFreguesia, ';');
+
+		Freguesia f(idFreguesia, nomeFreguesia);
+		do {
+			linestream >> NoID >> token;
+			f.setNoID(NoID);
+		} while (token == ',');
+
+
+
+		freguesias.push_back(f);
+
+	}
+
+	inFile.close();
+
 	if (isFloydWarshall == true) {
 		tempoinicial = GetMilliCount();
 		myGraph.floydWarshallShortestPath();

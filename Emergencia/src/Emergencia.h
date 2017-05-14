@@ -19,6 +19,7 @@
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Rua.h"
+#include "Freguesia.h"
 #include <math.h>
 #include <fstream>
 #include <algorithm>
@@ -35,6 +36,7 @@ private:
 	vector<Veiculo> policia;
 	vector<Rua> ruas;
 	vector<No> hospitais;
+	vector<Freguesia> freguesias;
 	Graph<No> myGraph;
 	GraphViewer *gv;
 	bool isFloydWarshall;
@@ -59,6 +61,7 @@ public:
 	 * Existe o ficheiros de policias que representa os nos onde encontram policias. Cada policia e guardado no vetor de policias
 	 * Existe o ficheiro de bombeiros que representa os nos onde se encontram os bombeiros. Cada bombeiro e guardado no vetor bombeiros do objeto emergencia
 	 * Existe o ficheiro de ruas onde e representado o nome da rua e os ids dos nos que a constitui, cada rua e adicionada no vetor ruas do objeto emergencia
+	 * Existe o ficheiro de freguesias que representa os nos pertencentes a essa freguesia.
 	 */
 	void readFiles();
 	/**
