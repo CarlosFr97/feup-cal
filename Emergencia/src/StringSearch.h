@@ -23,5 +23,7 @@ void prefixFunction(string pattern, int pi[]);
 
 bool KMP(string pattern, string target);
 
+int editDistance(string pattern, string text);
+
 
 #endif /* SRC_STRINGSEARCH_H_ */

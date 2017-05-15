@@ -58,6 +58,11 @@ public:
 	 *@return o valor aleatorio do vetor nosID
 	 */
 	int getRandNoID();
+	/**
+	 * Retorna o id da rua
+	 * @return Id da rua
+	 */
+	int getID();
 };
 
 #endif /* SRC_RUA_H_ */

@@ -31,11 +31,5 @@ string Freguesia::getNome()
 	return this->nome;
 }
 
-int Rua::getRandNoID(){
-	srand(time(NULL));
-
-	return IDnos[rand()%IDnos.size()];
-}
-
 
 

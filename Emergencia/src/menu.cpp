@@ -136,7 +136,7 @@ void menu_principal(Emergencia &em)
 				string rua;
 				cout << "Insira a Rua que se encontra: ";
 				getline(cin,rua);
-				stringMethod(rua);
+				stringMethod(rua, em);
 				break;
 			}
 			case 3: {
@@ -880,7 +880,7 @@ int tipoLocalizacao(Emergencia &em)
 
 }
 
-int stringMethod(string rua)
+int stringMethod(string rua, Emergencia &em)
 {
 	int menu_item = 0; //usada para saber qual e o caso do switch que esta a apontar
 			int 	x = 10; //usada para saber a linha que a seta esta apontar
@@ -970,6 +970,8 @@ int stringMethod(string rua)
 
 					case 1: {
 
+						gotoXY(24,11);
+						em.pesquisaAproximada(rua);
 						break;
 					}
 

@@ -36,3 +36,7 @@ int Rua::getRandNoID(){
 
 	return IDnos[rand()%IDnos.size()];
 }
+
+int Rua::getID(){
+	return ID;
+}

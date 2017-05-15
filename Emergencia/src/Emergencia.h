@@ -22,6 +22,7 @@
 #include "Freguesia.h"
 #include <math.h>
 #include <fstream>
+#include <map>
 #include <algorithm>
 #include "utils.h"
 #include "StringSearch.h"
@@ -145,7 +146,7 @@ public:
 
 	bool pesquisaExata(string rua_utilizador,string rua_grafo);
 
-	bool pesquisaAproximada(string rua_utilizador,string rua_grafo);
+	bool pesquisaAproximada(string rua_utilizador);
 
 
 	string encontraVeiculos(Rua rua);

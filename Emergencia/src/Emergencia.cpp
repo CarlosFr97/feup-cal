@@ -660,6 +660,99 @@ bool Emergencia::pesquisaExata(string rua_utilizador, string rua_grafo) {
 	return false;
 }
 
+bool Emergencia::pesquisaAproximada(string rua_utilizador){
+
+	vector<string> split_rua_utilizador = splitString(rua_utilizador);
+	vector<string> ruas_mais_proximas;
+	vector<string> split_rua_grafo;
+	map<string, int> map_ruas;
+	vector<map<string,int>> semelhanca_ruas; //multimap <grau semelhanca da rua_grafo com a rua_utilizador, id rua_grafo>
+	vector<int> semelhanca_nr;
+	multimap<int, string> final;
+	vector<string> semelhanca_string;
+	int semelhanca_atual;
+	string rua_atual;
+	int nr_vezes_aparece;
+	int nr_maximo_vezes=0;
+	int semelhanca_temp;
+
+	//separa todas as ruas do grafo em palavras unicas e coloca-as na matriz de strings
+	for (int i=0; i<split_rua_utilizador.size(); i++){
+
+		semelhanca_atual = -1;
+		for(int j=0; j<ruas.size(); j++){
+
+			split_rua_grafo= splitString(ruas[j].getNome());
+			semelhanca_atual = -1;
+
+			for(int k=0; k<split_rua_grafo.size(); k++){
+
+				if((split_rua_grafo[k].size() < split_rua_utilizador[i].size()) && ( split_rua_grafo[k].size() < 3))
+					continue;
+
+				semelhanca_temp = editDistance(split_rua_utilizador[i], split_rua_grafo[k]);
+				if(semelhanca_atual ==-1 || semelhanca_temp<semelhanca_atual){
+					semelhanca_atual = semelhanca_temp;
+				}
+
+			}
+			map_ruas.insert(pair<string, int>(ruas[j].getNome(), semelhanca_atual));
+		}
+		semelhanca_ruas.push_back(map_ruas);
+		map_ruas.clear();
+
+	}
+
+	int totaldistance;
+
+	for(int i=0;i< ruas.size(); i++){
+
+		totaldistance=0;
+		for(int j=0; j<semelhanca_ruas.size(); j++){
+
+
+			cout<<j<<"   Semelhanca: "<<semelhanca_ruas[j][ruas[i].getNome()]<<"   nome rua: "<<ruas[i].getNome()<<endl;
+			totaldistance += semelhanca_ruas[j][ruas[i].getNome()];
+
+		}
+		final.insert(pair<int, string>(totaldistance, ruas[i].getNome()));
+	}
+
+
+	for (std::multimap<int,string>::iterator it=final.begin(); it!=final.end(); ++it){
+
+		cout<<(*it).second<<endl;
+	}
+
+
+
+
+	/*for(int i=0; i<semelhanca_string.size(); i++){
+
+		cout<<semelhanca_string[i]<<endl;
+		/*int nr_vezes_aparece = count(semelhanca_string.begin(), semelhanca_string.end(), semelhanca_string[i]);
+		if(nr_maximo_vezes==0 || nr_maximo_vezes < nr_vezes_aparece){
+
+			nr_maximo_vezes = nr_vezes_aparece;
+			rua_atual = semelhanca_string[i];
+		}
+
+	}*/
+
+
+	/*{
+
+						semelhanca_atual = semelhanca_temp;
+						cout<<"Rua: "<<ruas[j].getNome()<<"  Semelhanca: "<<semelhanca_atual<<endl;
+						rua_atual = ruas[j].getNome();
+					}*/
+
+
+	return true;
+
+
+}
+
 
 
 string Emergencia::encontraVeiculos(Rua rua) {
