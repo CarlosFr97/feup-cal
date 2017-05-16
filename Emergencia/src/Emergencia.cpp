@@ -649,8 +649,7 @@ bool Emergencia::pesquisaExata(string rua_utilizador, string rua_grafo) {
 	//faz se break e retorna true
 	vector<string> splited_rua_grafo = splitString(rua_grafo);
 	vector<string> splited_rua_utilizador = splitString(rua_utilizador);
-
-	for(int i = 0 ; (i + splited_rua_utilizador.size()) < splited_rua_grafo.size() ; i++ ){
+	for(int i = 0 ; (i + splited_rua_utilizador.size()) <= splited_rua_grafo.size() ; i++ ){
 		string text = concatenateStrings(splited_rua_grafo, splited_rua_utilizador.size(), i);
 		string pattern = concatenateStrings(splited_rua_utilizador, splited_rua_utilizador.size(), 0);
 		if(KMP(pattern, text))
