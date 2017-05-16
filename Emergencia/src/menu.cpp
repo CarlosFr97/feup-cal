@@ -132,11 +132,13 @@ void menu_principal(Emergencia &em)
 			}
 
 			case 2:{
-				gotoXY(20,16);
+				system("CLS");
+				/*gotoXY(20,16);
 				string rua;
 				cout << "Insira a Rua que se encontra: ";
 				getline(cin,rua);
-				stringMethod(rua, em);
+				stringMethod(rua, em);*/
+				menuFreguesia(em);
 				break;
 			}
 			case 3: {
@@ -975,7 +977,7 @@ int stringMethod(string rua, Emergencia &em)
 					case 1: {
 
 						gotoXY(24,11);
-						em.pesquisaAproximada(rua);
+						//em.pesquisaAproximada(rua);
 						break;
 					}
 
@@ -989,6 +991,35 @@ int stringMethod(string rua, Emergencia &em)
 			}
 
 			return 0;
+}
+void menuFreguesia(Emergencia &em)
+{
+
+	int y = 12;
+	vector<Freguesia> aux = em.getFreguesias();
+	bool flag = false;
+	string freguesia;
+	for(unsigned int i = 0; i < aux.size(); i++)
+	{
+		gotoXY(18,y);
+		cout << "- " << em.getFreguesias().at(i).getNome();
+		gotoXY(40,y);
+		if(i == aux.size()-1)
+			cout << endl;
+		else
+		cout << "- " << em.getFreguesias().at(++i).getNome()  << endl;
+		y++;
+	}
+	y +=2;
+	do{
+		gotoXY(18,y);
+		cout << "Por favor insira a freguesia pretendiada: ";
+		getline(cin,freguesia);
+		gotoXY(18,y);
+		cout << CLEAN_LINE;
+		gotoXY(18,y);
+		em.verificacaoAproximada(freguesia, "freguesias");
+	}while(flag == false);
 }
 
 // ---------------------- lOCALIZAR CURSOR

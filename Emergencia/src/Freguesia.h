@@ -19,11 +19,11 @@ class Freguesia {
 private:
 	string nome;
 	int ID;
-
+	multimap<int, int> IDNosRuas;
 
 
 public:
-	std::multimap<int, int> IDNosRuas;
+
 	/**
 	 * Construtor de um objeto do tipo freguesia. Uma freguesia e caraterizada por um nome especifico e um ID, para cada freguesia,
 	 * e guardados identificadores de todos os nos que representam essa freguesia.

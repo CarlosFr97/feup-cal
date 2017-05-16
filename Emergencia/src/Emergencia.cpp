@@ -250,15 +250,19 @@ void Emergencia::readFiles() {
 			do {
 				linestream >> idNo >> token;
 
-				f.IDNosRuas.insert(pair<int, int> (idRua, idNo));
+				f.setIDRuaNo(idRua, idNo);
 
 			} while (token == ',');
 
 		}while(token == ';');
 
-		/*		for (multimap<int,int>::iterator it= f.IDNosRuas.begin(); it != f.IDNosRuas.end(); ++it) {
-			cout << it->first << "  " << it->second << ", " ;
-		}*/
+
+		multimap<int, int> final = f.getIDRuaNo();
+		for (std::multimap<int,int>::iterator it=final.begin(); it !=final.end(); ++it)
+		{
+			cout << "RUA: " << (*it).first <<"  NO:  "<< (*it).second << "\n" ;
+		}
+		getchar();
 
 
 		freguesias.push_back(f);
@@ -683,7 +687,9 @@ bool Emergencia::pesquisaExata(string rua_utilizador, string rua_grafo) {
 	return false;
 }
 
-void Emergencia::pesquisaAproximada(string rua_utilizador){
+multimap<int, string> Emergencia::pesquisaAproximada(string rua_utilizador, vector<string> &graph_vector){
+
+
 
 	vector<string> split_rua_utilizador = splitString(rua_utilizador); // vetor com todas as palavras escritas pelo utilizador, divididas em strings
 	vector<string> split_rua_grafo; // vetor com todas as palavras da rua do grafo que se encontra em análise, divididas em strings
@@ -697,9 +703,9 @@ void Emergencia::pesquisaAproximada(string rua_utilizador){
 	for (unsigned int i=0; i<split_rua_utilizador.size(); i++){
 
 		//para cada palavra do utilizador itera todas as ruas do grafo
-		for(unsigned int j=0; j<ruas.size(); j++){
+		for(unsigned int j=0; j<graph_vector.size(); j++){
 
-			split_rua_grafo= splitString(ruas[j].getNome()); // divide a ruado grafo em analise nas suas varias palavras
+			split_rua_grafo= splitString(graph_vector[j]); // divide a ruado grafo em analise nas suas varias palavras
 			diferenca_minima = -1; // reset ao valor da diferenca minima da rua sinalizando que houve mudanca de rua
 
 			//itera cada uma das palavras da rua do grafo em analise
@@ -724,7 +730,7 @@ void Emergencia::pesquisaAproximada(string rua_utilizador){
 
 			}
 			//insere a rua analisada no map de ruas da palavra de utilizador que esta atualmente a ser analisada
-			map_ruas.insert(pair<string, int>(ruas[j].getNome(), diferenca_minima));
+			map_ruas.insert(pair<string, int>(graph_vector[j], diferenca_minima));
 		}
 		//terminado a analise da palavra do utilizador para todas as ruas,
 		//guarda-se o map resultante para cada palavra, limpando o map ruas para que possa ser utilizado pela palavra seguinte
@@ -736,27 +742,52 @@ void Emergencia::pesquisaAproximada(string rua_utilizador){
 	int totaldistance;
 
 	//calcula a menor diatncia total entre a cada rua do grafo e a string total escrita pelo utilizador
-	for(unsigned int i=0;i< ruas.size(); i++){
+	for(unsigned int i=0;i< graph_vector.size(); i++){
 
 		totaldistance=0;
 		//para cada rua itera-se o vetor que contem os maps de cada uma das palavras da string do utilizaodr
 		for(unsigned int j=0; j<diferenca_ruas.size(); j++){
 
 			//soma as varias distancias minimas da rua em analise
-			totaldistance += diferenca_ruas[j][ruas[i].getNome()];
+			totaldistance += diferenca_ruas[j][graph_vector[i]];
 		}
 		//insere no vetor final um par contendo a minima distancia total da rua e o seu nome
 		//para que sejam ordenados por minima distancia
-		final.insert(pair<int, string>(totaldistance, ruas[i].getNome()));
+		final.insert(pair<int, string>(totaldistance, graph_vector[i]));
 	}
 
-	//imprimir o nome das ruas pela sua ordem de semelhanca,da mais semelhante para a menos semelhante
-	for (std::multimap<int,string>::iterator it=final.begin(); it!=final.end(); ++it){
+	//retorna o nome das ruas pela sua ordem de semelhanca,da mais semelhante para a menos semelhante
+	return final;
 
-		cout<<(*it).second<<endl;
+}
+
+void Emergencia::verificacaoAproximada(string string_utilizador, string tipo){
+
+	vector<string> graph_strings;
+
+	if(tipo == "ruas"){
+		for(int i=0; i<ruas.size(); i++){
+
+			graph_strings.push_back(ruas[i].getNome());
+		}
+	}else
+	{
+		for(int i=0; i<freguesias.size(); i++){
+
+			graph_strings.push_back(freguesias[i].getNome());
+		}
 	}
+	multimap<int,string> final_strings = pesquisaAproximada(string_utilizador, graph_strings);
 
+	unsigned int to_print = 0;
+	for (std::multimap<int,string>::iterator it=final_strings.begin(); it!=final_strings.end(); ++it){
+		if(to_print < 5){
 
+			cout<<(*it).second<<endl;
+			to_print++;
+		}
+	}
+	getchar();
 
 }
 
@@ -791,6 +822,11 @@ string Emergencia::encontraVeiculos(Rua rua) {
 		}
 	}
 	return ret;
+}
+
+
+vector<Freguesia> Emergencia::getFreguesias(){
+	return freguesias;
 }
 
 

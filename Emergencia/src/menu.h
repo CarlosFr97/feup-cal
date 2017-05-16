@@ -16,7 +16,7 @@
 #include "Emergencia.h"
 #include <string>
 
-#define CLEAN_LINE "                                                                                 ";
+#define CLEAN_LINE "                                                                                              ";
 
 
 /**
@@ -63,6 +63,8 @@ int stringMethod(string rua, Emergencia &em);
  */
 void gotoXY(int x,int y);
 
+
+void menuFreguesia(Emergencia &em);
 
 
 #endif /* SRC_MENU_H_ */

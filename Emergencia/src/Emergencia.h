@@ -146,10 +146,13 @@ public:
 
 	bool pesquisaExata(string rua_utilizador,string rua_grafo);
 
-	void pesquisaAproximada(string rua_utilizador);
+	multimap<int, string> pesquisaAproximada(string rua_utilizador, vector<string> &graph_vector);
 
+	void verificacaoAproximada(string string_utilizador, string tipo);
 
 	string encontraVeiculos(Rua rua);
+
+	vector<Freguesia> getFreguesias();
 
 
 
