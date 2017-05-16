@@ -12,16 +12,18 @@
 #include <vector>
 #include <cstdlib>
 #include <time.h>
+#include <map>
 using namespace std;
 
 class Freguesia {
 private:
 	string nome;
 	int ID;
-	vector<int> IDnos;
+
+
 
 public:
-
+	std::multimap<int, int> IDNosRuas;
 	/**
 	 * Construtor de um objeto do tipo freguesia. Uma freguesia e caraterizada por um nome especifico e um ID, para cada freguesia,
 	 * e guardados identificadores de todos os nos que representam essa freguesia.
@@ -34,15 +36,16 @@ public:
 	 */
 	virtual ~Freguesia();
 	/**
-	 * Adiciona ao vetor de identificadores de nos com o valor dado como parametro
-	 * @param IDnos inteiro a ser adicionado ao vetor IDnos
+	 * Adiciona ao multimap os ids de nos e ruas
+	 * @param idRua inteiro que representa a key
+	 * * @param idNo inteiro que representa o value
 	 */
-	void setNoID(int IDnos);
+	void setIDRuaNo(int idRua, int idNo);
 	/**
-	 * Funcao que retorna o vetor que representao os Nos que pertencem a rua
+	 * Funcao que retorna o multimap que representao os Nos que pertencem a cada rua
 	 * @return a variavel IDnos do objeto
 	 */
-	vector<int> getNosID();
+	multimap<int, int> getIDRuaNo();
 	/**
 	 * Devolve o nome da rua
 	 * @return a variavel nome do objeto

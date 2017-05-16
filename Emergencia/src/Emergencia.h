@@ -142,7 +142,7 @@ public:
 	 */
 	bool verificarConetividade();
 
-	string verificarRuaExata(string rua_utilizador);
+	string verificarExata(string tipo, string user_string);
 
 	bool pesquisaExata(string rua_utilizador,string rua_grafo);
 

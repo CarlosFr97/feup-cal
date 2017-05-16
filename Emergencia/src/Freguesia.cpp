@@ -14,16 +14,16 @@ Freguesia::Freguesia(int ID, string nome) {
 
 }
 
-void Freguesia::setNoID(int IDno){
-	IDnos.push_back(IDno);
+void Freguesia::setIDRuaNo(int idRua, int idNo){
+	IDNosRuas.insert(pair<int, int> (idRua, idNo));
 }
 
 Freguesia::~Freguesia() {
 	// TODO Auto-generated destructor stub
 }
 
-vector<int> Freguesia::getNosID(){
-	return IDnos;
+multimap<int, int> Freguesia::getIDRuaNo(){
+	return IDNosRuas;
 }
 
 string Freguesia::getNome()

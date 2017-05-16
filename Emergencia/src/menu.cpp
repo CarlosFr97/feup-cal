@@ -882,6 +882,7 @@ int tipoLocalizacao(Emergencia &em)
 
 int stringMethod(string rua, Emergencia &em)
 {
+	cout << rua << endl;
 	int menu_item = 0; //usada para saber qual e o caso do switch que esta a apontar
 			int 	x = 10; //usada para saber a linha que a seta esta apontar
 			bool running = true;
@@ -965,7 +966,8 @@ int stringMethod(string rua, Emergencia &em)
 					case 0: {
 
 						gotoXY(18,15);
-						cout<< em.verificarRuaExata(rua)<<endl;
+						cout<< em.verificarExata("ruas", rua)<<endl;
+						Sleep(2000);
 						break;
 					}
 

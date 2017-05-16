@@ -2,6 +2,7 @@
 #include "Emergencia.h"
 #include "Rua.h"
 #include "Graph.h"
+#include <map>
 
 using namespace std;
 
@@ -231,6 +232,8 @@ void Emergencia::readFiles() {
 
 	string nomeFreguesia;
 	int idFreguesia;
+	idNo = 0;
+	idRua = 0;
 
 	while (getline(inFile, line)) {
 
@@ -240,16 +243,28 @@ void Emergencia::readFiles() {
 		getline(linestream, nomeFreguesia, ';');
 
 		Freguesia f(idFreguesia, nomeFreguesia);
-		do {
-			linestream >> NoID >> token;
-			f.setNoID(NoID);
-		} while (token == ',');
 
+		do{
+			linestream >> idRua >> token;
+
+			do {
+				linestream >> idNo >> token;
+
+				f.IDNosRuas.insert(pair<int, int> (idRua, idNo));
+
+			} while (token == ',');
+
+		}while(token == ';');
+
+		/*		for (multimap<int,int>::iterator it= f.IDNosRuas.begin(); it != f.IDNosRuas.end(); ++it) {
+			cout << it->first << "  " << it->second << ", " ;
+		}*/
 
 
 		freguesias.push_back(f);
 
 	}
+
 
 	inFile.close();
 
@@ -627,16 +642,25 @@ bool Emergencia::verificarConetividade() {
 	return myGraph.stronglyConnectedComponents();
 }
 
-string Emergencia::verificarRuaExata(string rua_utilizador) {
+string Emergencia::verificarExata(string tipo, string user_string) {
 	string ret = "";
 	bool encontrou = false;
-	for (unsigned int i = 0; i < ruas.size(); i++) {
-		if (pesquisaExata(rua_utilizador, ruas.at(i).getNome())) {
-			encontrou = true;
-			ret += encontraVeiculos(ruas.at(i)) + "\n";
+	if(tipo == "ruas")
+		for (unsigned int i = 0; i < ruas.size(); i++) {
+			if (pesquisaExata(user_string, ruas.at(i).getNome())) {
+				encontrou = true;
+				ret += encontraVeiculos(ruas.at(i)) + "\n";
 
+			}
 		}
-	}
+	else
+		for (unsigned int i = 0; i < freguesias.size(); i++) {
+					if (pesquisaExata(user_string, freguesias.at(i).getNome())) {
+						encontrou = true;
+						ret += freguesias.at(i).getNome() + "\n";
+
+					}
+				}
 	if(!encontrou)
 		ret = "lugar desconhecido";
 	return ret;
