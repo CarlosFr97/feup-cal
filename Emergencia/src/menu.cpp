@@ -964,6 +964,8 @@ int stringMethod(string rua, Emergencia &em)
 					switch (menu_item) {
 					case 0: {
 
+						gotoXY(18,15);
+						cout<< em.verificarRuaExata(rua)<<endl;
 						break;
 					}
 

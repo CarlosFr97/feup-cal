@@ -146,12 +146,10 @@ public:
 
 	bool pesquisaExata(string rua_utilizador,string rua_grafo);
 
-	bool pesquisaAproximada(string rua_utilizador);
+	void pesquisaAproximada(string rua_utilizador);
 
 
 	string encontraVeiculos(Rua rua);
-
-	vector<string> verificarRuaAproximada(string rua_utilizador);
 
 
 

@@ -182,7 +182,7 @@ void Emergencia::readFiles() {
 		} while (token == ',');
 		ruas.push_back(r);
 
-		for (int i = 0; i < r.getNosID().size() - 1; i++) {
+		for (unsigned int i = 0; i < r.getNosID().size() - 1; i++) {
 
 			Vertex<No>* v1 = findNo(r.getNosID().at(i));
 			Vertex<No>* v2 = findNo(r.getNosID().at(i + 1));
@@ -660,95 +660,79 @@ bool Emergencia::pesquisaExata(string rua_utilizador, string rua_grafo) {
 	return false;
 }
 
-bool Emergencia::pesquisaAproximada(string rua_utilizador){
+void Emergencia::pesquisaAproximada(string rua_utilizador){
 
-	vector<string> split_rua_utilizador = splitString(rua_utilizador);
-	vector<string> ruas_mais_proximas;
-	vector<string> split_rua_grafo;
-	map<string, int> map_ruas;
-	vector<map<string,int>> semelhanca_ruas; //multimap <grau semelhanca da rua_grafo com a rua_utilizador, id rua_grafo>
-	vector<int> semelhanca_nr;
-	multimap<int, string> final;
-	vector<string> semelhanca_string;
-	int semelhanca_atual;
-	string rua_atual;
-	int nr_vezes_aparece;
-	int nr_maximo_vezes=0;
-	int semelhanca_temp;
+	vector<string> split_rua_utilizador = splitString(rua_utilizador); // vetor com todas as palavras escritas pelo utilizador, divididas em strings
+	vector<string> split_rua_grafo; // vetor com todas as palavras da rua do grafo que se encontra em análise, divididas em strings
+	map<string, int> map_ruas; // map <nome da rua, menor diferenca entre a palavra do utilizador, a ser analisada e as varias palavras da rua em questao>
+	vector<map<string,int>> diferenca_ruas; //vetor contendo os map_ruas de cada uma das palavras escritas pelo utilizador
+	multimap<int, string> final; //multimap<diferenca minima total da rua em consideracao, nome da rua em consideracao>
+	int diferenca_minima;
+	int diferenca_temp;
 
-	//separa todas as ruas do grafo em palavras unicas e coloca-as na matriz de strings
-	for (int i=0; i<split_rua_utilizador.size(); i++){
+	//itera todas as palavras escritas pelo utilizador
+	for (unsigned int i=0; i<split_rua_utilizador.size(); i++){
 
-		semelhanca_atual = -1;
-		for(int j=0; j<ruas.size(); j++){
+		//para cada palavra do utilizador itera todas as ruas do grafo
+		for(unsigned int j=0; j<ruas.size(); j++){
 
-			split_rua_grafo= splitString(ruas[j].getNome());
-			semelhanca_atual = -1;
+			split_rua_grafo= splitString(ruas[j].getNome()); // divide a ruado grafo em analise nas suas varias palavras
+			diferenca_minima = -1; // reset ao valor da diferenca minima da rua sinalizando que houve mudanca de rua
 
-			for(int k=0; k<split_rua_grafo.size(); k++){
+			//itera cada uma das palavras da rua do grafo em analise
+			for(unsigned int k=0; k<split_rua_grafo.size(); k++){
 
+				//condicao para garantir que as palavras com tamanho menor que o da palavra do utilizador,
+				//e que ao mesmo tempo nao tem 3 caracteres(para evitar analise excessiva de palavras com "de" "da",
+				//que poderiam provocar semelhancas indesejadas), nao serão analisadas.
 				if((split_rua_grafo[k].size() < split_rua_utilizador[i].size()) && ( split_rua_grafo[k].size() < 3))
 					continue;
 
-				semelhanca_temp = editDistance(split_rua_utilizador[i], split_rua_grafo[k]);
-				if(semelhanca_atual ==-1 || semelhanca_temp<semelhanca_atual){
-					semelhanca_atual = semelhanca_temp;
+				//obtem a distancia entre a palvara do utilizador que esta a ser analisada
+				//e a palavra da rua que esta a ser analisada
+				diferenca_temp = editDistance(split_rua_utilizador[i], split_rua_grafo[k]);
+
+				//verifica se essa é a primeira palavra da rua que esta a ser analisada
+				//ou se a sua diferenca dessa rua é menor que a minima diferenca atual da rua,
+				//atualizando a diferenca minima se for esse o caso
+				if(diferenca_minima ==-1 || diferenca_temp<diferenca_minima){
+					diferenca_minima = diferenca_temp;
 				}
 
 			}
-			map_ruas.insert(pair<string, int>(ruas[j].getNome(), semelhanca_atual));
+			//insere a rua analisada no map de ruas da palavra de utilizador que esta atualmente a ser analisada
+			map_ruas.insert(pair<string, int>(ruas[j].getNome(), diferenca_minima));
 		}
-		semelhanca_ruas.push_back(map_ruas);
+		//terminado a analise da palavra do utilizador para todas as ruas,
+		//guarda-se o map resultante para cada palavra, limpando o map ruas para que possa ser utilizado pela palavra seguinte
+		diferenca_ruas.push_back(map_ruas);
 		map_ruas.clear();
 
 	}
 
 	int totaldistance;
 
-	for(int i=0;i< ruas.size(); i++){
+	//calcula a menor diatncia total entre a cada rua do grafo e a string total escrita pelo utilizador
+	for(unsigned int i=0;i< ruas.size(); i++){
 
 		totaldistance=0;
-		for(int j=0; j<semelhanca_ruas.size(); j++){
+		//para cada rua itera-se o vetor que contem os maps de cada uma das palavras da string do utilizaodr
+		for(unsigned int j=0; j<diferenca_ruas.size(); j++){
 
-
-			cout<<j<<"   Semelhanca: "<<semelhanca_ruas[j][ruas[i].getNome()]<<"   nome rua: "<<ruas[i].getNome()<<endl;
-			totaldistance += semelhanca_ruas[j][ruas[i].getNome()];
-
+			//soma as varias distancias minimas da rua em analise
+			totaldistance += diferenca_ruas[j][ruas[i].getNome()];
 		}
+		//insere no vetor final um par contendo a minima distancia total da rua e o seu nome
+		//para que sejam ordenados por minima distancia
 		final.insert(pair<int, string>(totaldistance, ruas[i].getNome()));
 	}
 
-
+	//imprimir o nome das ruas pela sua ordem de semelhanca,da mais semelhante para a menos semelhante
 	for (std::multimap<int,string>::iterator it=final.begin(); it!=final.end(); ++it){
 
 		cout<<(*it).second<<endl;
 	}
 
-
-
-
-	/*for(int i=0; i<semelhanca_string.size(); i++){
-
-		cout<<semelhanca_string[i]<<endl;
-		/*int nr_vezes_aparece = count(semelhanca_string.begin(), semelhanca_string.end(), semelhanca_string[i]);
-		if(nr_maximo_vezes==0 || nr_maximo_vezes < nr_vezes_aparece){
-
-			nr_maximo_vezes = nr_vezes_aparece;
-			rua_atual = semelhanca_string[i];
-		}
-
-	}*/
-
-
-	/*{
-
-						semelhanca_atual = semelhanca_temp;
-						cout<<"Rua: "<<ruas[j].getNome()<<"  Semelhanca: "<<semelhanca_atual<<endl;
-						rua_atual = ruas[j].getNome();
-					}*/
-
-
-	return true;
 
 
 }
@@ -786,9 +770,4 @@ string Emergencia::encontraVeiculos(Rua rua) {
 	return ret;
 }
 
-vector<string> Emergencia::verificarRuaAproximada(string rua_utilizador)
-{
-	vector<string> ret;
-	return ret;
-}
 
