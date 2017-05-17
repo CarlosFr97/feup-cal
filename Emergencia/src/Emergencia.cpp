@@ -802,7 +802,7 @@ vector<string> Emergencia::verificacaoAproximada(string string_utilizador, strin
 
 
 
-string Emergencia::encontraVeiculos(vector<int> ids) {
+void Emergencia::encontraVeiculos(vector<int> ids) {
 	string ret = "";
 	bool in = false;
 	bool bomb = false;
@@ -811,10 +811,7 @@ string Emergencia::encontraVeiculos(vector<int> ids) {
 	int numPolicias = 0;
 	int numBombeiros = 0;
 
-	for(unsigned int i = 0; i < ids.size(); i++)
-	{
-		cout << ids.at(i)<< endl;
-	}
+
 	for (unsigned int i = 0; i < INEM.size(); i++) {
 		for (unsigned int a = 0; a < ids.size(); a++) {
 			if (INEM.at(i).getlocalNode().getID() == ids.at(a)) {
@@ -825,7 +822,7 @@ string Emergencia::encontraVeiculos(vector<int> ids) {
 		}
 	}
 	if(in){
-		ret += "INEM: " + numInem + '\n';
+		cout<<"    INEM: " << numInem <<endl;
 	}
 	for (unsigned int i = 0; i < bombeiros.size(); i++) {
 		for (unsigned int a = 0; a < ids.size(); a++) {
@@ -836,9 +833,11 @@ string Emergencia::encontraVeiculos(vector<int> ids) {
 			}
 		}
 	}
-	if(bomb){
-		ret += "BOMBEIROS: " + numBombeiros + '\n';
-	}
+
+	if(bomb)
+		cout <<"    BOMBEIROS: " <<numBombeiros <<endl;
+
+
 	for (unsigned int i = 0; i < policia.size(); i++) {
 		for (unsigned int a = 0; a < ids.size(); a++) {
 			if (policia.at(i).getlocalNode().getID() == ids.at(a)) {
@@ -849,9 +848,9 @@ string Emergencia::encontraVeiculos(vector<int> ids) {
 		}
 	}
 	if(pol){
-			ret += "POLCIA: " + numPolicias + '\n';
+			cout << "    POLCIA: " << numPolicias << endl;
 		}
-	return ret;
+
 }
 
 

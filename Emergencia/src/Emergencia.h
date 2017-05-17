@@ -150,7 +150,7 @@ public:
 
 	vector<string> verificacaoAproximada(string string_utilizador, string tipo, Freguesia fr);
 
-	string encontraVeiculos(vector<int> ids);
+	void encontraVeiculos(vector<int> ids);
 
 	vector<Freguesia> getFreguesias();
 
