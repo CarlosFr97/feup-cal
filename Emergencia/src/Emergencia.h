@@ -142,15 +142,15 @@ public:
 	 */
 	bool verificarConetividade();
 
-	string verificarExata(string tipo, string user_string);
+	string verificacaoExata(string user_string, string tipo, Freguesia fr);
 
 	bool pesquisaExata(string rua_utilizador,string rua_grafo);
 
 	multimap<int, string> pesquisaAproximada(string rua_utilizador, vector<string> &graph_vector);
 
-	void verificacaoAproximada(string string_utilizador, string tipo);
+	vector<string> verificacaoAproximada(string string_utilizador, string tipo);
 
-	string encontraVeiculos(Rua rua);
+	string encontraVeiculos(vector<int> ids);
 
 	vector<Freguesia> getFreguesias();
 

@@ -64,6 +64,7 @@ int stringMethod(string rua, Emergencia &em);
 void gotoXY(int x,int y);
 
 
+void menuRua(Emergencia &em,Freguesia feg);
 void menuFreguesia(Emergencia &em);
 
 

@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <string>
+#include <map>
 
 /**
  *
@@ -33,5 +34,9 @@ int GetMilliSpan(int nTimeStart);
 vector<string> splitString(string rua);
 
 string concatenateStrings(vector<string> vec, int num, int first_pos);
+
+vector<int> getKeys(multimap<int, int> mmap);
+
+vector<int> getValues(multimap<int, int> mmap, int key);
 
 #endif /* SRC_UTILS_H_ */

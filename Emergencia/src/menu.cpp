@@ -96,13 +96,13 @@ void menu_principal(Emergencia &em)
 			continue;
 		}
 		else if (GetAsyncKeyState(0x33))
-				{
-					gotoXY(18, x); cout << "  ";
-					x = 12;
-					gotoXY(18, x); cout << "->";
-					menu_item = 2;
-					continue;
-				}
+		{
+			gotoXY(18, x); cout << "  ";
+			x = 12;
+			gotoXY(18, x); cout << "->";
+			menu_item = 2;
+			continue;
+		}
 		else if (GetAsyncKeyState(VK_RETURN)) { // Enter key pressed
 			//dependendo da posicao da seta no menu, ao carregar enter vera o valor do menu_item correspondente a essa linha e executa a opcao escolhida
 
@@ -451,24 +451,24 @@ void emLevel(Emergencia &em,int typeFlag)
 				noid = tipoLocalizacao(em);
 				switch(typeFlag)
 				{
-					case 1:
-					{
+				case 1:
+				{
 					em.getCall(noid,1,2,1,true);
 					break;
-					}
+				}
 
 
-					case 2:
-					{
+				case 2:
+				{
 					em.getCall(noid,2,1,1, true);
-						break;
-					}
+					break;
+				}
 
-					case 3:
-					{
+				case 3:
+				{
 					em.getCall(noid,1,1,2, true);
-						break;
-					}
+					break;
+				}
 
 				}
 				Sleep(2000);
@@ -495,162 +495,162 @@ void emLevel(Emergencia &em,int typeFlag)
 int chooseRua(Emergencia &em)
 {
 	unsigned int menu_item = 0, x = 10, x2 = 10,pagina = 0;
-		bool running = true;
-		bool mini_flag = false;
-		bool ultima_pag = false;
-		bool ultima_pag_2 = false;
-		system("CLS");
+	bool running = true;
+	bool mini_flag = false;
+	bool ultima_pag = false;
+	bool ultima_pag_2 = false;
+	system("CLS");
 
 
-		gotoXY(18, 10); cout << "->";
-		while (running)
+	gotoXY(18, 10); cout << "->";
+	while (running)
+	{
+		gotoXY(18, 8); cout << "Lista de ruas";
+
+		if (mini_flag == false)
 		{
-			gotoXY(18, 8); cout << "Lista de ruas";
-
-			if (mini_flag == false)
+			for (int i = 10; i < 21;i++)
 			{
-				for (int i = 10; i < 21;i++)
+				gotoXY(20, i);
+				cout << CLEAN_LINE;
+			}
+			if (ultima_pag == true)
+			{
+				for (unsigned int i = pagina; i < em.getRuas().size(); i++)
 				{
-					gotoXY(20, i);
-					cout << CLEAN_LINE;
+					gotoXY(20, x2);
+					cout << em.getRuas().at(i).getNome();
+					x2++;
 				}
-				if (ultima_pag == true)
+			}
+			else
+			{
+				for (unsigned int i = pagina; (i <= pagina + 9); i++)
 				{
-					for (unsigned int i = pagina; i < em.getRuas().size(); i++)
-					{
-						gotoXY(20, x2);
-						cout << em.getRuas().at(i).getNome();
-						x2++;
-					}
+					gotoXY(20, x2);
+					cout << em.getRuas().at(i).getNome();
+					x2++;
 				}
-				else
-				{
-					for (unsigned int i = pagina; (i <= pagina + 9); i++)
-					{
-						gotoXY(20, x2);
-						cout << em.getRuas().at(i).getNome();
-						x2++;
-					}
-				}
-
-			}
-			system("pause>nul"); // the >nul bit causes it the print no message
-
-			if (!GetAsyncKeyState(VK_DOWN) && !GetAsyncKeyState(VK_UP) && !GetAsyncKeyState(VK_RETURN) && !GetAsyncKeyState(VK_LEFT) && !GetAsyncKeyState(VK_RIGHT))
-			{
-				continue;
-			}
-
-			if (GetAsyncKeyState(VK_DOWN) && x != (x2-1)) //down button pressed
-			{
-				gotoXY(18, x); cout << "  ";
-				x++;
-				gotoXY(18, x); cout << "->";
-				menu_item++;
-				mini_flag = true;
-				continue;
-
-			}
-			else if (GetAsyncKeyState(VK_DOWN) && x == (x2-1))
-			{
-
-					gotoXY(18, x); cout << "  ";
-					x = 10;
-					gotoXY(18, x); cout << "->";
-					menu_item = pagina;
-				mini_flag = true;
-				continue;
-
-			}
-
-			else if (GetAsyncKeyState(VK_UP) && x != 10) //up button pressed
-			{
-				gotoXY(18, x); cout << "  ";
-				x--;
-				gotoXY(18, x); cout << "->";
-				menu_item--;
-				mini_flag = true;
-				ultima_pag = false;
-				continue;
-			}
-			else if (GetAsyncKeyState(VK_UP) && x == 10)
-			{
-				gotoXY(18, x); cout << "  ";
-				x = x2-1;
-				gotoXY(18, x); cout << "->";
-				mini_flag = true;
-				ultima_pag = false;
-				menu_item = pagina + 9;
-				continue;
-
-
-			}
-			else if (GetAsyncKeyState(VK_RIGHT))
-			{
-
-				if (pagina < em.getRuas().size())
-				{
-					if (pagina + 20 > em.getRuas().size())
-
-					{
-						if (ultima_pag_2 == false)
-						{
-							menu_item +=10;//(em.getRuas().size() - pagina) + (pagina+10) - em.getRuas().size();
-							pagina += 10;
-
-							x2 = 10;
-							ultima_pag = true;
-							mini_flag = false;
-							ultima_pag_2 = true;
-						}
-						else
-						{
-							mini_flag = true;
-						}
-					}
-					else
-					{
-						menu_item += 10;
-						pagina += 10;
-						x2 = 10;
-						mini_flag = false;
-						ultima_pag = false;
-						ultima_pag_2 = false;
-					}
-
-				}
-				else
-					mini_flag = true;
-
-			}
-			else if (GetAsyncKeyState(VK_LEFT))
-			{
-
-				if (pagina >= 10)
-				{
-					pagina -= 10;
-					menu_item -= 10;
-					x2 = 10;
-					ultima_pag = false;
-					mini_flag = false;
-					ultima_pag_2 = false;
-				}
-				else
-					mini_flag = true;
-			}
-
-
-			else if (GetAsyncKeyState(VK_RETURN)) {
-				system("CLS");
-				//cout << "Ruas size: " << em.getRuas().size();
-				//cout << endl << "menu_item: " << menu_item <<endl;
-				///getchar();
-				cout << em.getRuas().at(menu_item).getNome() << endl;
-				getchar();
-				return em.getRuas().at(menu_item).getRandNoID();
 			}
 
 		}
+		system("pause>nul"); // the >nul bit causes it the print no message
+
+		if (!GetAsyncKeyState(VK_DOWN) && !GetAsyncKeyState(VK_UP) && !GetAsyncKeyState(VK_RETURN) && !GetAsyncKeyState(VK_LEFT) && !GetAsyncKeyState(VK_RIGHT))
+		{
+			continue;
+		}
+
+		if (GetAsyncKeyState(VK_DOWN) && x != (x2-1)) //down button pressed
+		{
+			gotoXY(18, x); cout << "  ";
+			x++;
+			gotoXY(18, x); cout << "->";
+			menu_item++;
+			mini_flag = true;
+			continue;
+
+		}
+		else if (GetAsyncKeyState(VK_DOWN) && x == (x2-1))
+		{
+
+			gotoXY(18, x); cout << "  ";
+			x = 10;
+			gotoXY(18, x); cout << "->";
+			menu_item = pagina;
+			mini_flag = true;
+			continue;
+
+		}
+
+		else if (GetAsyncKeyState(VK_UP) && x != 10) //up button pressed
+		{
+			gotoXY(18, x); cout << "  ";
+			x--;
+			gotoXY(18, x); cout << "->";
+			menu_item--;
+			mini_flag = true;
+			ultima_pag = false;
+			continue;
+		}
+		else if (GetAsyncKeyState(VK_UP) && x == 10)
+		{
+			gotoXY(18, x); cout << "  ";
+			x = x2-1;
+			gotoXY(18, x); cout << "->";
+			mini_flag = true;
+			ultima_pag = false;
+			menu_item = pagina + 9;
+			continue;
+
+
+		}
+		else if (GetAsyncKeyState(VK_RIGHT))
+		{
+
+			if (pagina < em.getRuas().size())
+			{
+				if (pagina + 20 > em.getRuas().size())
+
+				{
+					if (ultima_pag_2 == false)
+					{
+						menu_item +=10;//(em.getRuas().size() - pagina) + (pagina+10) - em.getRuas().size();
+						pagina += 10;
+
+						x2 = 10;
+						ultima_pag = true;
+						mini_flag = false;
+						ultima_pag_2 = true;
+					}
+					else
+					{
+						mini_flag = true;
+					}
+				}
+				else
+				{
+					menu_item += 10;
+					pagina += 10;
+					x2 = 10;
+					mini_flag = false;
+					ultima_pag = false;
+					ultima_pag_2 = false;
+				}
+
+			}
+			else
+				mini_flag = true;
+
+		}
+		else if (GetAsyncKeyState(VK_LEFT))
+		{
+
+			if (pagina >= 10)
+			{
+				pagina -= 10;
+				menu_item -= 10;
+				x2 = 10;
+				ultima_pag = false;
+				mini_flag = false;
+				ultima_pag_2 = false;
+			}
+			else
+				mini_flag = true;
+		}
+
+
+		else if (GetAsyncKeyState(VK_RETURN)) {
+			system("CLS");
+			//cout << "Ruas size: " << em.getRuas().size();
+			//cout << endl << "menu_item: " << menu_item <<endl;
+			///getchar();
+			cout << em.getRuas().at(menu_item).getNome() << endl;
+			getchar();
+			return em.getRuas().at(menu_item).getRandNoID();
+		}
+
+	}
 	return 0;
 }
 
@@ -765,120 +765,120 @@ bool chooseAlgorithm()
 int tipoLocalizacao(Emergencia &em)
 {
 	int menu_item = 0; //usada para saber qual e o caso do switch que esta a apontar
-		int 	x = 10; //usada para saber a linha que a seta esta apontar
-		bool running = true;
-		system("CLS");//cleans cmd
+	int 	x = 10; //usada para saber a linha que a seta esta apontar
+	bool running = true;
+	system("CLS");//cleans cmd
 
 
 
 
-		gotoXY(18, 10); cout << "->";
+	gotoXY(18, 10); cout << "->";
 
-		while (running)
+	while (running)
+	{
+		gotoXY(18, 8); cout << "Tipo de escolha:";
+		gotoXY(20, 10);  cout << "1) Nos";
+		gotoXY(20, 11);  cout << "2) Ruas";
+
+		system("pause>nul"); // the >nul bit causes it to print no message
+
+		if (!GetAsyncKeyState(VK_DOWN) && !GetAsyncKeyState(VK_UP) && !GetAsyncKeyState(VK_RETURN) && !GetAsyncKeyState(0x31) && !GetAsyncKeyState(0x32) )// se for clicado uma tecla diferente das setas (cima e baixo) e enter, nao faz nada
 		{
-			gotoXY(18, 8); cout << "Tipo de escolha:";
-			gotoXY(20, 10);  cout << "1) Nos";
-			gotoXY(20, 11);  cout << "2) Ruas";
+			continue;
+		}
 
-			system("pause>nul"); // the >nul bit causes it to print no message
+		if (GetAsyncKeyState(VK_DOWN) && x != 11) //down button pressed and
+		{
+			gotoXY(18, x); cout << "  ";//limpa seta
+			x++;
+			gotoXY(18, x); cout << "->";//seta aponta para a proxima linha do menu
+			menu_item++;//faz com que este valor seja coerente com a linha que esta apontar
+			continue;
 
-			if (!GetAsyncKeyState(VK_DOWN) && !GetAsyncKeyState(VK_UP) && !GetAsyncKeyState(VK_RETURN) && !GetAsyncKeyState(0x31) && !GetAsyncKeyState(0x32) )// se for clicado uma tecla diferente das setas (cima e baixo) e enter, nao faz nada
-			{
-				continue;
-			}
+		}
+		else if (GetAsyncKeyState(VK_DOWN) && x == 11) // se precionar para baixo na ultima linha do menu, volta a primeira linha do mesmo
+		{
+			gotoXY(18, x); cout << "  ";//"limpa" a seta
+			x = 10;//posicao em x da pos inicial
+			gotoXY(18, x); cout << "->"; // mete a seta nessa pos inicial
+			menu_item = 0;//atribui o caso 0 do switch para a primeira linha como e suposto
+			continue;
 
-			if (GetAsyncKeyState(VK_DOWN) && x != 11) //down button pressed and
-			{
-				gotoXY(18, x); cout << "  ";//limpa seta
-				x++;
-				gotoXY(18, x); cout << "->";//seta aponta para a proxima linha do menu
-				menu_item++;//faz com que este valor seja coerente com a linha que esta apontar
-				continue;
+		}
 
-			}
-			else if (GetAsyncKeyState(VK_DOWN) && x == 11) // se precionar para baixo na ultima linha do menu, volta a primeira linha do mesmo
-			{
-				gotoXY(18, x); cout << "  ";//"limpa" a seta
-				x = 10;//posicao em x da pos inicial
-				gotoXY(18, x); cout << "->"; // mete a seta nessa pos inicial
-				menu_item = 0;//atribui o caso 0 do switch para a primeira linha como e suposto
-				continue;
-
-			}
-
-			else if (GetAsyncKeyState(VK_UP) && x != 10) //up button pressed
-			{
-				gotoXY(18, x); cout << "  ";
-				x--;
-				gotoXY(18, x); cout << "->";//seta aponta para a linha anterior
-				menu_item--;
-				continue;
-			}
-			else if (GetAsyncKeyState(VK_UP) && x == 10)//se precionar para cima na primeira linha do menu a seta passa a apontar para a ultima linha do mesmo
-			{
-				gotoXY(18, x); cout << "  ";
-				x = 11;//pos em x da pos final do menu (defenido nos couts)
-				gotoXY(18, x); cout << "->";//mete seta nessa posicao
-				menu_item = 1; // menu_item correspondente a ultima linha do menu
-				continue;
+		else if (GetAsyncKeyState(VK_UP) && x != 10) //up button pressed
+		{
+			gotoXY(18, x); cout << "  ";
+			x--;
+			gotoXY(18, x); cout << "->";//seta aponta para a linha anterior
+			menu_item--;
+			continue;
+		}
+		else if (GetAsyncKeyState(VK_UP) && x == 10)//se precionar para cima na primeira linha do menu a seta passa a apontar para a ultima linha do mesmo
+		{
+			gotoXY(18, x); cout << "  ";
+			x = 11;//pos em x da pos final do menu (defenido nos couts)
+			gotoXY(18, x); cout << "->";//mete seta nessa posicao
+			menu_item = 1; // menu_item correspondente a ultima linha do menu
+			continue;
 
 
-			}
-			else if (GetAsyncKeyState(0x31))
-			{
-				gotoXY(18, x); cout << "  ";
-				x = 10;
-				gotoXY(18, x); cout << "->";
-				menu_item = 0;
-				continue;
-			}
-			else if (GetAsyncKeyState(0x32))
-			{
-				gotoXY(18, x); cout << "  ";
-				x = 11;
-				gotoXY(18, x); cout << "->";
-				menu_item = 1;
-				continue;
-			}
-			else if (GetAsyncKeyState(VK_RETURN)) { // Enter key pressed
-				//dependendo da posicao da seta no menu, ao carregar enter vera o valor do menu_item correspondente a essa linha e executa a opcao escolhida
+		}
+		else if (GetAsyncKeyState(0x31))
+		{
+			gotoXY(18, x); cout << "  ";
+			x = 10;
+			gotoXY(18, x); cout << "->";
+			menu_item = 0;
+			continue;
+		}
+		else if (GetAsyncKeyState(0x32))
+		{
+			gotoXY(18, x); cout << "  ";
+			x = 11;
+			gotoXY(18, x); cout << "->";
+			menu_item = 1;
+			continue;
+		}
+		else if (GetAsyncKeyState(VK_RETURN)) { // Enter key pressed
+			//dependendo da posicao da seta no menu, ao carregar enter vera o valor do menu_item correspondente a essa linha e executa a opcao escolhida
 
-				switch (menu_item) {
+			switch (menu_item) {
 
-				case 0: {
+			case 0: {
 
-					int noID = -1;
-					while(em.findNo(noID) == NULL)
-					{
-						gotoXY(20,16);
-						cout << "Insira o No onde se encontra: ";
-						cin >> noID;
-						gotoXY(20,16);
-						cout << CLEAN_LINE;
-					}
-
-
-					return noID;
-					break;
+				int noID = -1;
+				while(em.findNo(noID) == NULL)
+				{
+					gotoXY(20,16);
+					cout << "Insira o No onde se encontra: ";
+					cin >> noID;
+					gotoXY(20,16);
+					cout << CLEAN_LINE;
 				}
 
 
-				case 1: {
-
-					chooseRua(em);
-					break;
-				}
+				return noID;
+				break;
+			}
 
 
+			case 1: {
+
+				chooseRua(em);
+				break;
+			}
 
 
-				}
+
 
 			}
 
 		}
 
-		return 0;
+	}
+
+	return 0;
 
 }
 
@@ -886,111 +886,111 @@ int stringMethod(string rua, Emergencia &em)
 {
 	cout << rua << endl;
 	int menu_item = 0; //usada para saber qual e o caso do switch que esta a apontar
-			int 	x = 10; //usada para saber a linha que a seta esta apontar
-			bool running = true;
-			system("CLS");//cleans cmd
+	int 	x = 10; //usada para saber a linha que a seta esta apontar
+	bool running = true;
+	system("CLS");//cleans cmd
 
 
 
 
-			gotoXY(18, 10); cout << "->";
+	gotoXY(18, 10); cout << "->";
 
-			while (running)
-			{
-				gotoXY(18, 8); cout << "Metodo de pesquisa:";
-				gotoXY(20, 10);  cout << "1) Exata";
-				gotoXY(20, 11);  cout << "2) Aproximada";
+	while (running)
+	{
+		gotoXY(18, 8); cout << "Metodo de pesquisa:";
+		gotoXY(20, 10);  cout << "1) Exata";
+		gotoXY(20, 11);  cout << "2) Aproximada";
 
-				system("pause>nul"); // the >nul bit causes it to print no message
+		system("pause>nul"); // the >nul bit causes it to print no message
 
-				if (!GetAsyncKeyState(VK_DOWN) && !GetAsyncKeyState(VK_UP) && !GetAsyncKeyState(VK_RETURN) && !GetAsyncKeyState(0x31) && !GetAsyncKeyState(0x32) )// se for clicado uma tecla diferente das setas (cima e baixo) e enter, nao faz nada
-				{
-					continue;
-				}
+		if (!GetAsyncKeyState(VK_DOWN) && !GetAsyncKeyState(VK_UP) && !GetAsyncKeyState(VK_RETURN) && !GetAsyncKeyState(0x31) && !GetAsyncKeyState(0x32) )// se for clicado uma tecla diferente das setas (cima e baixo) e enter, nao faz nada
+		{
+			continue;
+		}
 
-				if (GetAsyncKeyState(VK_DOWN) && x != 11) //down button pressed and
-				{
-					gotoXY(18, x); cout << "  ";//limpa seta
-					x++;
-					gotoXY(18, x); cout << "->";//seta aponta para a proxima linha do menu
-					menu_item++;//faz com que este valor seja coerente com a linha que esta apontar
-					continue;
+		if (GetAsyncKeyState(VK_DOWN) && x != 11) //down button pressed and
+		{
+			gotoXY(18, x); cout << "  ";//limpa seta
+			x++;
+			gotoXY(18, x); cout << "->";//seta aponta para a proxima linha do menu
+			menu_item++;//faz com que este valor seja coerente com a linha que esta apontar
+			continue;
 
-				}
-				else if (GetAsyncKeyState(VK_DOWN) && x == 11) // se precionar para baixo na ultima linha do menu, volta a primeira linha do mesmo
-				{
-					gotoXY(18, x); cout << "  ";//"limpa" a seta
-					x = 10;//posicao em x da pos inicial
-					gotoXY(18, x); cout << "->"; // mete a seta nessa pos inicial
-					menu_item = 0;//atribui o caso 0 do switch para a primeira linha como e suposto
-					continue;
+		}
+		else if (GetAsyncKeyState(VK_DOWN) && x == 11) // se precionar para baixo na ultima linha do menu, volta a primeira linha do mesmo
+		{
+			gotoXY(18, x); cout << "  ";//"limpa" a seta
+			x = 10;//posicao em x da pos inicial
+			gotoXY(18, x); cout << "->"; // mete a seta nessa pos inicial
+			menu_item = 0;//atribui o caso 0 do switch para a primeira linha como e suposto
+			continue;
 
-				}
+		}
 
-				else if (GetAsyncKeyState(VK_UP) && x != 10) //up button pressed
-				{
-					gotoXY(18, x); cout << "  ";
-					x--;
-					gotoXY(18, x); cout << "->";//seta aponta para a linha anterior
-					menu_item--;
-					continue;
-				}
-				else if (GetAsyncKeyState(VK_UP) && x == 10)//se precionar para cima na primeira linha do menu a seta passa a apontar para a ultima linha do mesmo
-				{
-					gotoXY(18, x); cout << "  ";
-					x = 11;//pos em x da pos final do menu (defenido nos couts)
-					gotoXY(18, x); cout << "->";//mete seta nessa posicao
-					menu_item = 1; // menu_item correspondente a ultima linha do menu
-					continue;
-
-
-				}
-				else if (GetAsyncKeyState(0x31))
-				{
-					gotoXY(18, x); cout << "  ";
-					x = 10;
-					gotoXY(18, x); cout << "->";
-					menu_item = 0;
-					continue;
-				}
-				else if (GetAsyncKeyState(0x32))
-				{
-					gotoXY(18, x); cout << "  ";
-					x = 11;
-					gotoXY(18, x); cout << "->";
-					menu_item = 1;
-					continue;
-				}
-				else if (GetAsyncKeyState(VK_RETURN)) { // Enter key pressed
-					//dependendo da posicao da seta no menu, ao carregar enter vera o valor do menu_item correspondente a essa linha e executa a opcao escolhida
-
-					switch (menu_item) {
-					case 0: {
-
-						gotoXY(18,15);
-						cout<< em.verificarExata("ruas", rua)<<endl;
-						Sleep(2000);
-						break;
-					}
+		else if (GetAsyncKeyState(VK_UP) && x != 10) //up button pressed
+		{
+			gotoXY(18, x); cout << "  ";
+			x--;
+			gotoXY(18, x); cout << "->";//seta aponta para a linha anterior
+			menu_item--;
+			continue;
+		}
+		else if (GetAsyncKeyState(VK_UP) && x == 10)//se precionar para cima na primeira linha do menu a seta passa a apontar para a ultima linha do mesmo
+		{
+			gotoXY(18, x); cout << "  ";
+			x = 11;//pos em x da pos final do menu (defenido nos couts)
+			gotoXY(18, x); cout << "->";//mete seta nessa posicao
+			menu_item = 1; // menu_item correspondente a ultima linha do menu
+			continue;
 
 
-					case 1: {
+		}
+		else if (GetAsyncKeyState(0x31))
+		{
+			gotoXY(18, x); cout << "  ";
+			x = 10;
+			gotoXY(18, x); cout << "->";
+			menu_item = 0;
+			continue;
+		}
+		else if (GetAsyncKeyState(0x32))
+		{
+			gotoXY(18, x); cout << "  ";
+			x = 11;
+			gotoXY(18, x); cout << "->";
+			menu_item = 1;
+			continue;
+		}
+		else if (GetAsyncKeyState(VK_RETURN)) { // Enter key pressed
+			//dependendo da posicao da seta no menu, ao carregar enter vera o valor do menu_item correspondente a essa linha e executa a opcao escolhida
 
-						gotoXY(24,11);
-						//em.pesquisaAproximada(rua);
-						break;
-					}
+			switch (menu_item) {
+			case 0: {
+
+				gotoXY(18,15);
+				//cout<< em.verificarExata("ruas", rua)<<endl;
+				Sleep(2000);
+				break;
+			}
+
+
+			case 1: {
+
+				gotoXY(24,11);
+				//em.pesquisaAproximada(rua);
+				break;
+			}
 
 
 
-
-					}
-
-				}
 
 			}
 
-			return 0;
+		}
+
+	}
+
+	return 0;
 }
 void menuFreguesia(Emergencia &em)
 {
@@ -999,6 +999,7 @@ void menuFreguesia(Emergencia &em)
 	vector<Freguesia> aux = em.getFreguesias();
 	bool flag = false;
 	string freguesia;
+	vector<string> lista_freguesias;
 	for(unsigned int i = 0; i < aux.size(); i++)
 	{
 		gotoXY(18,y);
@@ -1007,7 +1008,7 @@ void menuFreguesia(Emergencia &em)
 		if(i == aux.size()-1)
 			cout << endl;
 		else
-		cout << "- " << em.getFreguesias().at(++i).getNome()  << endl;
+			cout << "- " << em.getFreguesias().at(++i).getNome()  << endl;
 		y++;
 	}
 	y +=2;
@@ -1018,8 +1019,107 @@ void menuFreguesia(Emergencia &em)
 		gotoXY(18,y);
 		cout << CLEAN_LINE;
 		gotoXY(18,y);
-		em.verificacaoAproximada(freguesia, "freguesias");
+		string result;
+		Freguesia fAux;
+		if((result = em.verificacaoExata(freguesia, "freguesias", fAux)) == "lugar desconhecido")
+		{
+			lista_freguesias = em.verificacaoAproximada(freguesia, "freguesias");
+			cout << "Escolha a freguesia (atraves do seu numero): ";
+			int i ;
+			cin >> i;
+			if(i > 0 && i < lista_freguesias.size())
+			{
+				freguesia = lista_freguesias.at(i-1);
+				for(Freguesia fr : em.getFreguesias()){
+					if(fr.getNome() == freguesia){
+						menuRua(em, fr);
+					}
+				}
+
+			}
+
+
+		}
+
+		else
+		{
+			cout<<result<<endl;
+			getchar();
+			for(unsigned int i = 0;i < em.getFreguesias().size();i++){
+				if(em.getFreguesias().at(i).getNome() == result){
+					menuRua(em, em.getFreguesias().at(i));
+				}
+			}
+
+		}
+
+		getchar();
 	}while(flag == false);
+}
+
+void menuRua(Emergencia &em,Freguesia feg)
+{
+	system("CLS");
+	int y = 12;
+	bool flag = false;
+	string rua;
+	vector<string> lista_ruas;
+	for(unsigned int i = 0; i < getKeys(feg.getIDRuaNo()).size(); i++)
+	{
+		gotoXY(18,y);
+		cout << "- " << em.getRuas().at(getKeys(feg.getIDRuaNo()).at(i) - 1).getNome();
+		gotoXY(60,y);
+		if(i == getKeys(feg.getIDRuaNo()).size()-1)
+			cout << endl;
+		else
+			cout << "- " << em.getRuas().at(getKeys(feg.getIDRuaNo()).at(++i) - 1).getNome()  << endl;
+		y++;
+	}
+	/*do{
+			gotoXY(18,y);
+			cout << "Por favor insira a freguesia pretendiada: ";
+			getline(cin,freguesia);
+			gotoXY(18,y);
+			cout << CLEAN_LINE;
+			gotoXY(18,y);
+			string result;
+			Freguesia fAux;
+			if((result = em.verificacaoExata(freguesia, "freguesias", fAux)) == "lugar desconhecido")
+			{
+				lista_freguesias = em.verificacaoAproximada(freguesia, "freguesias");
+				cout << "Escolha a freguesia (atraves do seu numero): ";
+				int i ;
+				cin >> i;
+				if(i > 0 && i < lista_freguesias.size())
+				{
+					freguesia = lista_freguesias.at(i-1);
+					for(Freguesia fr : em.getFreguesias()){
+						if(fr.getNome() == freguesia){
+							menuRua(em, fr);
+						}
+					}
+
+				}
+
+
+			}
+
+			else
+			{
+				cout<<result<<endl;
+				getchar();
+				for(unsigned int i = 0;i < em.getFreguesias().size();i++){
+					if(em.getFreguesias().at(i).getNome() == result){
+						menuRua(em, em.getFreguesias().at(i));
+					}
+				}
+
+			}
+
+			getchar();
+		}while(flag == false);*/
+
+	y +=2;
 }
 
 // ---------------------- lOCALIZAR CURSOR

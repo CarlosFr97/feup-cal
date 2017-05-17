@@ -646,25 +646,28 @@ bool Emergencia::verificarConetividade() {
 	return myGraph.stronglyConnectedComponents();
 }
 
-string Emergencia::verificarExata(string tipo, string user_string) {
+
+string Emergencia::verificacaoExata(string user_string, string tipo, Freguesia fr) {
 	string ret = "";
 	bool encontrou = false;
 	if(tipo == "ruas")
-		for (unsigned int i = 0; i < ruas.size(); i++) {
-			if (pesquisaExata(user_string, ruas.at(i).getNome())) {
+		for (unsigned int i = 0; i < getKeys(fr.getIDRuaNo()).size(); i++) {
+			if (pesquisaExata(user_string, ruas.at(getKeys(fr.getIDRuaNo()).at(i) - 1).getNome())) {
 				encontrou = true;
-				ret += encontraVeiculos(ruas.at(i)) + "\n";
+				ret += ruas.at(getKeys(fr.getIDRuaNo()).at(i) - 1).getNome() + "\n";
+				ret += encontraVeiculos(getValues(fr.getIDRuaNo() , getKeys(fr.getIDRuaNo()).at(i)))  + "\n";
 
 			}
 		}
 	else
 		for (unsigned int i = 0; i < freguesias.size(); i++) {
-					if (pesquisaExata(user_string, freguesias.at(i).getNome())) {
-						encontrou = true;
-						ret += freguesias.at(i).getNome() + "\n";
+			if (pesquisaExata(user_string, freguesias.at(i).getNome())) {
+				encontrou = true;
+				ret += freguesias.at(i).getNome();
+				break;
 
-					}
-				}
+			}
+		}
 	if(!encontrou)
 		ret = "lugar desconhecido";
 	return ret;
@@ -672,9 +675,7 @@ string Emergencia::verificarExata(string tipo, string user_string) {
 
 
 bool Emergencia::pesquisaExata(string rua_utilizador, string rua_grafo) {
-	//Percorrer todas as strings em rua grafo, e analisar cada uma com  o algoritmo
-	//se o numero de carateres matched for igual à length da rua do user, entao encontrou a palavra k se procurava
-	//faz se break e retorna true
+
 	vector<string> splited_rua_grafo = splitString(rua_grafo);
 	vector<string> splited_rua_utilizador = splitString(rua_utilizador);
 	for(int i = 0 ; (i + splited_rua_utilizador.size()) <= splited_rua_grafo.size() ; i++ ){
@@ -761,9 +762,10 @@ multimap<int, string> Emergencia::pesquisaAproximada(string rua_utilizador, vect
 
 }
 
-void Emergencia::verificacaoAproximada(string string_utilizador, string tipo){
+vector<string> Emergencia::verificacaoAproximada(string string_utilizador, string tipo){
 
 	vector<string> graph_strings;
+	vector<string> ret;
 
 	if(tipo == "ruas"){
 		for(int i=0; i<ruas.size(); i++){
@@ -784,43 +786,63 @@ void Emergencia::verificacaoAproximada(string string_utilizador, string tipo){
 		if(to_print < 5){
 
 			cout<<(*it).second<<endl;
+			ret.push_back((*it).second);
+
 			to_print++;
 		}
 	}
+
 	getchar();
+	return ret;
 
 }
 
 
 
-string Emergencia::encontraVeiculos(Rua rua) {
-	string ret = rua.getNome() + " - ";
+string Emergencia::encontraVeiculos(vector<int> ids) {
+	string ret = "";
+	bool in = false;
+	bool bomb = false;
+	bool pol = false;
+	int numInem = 0;
+	int numPolicias = 0;
+	int numBombeiros = 0;
 	for (unsigned int i = 0; i < INEM.size(); i++) {
-		for (unsigned int a = 0; a < rua.getNosID().size(); a++) {
-			if (INEM.at(i).getlocalNode().getID() == rua.getNosID().at(a)) {
-				ret += "INEM, ";
+		for (unsigned int a = 0; a < ids.size(); a++) {
+			if (INEM.at(i).getlocalNode().getID() == ids.at(a)) {
+				in = true;
+				numInem++;
 				break;
 			}
 		}
 	}
-
+	if(in){
+		ret += "INEM: " + numInem + '\n';
+	}
 	for (unsigned int i = 0; i < bombeiros.size(); i++) {
-		for (unsigned int a = 0; a < rua.getNosID().size(); a++) {
-			if (bombeiros.at(i).getlocalNode().getID() == rua.getNosID().at(a)) {
-				ret += "Bombeiro, ";
+		for (unsigned int a = 0; a < ids.size(); a++) {
+			if (bombeiros.at(i).getlocalNode().getID() == ids.at(a)) {
+				bomb = true;
+				numBombeiros++;
 				break;
 			}
 		}
 	}
-
+	if(bomb){
+		ret += "BOMBEIROS: " + numBombeiros + '\n';
+	}
 	for (unsigned int i = 0; i < policia.size(); i++) {
-		for (unsigned int a = 0; a < rua.getNosID().size(); a++) {
-			if (policia.at(i).getlocalNode().getID() == rua.getNosID().at(a)) {
-				ret += "Policia, ";
+		for (unsigned int a = 0; a < ids.size(); a++) {
+			if (policia.at(i).getlocalNode().getID() == ids.at(a)) {
+				pol = true;
+				numPolicias++;
 				break;
 			}
 		}
 	}
+	if(pol){
+			ret += "POLCIA: " + numPolicias + '\n';
+		}
 	return ret;
 }
 

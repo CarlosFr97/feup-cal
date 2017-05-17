@@ -11,19 +11,19 @@ using namespace std;
 
 int GetMilliCount(){
 
-  timeb tb;
-  ftime( &tb );
-  int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
-  return nCount;
+	timeb tb;
+	ftime( &tb );
+	int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
+	return nCount;
 }
 //---------------------------------------------------------------------------
 
 int GetMilliSpan(int nTimeStart){
 
-  int nSpan = GetMilliCount() - nTimeStart;
-  if (nSpan < 0)
-	  nSpan += 0x100000 * 1000;
-  return nSpan;
+	int nSpan = GetMilliCount() - nTimeStart;
+	if (nSpan < 0)
+		nSpan += 0x100000 * 1000;
+	return nSpan;
 }
 //---------------------------------------------------------------------------
 
@@ -52,5 +52,33 @@ string concatenateStrings(vector<string> vec, int num, int first_pos){
 	}
 
 	return ss.str();
+}
+
+vector<int> getKeys(multimap<int, int> mmap){
+	vector<int> ret;
+	multimap<int, int>::const_iterator it = mmap.begin();
+	ret.push_back(it->first);
+	int lastkey = it->first;
+	++it;
+
+	while (it != mmap.end()) {
+		if (lastkey < it->first) {
+			ret.push_back(it->first);
+			lastkey = it->first;
+		}
+		++it;
+	}
+	return ret;
+
+}
+
+vector<int> getValues(multimap<int, int> mmap, int key){
+	vector<int> ret;
+	typedef std::multimap<int, int>::iterator MMAPIterator;
+	pair<MMAPIterator, MMAPIterator> result = mmap.equal_range(key);
+	for (MMAPIterator it = result.first; it != result.second; it++)
+		ret.push_back(it->second);
+
+	return ret;
 }
 
