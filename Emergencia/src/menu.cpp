@@ -999,12 +999,14 @@ void menuFreguesia(Emergencia &em)
 	vector<Freguesia> aux = em.getFreguesias();
 	bool flag = false;
 	string freguesia;
-	vector<string> lista_freguesias;
+	vector<string> lista;
+	gotoXY(25,10);
+	cout << "LISTA DE FREGUESIAS EXISTENTENTES";
 	for(unsigned int i = 0; i < aux.size(); i++)
 	{
 		gotoXY(18,y);
 		cout << "- " << em.getFreguesias().at(i).getNome();
-		gotoXY(40,y);
+		gotoXY(50,y);
 		if(i == aux.size()-1)
 			cout << endl;
 		else
@@ -1014,25 +1016,31 @@ void menuFreguesia(Emergencia &em)
 	y +=2;
 	do{
 		gotoXY(18,y);
-		cout << "Por favor insira a freguesia pretendiada: ";
+		cout << "Por favor insira a freguesia pretendida: ";
 		getline(cin,freguesia);
 		gotoXY(18,y);
 		cout << CLEAN_LINE;
-		gotoXY(18,y);
+		//gotoXY(18,y);
 		string result;
 		Freguesia fAux;
-		if((result = em.verificacaoExata(freguesia, "freguesias", fAux)) == "lugar desconhecido")
+		if((lista = em.verificacaoExata(freguesia, "freguesias", fAux)).at(0) == "lugar desconhecido")
 		{
-			lista_freguesias = em.verificacaoAproximada(freguesia, "freguesias");
-			cout << "Escolha a freguesia (atraves do seu numero): ";
-			int i ;
+			cout << endl;
+			cout << "Possiveis freguesias parecidas com o que escreveu\n\n";
+			lista = em.verificacaoAproximada(freguesia, "freguesias",fAux);
+			cout << "\nEscolha a freguesia (atraves do seu numero): ";
+			unsigned int i ;
 			cin >> i;
-			if(i > 0 && i < lista_freguesias.size())
+			cin.clear();
+			cin.ignore(1);
+			if(i > 0 && i <= lista.size())
 			{
-				freguesia = lista_freguesias.at(i-1);
-				for(Freguesia fr : em.getFreguesias()){
-					if(fr.getNome() == freguesia){
-						menuRua(em, fr);
+				freguesia = lista.at(i-1);
+				for(unsigned int k = 0; k  < em.getFreguesias().size();k++){
+					if(em.getFreguesias().at(k).getNome() == freguesia){
+						menuRua(em, em.getFreguesias().at(k));
+						flag = true;
+						break;
 					}
 				}
 
@@ -1043,81 +1051,134 @@ void menuFreguesia(Emergencia &em)
 
 		else
 		{
-			cout<<result<<endl;
-			getchar();
-			for(unsigned int i = 0;i < em.getFreguesias().size();i++){
-				if(em.getFreguesias().at(i).getNome() == result){
-					menuRua(em, em.getFreguesias().at(i));
-				}
+			cout << endl;
+			cout << "Possiveis freguesias parecidas com o que escreveu\n\n";
+			for(unsigned int i = 0; i <lista.size();i++)
+			{
+				cout << i+1 << " - " << lista.at(i) << endl;
 			}
+			cout << "\nEscolha a freguesia (atraves do seu numero): ";
+			unsigned int i = 0;
+			cin >> i;
+			cin.clear();
+			cin.ignore(1);
+			if(i > 0 && i <= lista.size())
+			{
+				freguesia = lista.at(i-1);
+				for(unsigned int k = 0; k  < em.getFreguesias().size();k++){
+					if(em.getFreguesias().at(k).getNome() == freguesia){
+						menuRua(em, em.getFreguesias().at(k));
+						flag = true;
+						break;
+					}
+				}
+
+			}
+
 
 		}
 
-		getchar();
 	}while(flag == false);
+	//cin.clear();
+	getchar();
+	system("CLS");
 }
 
 void menuRua(Emergencia &em,Freguesia feg)
 {
+
 	system("CLS");
 	int y = 12;
 	bool flag = false;
 	string rua;
 	vector<string> lista_ruas;
+	gotoXY(25,10);
+	cout << "LISTA DE RUAS EXISTENTES EM " << feg.getNome();
 	for(unsigned int i = 0; i < getKeys(feg.getIDRuaNo()).size(); i++)
 	{
 		gotoXY(18,y);
 		cout << "- " << em.getRuas().at(getKeys(feg.getIDRuaNo()).at(i) - 1).getNome();
-		gotoXY(60,y);
+		gotoXY(50,y);
 		if(i == getKeys(feg.getIDRuaNo()).size()-1)
 			cout << endl;
 		else
 			cout << "- " << em.getRuas().at(getKeys(feg.getIDRuaNo()).at(++i) - 1).getNome()  << endl;
 		y++;
 	}
-	/*do{
-			gotoXY(18,y);
-			cout << "Por favor insira a freguesia pretendiada: ";
-			getline(cin,freguesia);
-			gotoXY(18,y);
-			cout << CLEAN_LINE;
-			gotoXY(18,y);
-			string result;
-			Freguesia fAux;
-			if((result = em.verificacaoExata(freguesia, "freguesias", fAux)) == "lugar desconhecido")
+	do{
+		gotoXY(18,y);
+		cout << "Por favor insira a rua pretendida: ";
+		getline(cin,rua);
+		gotoXY(18,y);
+		cout << CLEAN_LINE;
+		//gotoXY(18,y);
+		string result;
+		if((lista_ruas = em.verificacaoExata(rua, "ruas", feg)).at(0) == "lugar desconhecido")
+		{
+
+			cout << endl;
+			cout << "Possiveis ruas parecidas com o que escreveu\n\n";
+			lista_ruas = em.verificacaoAproximada(rua, "ruas",feg);
+			cout << "\nEscolha a rua (atraves do seu numero): ";
+			unsigned int choose ;
+			cin >> choose;
+			cin.clear();
+			cin.ignore(1);
+			if(choose > 0 && choose <= lista_ruas.size())
 			{
-				lista_freguesias = em.verificacaoAproximada(freguesia, "freguesias");
-				cout << "Escolha a freguesia (atraves do seu numero): ";
-				int i ;
-				cin >> i;
-				if(i > 0 && i < lista_freguesias.size())
+
+				rua = lista_ruas.at(choose-1);
+				for(unsigned int a = 0; a < em.getRuas().size();a++)
 				{
-					freguesia = lista_freguesias.at(i-1);
-					for(Freguesia fr : em.getFreguesias()){
-						if(fr.getNome() == freguesia){
-							menuRua(em, fr);
-						}
+					if(em.getRuas().at(a).getNome() == rua)
+					{
+
+						gotoXY(25,45);
+						cout << em.encontraVeiculos(getValues(feg.getIDRuaNo(),em.getRuas().at(a).getID()));
+						flag = true;
 					}
-
 				}
-
-
 			}
 
-			else
+
+		}
+
+		else
+		{
+			//gotoXY(18,y);
+			cout << endl;
+			cout << "Possiveis ruas parecidas com o que escreveu\n\n";
+			for(unsigned int i = 0; i <lista_ruas.size();i++)
 			{
-				cout<<result<<endl;
-				getchar();
-				for(unsigned int i = 0;i < em.getFreguesias().size();i++){
-					if(em.getFreguesias().at(i).getNome() == result){
-						menuRua(em, em.getFreguesias().at(i));
+				cout << i+1 << " - " << lista_ruas.at(i) << endl;
+			}
+			cout << "\nEscolha a rua (atraves do seu numero): ";
+			unsigned int i ;
+			cin >> i;
+			cin.clear();
+			cin.ignore(1);
+			if(i > 0 && i <= lista_ruas.size())
+			{
+
+				rua = lista_ruas.at(i-1);
+				for(unsigned int a = 0; a < em.getRuas().size();a++)
+				{
+					if(em.getRuas().at(a).getNome() == rua)
+					{
+						gotoXY(30,30);
+						cout << em.encontraVeiculos(getValues(feg.getIDRuaNo(),em.getRuas().at(a).getID()));
+						flag = true;
+
 					}
 				}
-
 			}
 
-			getchar();
-		}while(flag == false);*/
+
+
+		}
+
+	}while(flag == false);
+
 
 	y +=2;
 }

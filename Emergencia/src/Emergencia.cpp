@@ -257,12 +257,12 @@ void Emergencia::readFiles() {
 		}while(token == ';');
 
 
-		multimap<int, int> final = f.getIDRuaNo();
+		/*multimap<int, int> final = f.getIDRuaNo();
 		for (std::multimap<int,int>::iterator it=final.begin(); it !=final.end(); ++it)
 		{
 			cout << "RUA: " << (*it).first <<"  NO:  "<< (*it).second << "\n" ;
 		}
-		getchar();
+		getchar();*/
 
 
 		freguesias.push_back(f);
@@ -647,15 +647,16 @@ bool Emergencia::verificarConetividade() {
 }
 
 
-string Emergencia::verificacaoExata(string user_string, string tipo, Freguesia fr) {
+vector<string> Emergencia::verificacaoExata(string user_string, string tipo, Freguesia fr) {
 	string ret = "";
+	vector<string> vRet;
 	bool encontrou = false;
 	if(tipo == "ruas")
 		for (unsigned int i = 0; i < getKeys(fr.getIDRuaNo()).size(); i++) {
 			if (pesquisaExata(user_string, ruas.at(getKeys(fr.getIDRuaNo()).at(i) - 1).getNome())) {
 				encontrou = true;
-				ret += ruas.at(getKeys(fr.getIDRuaNo()).at(i) - 1).getNome() + "\n";
-				ret += encontraVeiculos(getValues(fr.getIDRuaNo() , getKeys(fr.getIDRuaNo()).at(i)))  + "\n";
+				 vRet.push_back(ruas.at(getKeys(fr.getIDRuaNo()).at(i) - 1).getNome());
+				 //vRet.push_back(encontraVeiculos(getValues(fr.getIDRuaNo() , getKeys(fr.getIDRuaNo()).at(i))));
 
 			}
 		}
@@ -663,14 +664,14 @@ string Emergencia::verificacaoExata(string user_string, string tipo, Freguesia f
 		for (unsigned int i = 0; i < freguesias.size(); i++) {
 			if (pesquisaExata(user_string, freguesias.at(i).getNome())) {
 				encontrou = true;
-				ret += freguesias.at(i).getNome();
-				break;
+				vRet.push_back(freguesias.at(i).getNome());
+
 
 			}
 		}
 	if(!encontrou)
-		ret = "lugar desconhecido";
-	return ret;
+		vRet.push_back("lugar desconhecido");
+	return vRet;
 }
 
 
@@ -695,7 +696,7 @@ multimap<int, string> Emergencia::pesquisaAproximada(string rua_utilizador, vect
 	vector<string> split_rua_utilizador = splitString(rua_utilizador); // vetor com todas as palavras escritas pelo utilizador, divididas em strings
 	vector<string> split_rua_grafo; // vetor com todas as palavras da rua do grafo que se encontra em análise, divididas em strings
 	map<string, int> map_ruas; // map <nome da rua, menor diferenca entre a palavra do utilizador, a ser analisada e as varias palavras da rua em questao>
-	vector<map<string,int>> diferenca_ruas; //vetor contendo os map_ruas de cada uma das palavras escritas pelo utilizador
+	vector<map<string,int> > diferenca_ruas; //vetor contendo os map_ruas de cada uma das palavras escritas pelo utilizador
 	multimap<int, string> final; //multimap<diferenca minima total da rua em consideracao, nome da rua em consideracao>
 	int diferenca_minima;
 	int diferenca_temp;
@@ -762,15 +763,16 @@ multimap<int, string> Emergencia::pesquisaAproximada(string rua_utilizador, vect
 
 }
 
-vector<string> Emergencia::verificacaoAproximada(string string_utilizador, string tipo){
+vector<string> Emergencia::verificacaoAproximada(string string_utilizador, string tipo, Freguesia fr){
 
 	vector<string> graph_strings;
 	vector<string> ret;
-
+	vector<int> IDruas;
 	if(tipo == "ruas"){
-		for(int i=0; i<ruas.size(); i++){
+		IDruas = getKeys(fr.getIDRuaNo());
+		for(int i=0; i<IDruas.size(); i++){
 
-			graph_strings.push_back(ruas[i].getNome());
+			graph_strings.push_back(ruas.at(IDruas[i]-1).getNome());
 		}
 	}else
 	{
@@ -785,7 +787,8 @@ vector<string> Emergencia::verificacaoAproximada(string string_utilizador, strin
 	for (std::multimap<int,string>::iterator it=final_strings.begin(); it!=final_strings.end(); ++it){
 		if(to_print < 5){
 
-			cout<<(*it).second<<endl;
+
+			cout<< to_print+1 << " - " << (*it).second<<endl;
 			ret.push_back((*it).second);
 
 			to_print++;
@@ -807,6 +810,11 @@ string Emergencia::encontraVeiculos(vector<int> ids) {
 	int numInem = 0;
 	int numPolicias = 0;
 	int numBombeiros = 0;
+
+	for(unsigned int i = 0; i < ids.size(); i++)
+	{
+		cout << ids.at(i)<< endl;
+	}
 	for (unsigned int i = 0; i < INEM.size(); i++) {
 		for (unsigned int a = 0; a < ids.size(); a++) {
 			if (INEM.at(i).getlocalNode().getID() == ids.at(a)) {
