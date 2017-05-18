@@ -1133,7 +1133,7 @@ void menuRua(Emergencia &em,Freguesia feg)
 					if(em.getRuas().at(a).getNome() == rua)
 					{
 
-						gotoXY(25,45);
+						cout << endl;
 						em.encontraVeiculos(getValues(feg.getIDRuaNo(),em.getRuas().at(a).getID()));
 						flag = true;
 					}
@@ -1165,8 +1165,8 @@ void menuRua(Emergencia &em,Freguesia feg)
 				{
 					if(em.getRuas().at(a).getNome() == rua)
 					{
-						gotoXY(30,30);
 
+						cout <<endl;
 						em.encontraVeiculos(getValues(feg.getIDRuaNo(),em.getRuas().at(a).getID()));
 						flag = true;
 
