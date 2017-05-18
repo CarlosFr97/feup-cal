@@ -807,50 +807,64 @@ void Emergencia::encontraVeiculos(vector<int> ids) {
 	bool in = false;
 	bool bomb = false;
 	bool pol = false;
-	int numInem = 0;
-	int numPolicias = 0;
-	int numBombeiros = 0;
+	vector<int> numInem;
+	vector<int> numPolicias;
+	vector<int> numBombeiros;
 
 
 	for (unsigned int i = 0; i < INEM.size(); i++) {
 		for (unsigned int a = 0; a < ids.size(); a++) {
 			if (INEM.at(i).getlocalNode().getID() == ids.at(a)) {
 				in = true;
-				numInem++;
+				numInem.push_back(ids.at(a));
 				break;
 			}
 		}
 	}
 	if(in){
-		cout<<"    INEM: " << numInem <<endl;
+		cout<<"    INEM: ";
+		for(unsigned int i=0; i<numInem.size(); i++)
+			 cout<<numInem[i]<<" ";
+		cout<<endl;
 	}
+	else
+		cout<<"Nao existe INEM nesta rua\n";
 	for (unsigned int i = 0; i < bombeiros.size(); i++) {
 		for (unsigned int a = 0; a < ids.size(); a++) {
 			if (bombeiros.at(i).getlocalNode().getID() == ids.at(a)) {
 				bomb = true;
-				numBombeiros++;
+				numBombeiros.push_back(ids.at(a));
 				break;
 			}
 		}
 	}
 
-	if(bomb)
-		cout <<"    BOMBEIROS: " <<numBombeiros <<endl;
+	if(bomb){
+			cout<<"    BOMBEIROS: ";
+			for(unsigned int i=0; i<numBombeiros.size(); i++)
+					 cout<<numBombeiros[i]<<" ";
 
-
+			cout<<endl;
+	}
+	else
+		cout<<"Nao existem Bombeiros nesta rua\n";
 	for (unsigned int i = 0; i < policia.size(); i++) {
 		for (unsigned int a = 0; a < ids.size(); a++) {
 			if (policia.at(i).getlocalNode().getID() == ids.at(a)) {
 				pol = true;
-				numPolicias++;
+				numPolicias.push_back(ids.at(a));
 				break;
 			}
 		}
 	}
 	if(pol){
-			cout << "    POLCIA: " << numPolicias << endl;
-		}
-
+				cout<<"    POLICIAS: ";
+				for(unsigned int i=0; i<numPolicias.size(); i++)
+					 cout<<numPolicias[i]<<" ";
+			cout<<endl;
+	}
+	else
+		cout<<"Nao existem Policias nesta rua\n";
 }
 
 
