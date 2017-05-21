@@ -26,8 +26,12 @@
 #include <algorithm>
 #include "utils.h"
 #include "StringSearch.h"
+#include <ratio>
+#include <chrono>
+#include <ctime>
+#include <iostream>
 
-
+using namespace std::chrono;
 
 class Emergencia {
 
@@ -42,10 +46,10 @@ private:
 	GraphViewer *gv;
 	bool isFloydWarshall;
 	int ID_ARESTA_GERAL;
-	int tempoinicial;
-	int tempofinal;
-	short tempointermedio;
-
+	system_clock::time_point tempoinicial=system_clock::now();
+	system_clock::time_point  tempofinal=system_clock::now();
+	time_t tempofinalT;
+	time_t tempointermedio;
 
 public:
 	/**

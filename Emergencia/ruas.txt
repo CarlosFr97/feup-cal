@@ -23,7 +23,7 @@
 23; Rua do Mosteiro;False;30,35;
 24; Rua dos Namorados;False;12,11;
 25; Rua Dr Ribeiro Sampaio;False;22,15;
-26; Travessa das Flores;False;12,21;
+26; Travessa da Florista;False;12,21;
 27; Rua Santiago;True;10,19;
 28; Rua Joaquim Almeida;False;26,25;
 29; Caminho do Lombo;False;18,24;
@@ -32,11 +32,11 @@
 32; Rua de Barcelos;False;25,21;
 33; Caminho dos Aguiares;False;14,12;
 34; Rua Dr Virgilio Taborda;False;16,23;
-35; Rua Alvares Cabral;False;23,22,21;
+35; Rua Fernando Pessoa Martins;False;23,22,21;
 36; Rua Antonio Campo;False;17,36;
 37; Rua Vale Longo;False;4,8;
 38; Rua Nova de Salgueiros;False;30,25;
-39; Rua Doutor Gil da Costa;False;35,36;
+39; Rua Doutor Gil Fernando;False;35,36;
 40; Rua Vila Nova;False;33,35;
 41; Rua de Cancelo;True;38,39;
 42; Rua de Benfica;False;39,33;

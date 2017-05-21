@@ -4,15 +4,14 @@
 #include "Graph.h"
 #include <map>
 
+
 using namespace std;
 
 Emergencia::Emergencia(bool FloydWarshall) {
 	ID_ARESTA_GERAL = 1;
 	gv = new GraphViewer(600, 600, false);
 	isFloydWarshall = FloydWarshall;
-	tempoinicial = 0;
-	tempofinal = 0;
-	tempointermedio = 0;
+
 }
 
 Emergencia::~Emergencia() {
@@ -273,9 +272,10 @@ void Emergencia::readFiles() {
 	inFile.close();
 
 	if (isFloydWarshall == true) {
-		tempoinicial = GetMilliCount();
+		tempoinicial = std::chrono::system_clock::now();
 		myGraph.floydWarshallShortestPath();
-		tempointermedio = GetMilliSpan(tempoinicial);
+		tempofinal = std::chrono::system_clock::now();
+		tempointermedio = system_clock::to_time_t(tempofinal) - system_clock::to_time_t(tempoinicial);
 	}
 
 }
@@ -290,7 +290,7 @@ void Emergencia::getCall(int noID, int polFlag, int bombFlag, int inemFlag,
 		return;
 	}
 
-	tempoinicial = GetMilliCount();
+	tempoinicial = std::chrono::system_clock::now();
 
 	No localizacao;
 	gv->setVertexIcon(noID, "ajuda1.png");
@@ -362,8 +362,9 @@ void Emergencia::getCall(int noID, int polFlag, int bombFlag, int inemFlag,
 			cout << "Na sua localizacao ja existe um hospital\n" << endl;
 	}
 
-	tempofinal = GetMilliSpan(tempoinicial) + tempointermedio;
-	cout << endl << "Tempo Final: " << tempofinal << endl;
+	tempofinal = std::chrono::system_clock::now();
+	tempofinalT = system_clock::to_time_t(tempofinal) - system_clock::to_time_t(tempoinicial) + tempointermedio;
+	cout << endl << "Tempo Final: " << system_clock::to_time_t(tempofinal) << endl;
 	for (unsigned int i = 0; i < pathsINEM.size(); i++)
 		this->drawPath(pathsINEM[i], "green", "INEM.png");
 	for (unsigned int i = 0; i < pathsBombeiros.size(); i++)
@@ -648,6 +649,7 @@ bool Emergencia::verificarConetividade() {
 
 
 vector<string> Emergencia::verificacaoExata(string user_string, string tipo, Freguesia fr) {
+	tempoinicial = std::chrono::system_clock::now();
 	string ret = "";
 	vector<string> vRet;
 	bool encontrou = false;
@@ -656,7 +658,7 @@ vector<string> Emergencia::verificacaoExata(string user_string, string tipo, Fre
 			if (pesquisaExata(user_string, ruas.at(getKeys(fr.getIDRuaNo()).at(i) - 1).getNome())) {
 				encontrou = true;
 				 vRet.push_back(ruas.at(getKeys(fr.getIDRuaNo()).at(i) - 1).getNome());
-				 //vRet.push_back(encontraVeiculos(getValues(fr.getIDRuaNo() , getKeys(fr.getIDRuaNo()).at(i))));
+
 
 			}
 		}
@@ -671,6 +673,8 @@ vector<string> Emergencia::verificacaoExata(string user_string, string tipo, Fre
 		}
 	if(!encontrou)
 		vRet.push_back("lugar desconhecido");
+	tempofinal = std::chrono::system_clock::now();
+	cout<<endl<<endl<<" TempoFinal: "<<std::chrono::duration_cast<std::chrono::nanoseconds>(tempofinal-tempoinicial).count();
 	return vRet;
 }
 
@@ -716,7 +720,7 @@ multimap<int, string> Emergencia::pesquisaAproximada(string rua_utilizador, vect
 				//condicao para garantir que as palavras com tamanho menor que o da palavra do utilizador,
 				//e que ao mesmo tempo nao tem 3 caracteres(para evitar analise excessiva de palavras com "de" "da",
 				//que poderiam provocar semelhancas indesejadas), nao serão analisadas.
-				if((split_rua_grafo[k].size() < split_rua_utilizador[i].size()) && ( split_rua_grafo[k].size() < 3))
+				if((split_rua_grafo[k].size() < split_rua_utilizador[i].size()) && ( split_rua_grafo[k].size() <= 3))
 					continue;
 
 				//obtem a distancia entre a palvara do utilizador que esta a ser analisada
@@ -764,7 +768,7 @@ multimap<int, string> Emergencia::pesquisaAproximada(string rua_utilizador, vect
 }
 
 vector<string> Emergencia::verificacaoAproximada(string string_utilizador, string tipo, Freguesia fr){
-
+	tempoinicial = std::chrono::system_clock::now();
 	vector<string> graph_strings;
 	vector<string> ret;
 	vector<int> IDruas;
@@ -785,16 +789,19 @@ vector<string> Emergencia::verificacaoAproximada(string string_utilizador, strin
 
 	unsigned int to_print = 0;
 	for (std::multimap<int,string>::iterator it=final_strings.begin(); it!=final_strings.end(); ++it){
-		if(to_print < 5){
+		if(to_print < 6 ){
 
 
 			cout<< to_print+1 << " - " << (*it).second<<endl;
 			ret.push_back((*it).second);
-
 			to_print++;
-		}
-	}
 
+		}
+		else
+			break;
+	}
+	tempofinal = std::chrono::system_clock::now();
+	cout<<endl<<endl<<" TempoFinal: "<<std::chrono::duration_cast<std::chrono::nanoseconds>(tempofinal-tempoinicial).count();
 	getchar();
 	return ret;
 
