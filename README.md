@@ -12,7 +12,3 @@
 	à chamada, ficando a partir daí indisponível. O sistema deverá indicar para a viatura o caminho 
 	mais rápido desde a sua posição até ao local da chamada. Se for o caso, a viatura deverá levar 
 	o paciente até ao hospital mais próximo.
-
-					Datas de Entrega:
-						 1ª entrega - 7 de Abril, 24h
-			 			 2ª entrega - 19 de Maio, 24h
